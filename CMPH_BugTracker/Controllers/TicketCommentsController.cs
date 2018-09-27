@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMPH_BugTracker.Models;
+using PagedList;
+using PagedList.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
@@ -15,10 +17,31 @@ namespace CMPH_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketComments
-        public ActionResult Index()
+        public ActionResult Index(int? page, string searchStr)
         {
-            var ticketComments = db.TicketComments.Include(t => t.Ticket);
-            return View(ticketComments.ToList());
+            ViewBag.Search = searchStr; var TicketCommentsList = IndexSearch(searchStr);
+
+            int pageSize = 5; // the number of posts you want to display per page             
+            int pageNumber = (page ?? 1); 
+
+            return View(TicketCommentsList.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public IQueryable<TicketComment> IndexSearch(string searchStr)
+        {
+            IQueryable<TicketComment> result = null;
+            if (searchStr != null)
+
+            { result = db.TicketComments.AsQueryable();
+                result = result.Where(p => p.Title.Contains(searchStr)|| p.Body.Contains(searchStr));
+            }
+            else
+            {
+                result = db.TicketComments.AsQueryable();
+            }
+
+            return result.OrderByDescending(p => p.Created);
         }
 
         // GET: TicketComments/Details/5

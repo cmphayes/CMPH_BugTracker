@@ -15,8 +15,10 @@ namespace CMPH_BugTracker.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
+        public  string ProfileImage { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Project> Tickets { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }

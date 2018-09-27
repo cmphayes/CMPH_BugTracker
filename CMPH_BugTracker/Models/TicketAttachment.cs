@@ -17,5 +17,7 @@ namespace CMPH_BugTracker.Models
         //Parent
         public virtual Ticket Ticket { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public DateTimeOffset Created { get; set; }
+        public DateTimeOffset? Updated { get; set; }
     }
 }

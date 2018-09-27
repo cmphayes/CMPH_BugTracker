@@ -29,6 +29,8 @@ namespace CMPH_BugTracker.Models
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
         public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
+
 
         //Parents
         public virtual Project Project { get; set; }
