@@ -63,5 +63,6 @@ namespace CMPH_BugTracker.Controllers
             }
             return View(model);
         }
+
     }
 }

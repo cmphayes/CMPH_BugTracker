@@ -13,26 +13,22 @@ namespace CMPH_BugTracker.Helpers
 {
     public class ProjectsHelper
     {
-
         ApplicationDbContext db = new ApplicationDbContext();
-
         [ValidateAntiForgeryToken]
-        public bool IsUserOnProject(string User, int ProjectId)
+        public bool IsUserOnProject(string userId, int projectId)
         {
-            var project = db.Projects.Find(ProjectId);
-            var flag = project.Users.Any(u => u.Id == User);
+            var project = db.Projects.Find(projectId);
+            var flag = project.Users.Any(u => u.Id == userId);
             return (flag);
         }
 
-
         [ValidateAntiForgeryToken]
-
-        public void AddUserToProject(string UserId, int ProjectId)
+        public void AddUserToProject(string userId, int projectId)
         {
-            if (!IsUserOnProject(UserId, ProjectId))
+            if (!IsUserOnProject(userId, projectId))
             {
-                Project proj = db.Projects.Find(ProjectId);
-                var newUser = db.Users.Find(UserId);
+                Project proj = db.Projects.Find(projectId);
+                var newUser = db.Users.Find(userId);
 
                 proj.Users.Add(newUser);
                 db.SaveChanges();
@@ -40,63 +36,46 @@ namespace CMPH_BugTracker.Helpers
         }
 
         [ValidateAntiForgeryToken]
-        public void RemoveUserFromProject(string UserId, int ProjectId)
+        public void RemoveUserFromProject(string userId, int projectId)
         {
-            if (IsUserOnProject(UserId, ProjectId))
+            if (IsUserOnProject(userId, projectId))
             {
-                Project proj = db.Projects.Find(ProjectId);
-                var newUser = db.Users.Find(UserId);
+                Project proj = db.Projects.Find(projectId);
+                var delUser = db.Users.Find(userId);
 
-                proj.Users.Remove(newUser);
+                proj.Users.Remove(delUser);
+                db.Entry(proj).State = EntityState.Modified;
                 db.SaveChanges();
             }
         }
 
         [ValidateAntiForgeryToken]
-        public ICollection<Project> ListUserProjects(int User)
+        public ICollection<Project> ListUserProjects(string UserId)
         {
-            ApplicationUser user = db.Users.Find(User);
+            ApplicationUser user = db.Users.Find(UserId);
             var projects = user.Projects.ToList();
             return (projects);
         }
 
-        [ValidateAntiForgeryToken]
         public ICollection<ApplicationUser> UsersOnProject(int ProjectId)
         {
             return db.Projects.Find(ProjectId).Users;
         }
 
-        [ValidateAntiForgeryToken]
         public ICollection<ApplicationUser> UsersNotOnProject(int ProjectId)
         {
             return db.Users.Where(u => u.Projects.All(p => p.Id != ProjectId)).ToList();
-
         }
 
-        //        [ValidateAntiForgeryToken]
-        //public ICollection<ApplicationUser> ListUsersOnProject(int User)
-        //{
-        //    ApplicationUser User = db.Users.Find(User);
-        //    var projects = User.Projects.ToList();
-        //    return (projects);
-        //}
+        public ICollection<Project> ListUsersOnProject(string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            var projects = user.Projects.ToList();
+            return (projects);
+        }
 
-        //        [ValidateAntiForgeryToken]
 
-        //public ICollection<ApplicationUser> ListProjectsForUser(int Projects)
-        //{
-        //    ApplicationUser user = db.Users.Find(Projects);
-        //    var users = user.Projects.ToList();
-        //    return (users);
-        //}
 
-        //        [ValidateAntiForgeryToken]
 
-        //public ICollection<ApplicationUser> ListProjects(int User)
-        //{
-        //    ApplicationUser user = db.Users.Find(User);
-        //    var projects = user.Projects.ToList();
-        //    return (projects);
-        //}
     }
 }

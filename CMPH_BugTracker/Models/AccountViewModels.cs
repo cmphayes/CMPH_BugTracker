@@ -6,11 +6,15 @@ namespace CMPH_BugTracker.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "DisplayName")]
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
+        public string ProfileImage { get; set; }
+        public string ProfileImagePath { get; set; }
+        public string Role { get; set; }
+
 
     }
 
@@ -85,6 +89,7 @@ namespace CMPH_BugTracker.Models
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
+        [Required]
         [Display(Name = "ProfileImage")]
         public string ProfileImage { get; set; }
 

@@ -66,7 +66,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,UserId,Created,Updated")] Project project)
+        public ActionResult Create([Bind(Include = "Id,Title,Body,Owner,Created,Updated")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -143,5 +143,8 @@ namespace CMPH_BugTracker.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
     }
 }

@@ -21,6 +21,7 @@ namespace CMPH_BugTracker.Models
         //Properties
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Updated { get; set; }
+        public string UpdateReason { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
 

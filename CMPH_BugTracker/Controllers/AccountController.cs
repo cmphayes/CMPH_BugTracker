@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CMPH_BugTracker.Models;
+using System.IO;
+using CMPH_BugTracker.Helpers;
+using System.Net;
+using System.Data.Entity;
 
 namespace CMPH_BugTracker.Controllers
 {
@@ -17,6 +21,9 @@ namespace CMPH_BugTracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private ApplicationDbContext db = new ApplicationDbContext();
+
 
         public AccountController()
         {
@@ -146,12 +153,11 @@ namespace CMPH_BugTracker.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register([Bind(Include = "Id,FirstName,LastName,UserName,Email,Password,ConfirmPassword,ProfileImage")]RegisterViewModel model, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.UserName, Email = model.Email, ProfileImage = model.ProfileImage };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -166,6 +172,14 @@ namespace CMPH_BugTracker.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
+
+                if (ProfileImageUploadValidator.IsWebFriendlyImage(image))
+                {
+                    var fileName = Path.GetFileName(image.FileName);
+                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    user.ProfileImage = "/Uploads/" + fileName;
+                }
+
             }
 
             // If we got this far, something failed, redisplay form
@@ -239,7 +253,6 @@ namespace CMPH_BugTracker.Controllers
         //
         // POST: /Account/ResetPassword
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -511,6 +524,65 @@ namespace CMPH_BugTracker.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+
+
+
+
+
+
+        //
+        //Profile Controls
+        //
+
+
+
+
+        // GET: Profile/Details/5
+
+        public ActionResult ProfileDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return RedirectToAction("Profile");
+        }
+
+        // GET: Profile/Edit/5
+
+        public ActionResult EditProfile(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: Projects/Edit/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile([Bind(Include = "FirstName,LastName,Email,UserName,ProfileImage")] ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Profile");
+            }
+            return View(user);
         }
         #endregion
     }

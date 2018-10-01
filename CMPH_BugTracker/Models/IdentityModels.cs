@@ -11,14 +11,17 @@ namespace CMPH_BugTracker.Models
 
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
-    {
+    {        
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
-        public  string ProfileImage { get; set; }
+        public string ProfileImage { get; set; }
+        public string ProfileImagePath { get; set; }
+        public string Role { get; set; }
+
 
         public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<Project> Tickets { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
@@ -26,8 +29,9 @@ namespace CMPH_BugTracker.Models
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
+            Tickets = new HashSet<Ticket>();
             TicketAttachments = new HashSet<TicketAttachment>();
-            TicketAttachments = new HashSet<TicketAttachment>();
+            TicketComments = new HashSet<TicketComment>();
             TicketHistories = new HashSet<TicketHistory>();
 
 

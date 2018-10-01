@@ -14,6 +14,7 @@ namespace CMPH_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private ProjectsHelper projectsHelper = new ProjectsHelper();
+        private TicketsHelper ticketsHelper = new TicketsHelper();
 
 
         // GET: Admin
@@ -21,28 +22,31 @@ namespace CMPH_BugTracker.Controllers
         {
             //Load up select list data structure into a view bag property
             ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
-            ViewBag.Roles = new SelectList(db.Roles.ToList(), "Id", "Name");
+            ViewBag.Roles = new SelectList(db.Roles.ToList(), "Name", "Name");
+            ViewBag.Tickets = new SelectList(db.Tickets.ToList(), "Id", "Name");
+            ViewBag.Projects = new SelectList(db.Projects.ToList(), "Id", "Name");
+
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RoleAssignment(string Users, string Roles)
+        public ActionResult RoleAssignment(string users, string roles)
         {
             //Remove any and all current role assignment
-            var currentRoles = roleHelper.ListUserRoles(Users);
+            var currentRoles = roleHelper.ListUserRoles(users);
             if (currentRoles.Count > 0)
             {
                 foreach (var role in currentRoles)
                 {
-                    roleHelper.RemoveUserFromRole(Users, Roles);
+                    roleHelper.RemoveUserFromRole(users, role);
                 }
             }
 
             //Assign the selected role to the user
 
-            roleHelper.AddUserToRole(Users, Roles);
+            roleHelper.AddUserToRole(users, roles);
 
             //Return
             return RedirectToAction("Index", "Home");
@@ -52,7 +56,7 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult ProjectAssignment()
         {
             ViewBag.Projects = new SelectList(db.Projects.ToList(), "Id", "Name");
-            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "FirstName");
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Name", "Name");
 
 
             return View();
@@ -60,22 +64,22 @@ namespace CMPH_BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ProjectAssignment(int Projects, List<string> Users)
+        public ActionResult ProjectAssignment(int projects, List<string> users)
         {
             //Remove any and all current role assignment
-            var UsersOnProject = projectsHelper.UsersOnProject(Projects);
-            if (UsersOnProject.Count > 0)
+            var projectUsers = projectsHelper.UsersOnProject(projects);
+            if (projectUsers.Count > 0)
             {
-                foreach (var user in UsersOnProject)
+                foreach (var user in projectUsers)
                 {
-                    projectsHelper.RemoveUserFromProject(user.Id, Projects);
+                    projectsHelper.RemoveUserFromProject(user.Id, projects);
                 }
             }
 
             //Assign the selected role to the user
-            foreach (var user in Users)
+            foreach (var userId in users)
             {
-                projectsHelper.AddUserToProject(user, Projects);
+                projectsHelper.AddUserToProject(userId, projects);
             }
 
             //Return
@@ -93,25 +97,28 @@ namespace CMPH_BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TicketAssignment(string Users, string Tickets)
+        public ActionResult TicketAssignment(int tickets, List<string> users)
         {
             //Remove any and all current role assignment
-            var currentTicket = roleHelper.ListUserRoles(Users);
-            if (currentTicket.Count > 0)
+            var ticketUsers = ticketsHelper.UsersOnProject(tickets);
+            if (ticketUsers.Count > 0)
             {
-                foreach (var role in currentTicket)
+                foreach (var user in ticketUsers)
                 {
-                    roleHelper.RemoveUserFromRole(Users, Tickets);
+                    ticketsHelper.RemoveUserFromTicket(user.Id, tickets);
                 }
             }
 
             //Assign the selected role to the user
 
-            roleHelper.AddUserToRole(Users, Tickets);
+            foreach (var userId in users)
+            {
+                ticketsHelper.AddUserToTicket(userId, tickets);
+            }
 
             //Return
             return RedirectToAction("Index", "Home");
-
+            
         }
     }
 }

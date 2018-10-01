@@ -38,8 +38,6 @@ namespace CMPH_BugTracker.Controllers
             {
                 result = db.Tickets.AsQueryable();
             }
-
-
             return result.OrderByDescending(p => p.Created);
         }
 

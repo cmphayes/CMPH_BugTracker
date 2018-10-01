@@ -15,10 +15,10 @@
 
         <div class=" row">
             <div class="col-md-6">
-                @Html.Label("SelectUser")
+                @Html.Label("SelectProject")
             </div>
             <div class="col-md-6">
-                @Html.Label("SelectProject")
+                @Html.Label("SelectUsers")
             </div>
         </div>
 
@@ -27,10 +27,10 @@
         @Html.AntiForgeryToken()
         <div class=" row">
             <div class="col-md-6">
-                @Html.DropDownList("Users", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Projects", null, htmlAttributes: new { @class = "form-control" })
             </div>
             <div class="col-md-6">
-                @Html.DropDownList("Projects", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Users", null, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
         <div class=" row">

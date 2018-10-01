@@ -12,61 +12,84 @@
 
         <!-- /row -->
         <div class="row mt">
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data" }))
             {
                 @Html.AntiForgeryToken() 
                 <div class="col-lg-12">
                     <h4><i class="fa fa-angle-right"></i> Advanced Form Validations</h4>
-                    <div class="form-panel">
+                    @*<div class="form-panel">*@
                         <div class="form">
                             <form class="cmxform form-horizontal style-form" id="signupForm" method="get" action="">
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.FirstName, new { @class = "control-label col-lg-2" })
                                     <div class="col-lg-10">
+                                        @*@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })*@
                                         @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.LastName, new { @class = "control-label col-lg-2" })
+                                    @Html.LabelFor(m => m.LastName, new { @class = "control-label col-lg-2" })                                    
                                     <div class="col-lg-10">
+                                        @*@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })*@
+
                                         @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.UserName, new { @class = "control-label col-lg-2" })
                                     <div class="col-lg-10">
+                                        @*@Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })*@
                                         @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.Password, new { @class = "control-label col-lg-2" })
                                     <div class="col-lg-10">
+                                        @*@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })*@
                                         @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label col-lg-2" })
                                     <div class="col-lg-10">
+                                        @*@Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })*@
                                         @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.Email, new { @class = "control-label col-lg-2" })
                                     <div class="col-lg-10">
+                                        @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })*@
                                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ProfileImage, new { @class = "control-label col-lg-2" })
                                     <div class="col-lg-10">
-                                        @Html.TextBoxFor(m => m.ProfileImage, new { @class = "form-control" })
+                                        @*@Html.EditorFor(m => m.ProfileImage, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @*<input name="image" type="file" class="form-control" id="fileUpload" />*@
+                                        @Html.TextBoxFor(m => m.ProfileImage, new { @class = "form-control", @name = "image", @type = "file", @id = "fileUpload" })
+                                        @Html.ValidationMessageFor(m => m.ProfileImage, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
                                 <div class="form-group ">
@@ -81,6 +104,10 @@
                                         <input type="checkbox" style="width: 20px" class="checkbox form-control" id="newsletter" name="newsletter" />
                                     </div>
                                 </div>
+                                <div>
+                                    @*@Html.Partial("DropZone")*@
+                                    <hr/>
+                                </div>
                                 <div class="form-group">
                                     <div class="col-lg-offset-2 col-lg-10">
                                         <button class="btn btn-theme" value="Register" type="submit">Save</button>
@@ -89,7 +116,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    @*</div>*@
                     <!-- /form-panel -->
                 </div>
             }

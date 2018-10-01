@@ -13,65 +13,60 @@ namespace CMPH_BugTracker.Helpers
 {
     public class TicketsHelper
     {
-
         ApplicationDbContext db = new ApplicationDbContext();
-
         [ValidateAntiForgeryToken]
-        public bool IsUserOnTicket(string UserId, int TicketId)
+        public bool IsUserOnTicket(string userId, int ticketId)
         {
-            var ticket = db.Tickets.Find(TicketId);
-            var flag = ticket.Users.Any(u => u.Id == UserId);
+            var tickets = db.Projects.Find(ticketId);
+            var flag = tickets.Users.Any(u => u.Id == userId);
             return (flag);
         }
 
-        //public ICollection<Ticket> ListUserTickets(string userId)
-        //{
-        //    ApplicationUser user = db.Users.Find(userId);
-
-        //    var tickets = user.Tickets.ToList();
-        //    return (tickets);
-        //}
-
         [ValidateAntiForgeryToken]
-        public void AddUserToTicket(string UserId, int TicketId)
+        public void AddUserToTicket(string userId, int ticketId)
         {
-            if (!IsUserOnTicket(UserId, TicketId))
+            if (!IsUserOnTicket(userId, ticketId))
             {
-                Ticket tick = db.Tickets.Find(TicketId);
-                var newUser = db.Users.Find(UserId);
+                Ticket tick = db.Tickets.Find(ticketId);
+                var newUser = db.Users.Find(userId);
 
-                tick.Users.Add(newUser); db.SaveChanges();
-            }
-        }
-
-        [ValidateAntiForgeryToken]
-        public void RemoveUserFromTicket(string UserId, int TicketId)
-        {
-            if (IsUserOnTicket(UserId, TicketId))
-            {
-                Ticket tick = db.Tickets.Find(TicketId);
-                var delUser = db.Users.Find(UserId);
-                tick.Users.Remove(delUser);
-                db.Entry(tick).State = EntityState.Modified;
-                // just saves this obj instance.             
+                tick.Users.Add(newUser);
                 db.SaveChanges();
             }
         }
 
         [ValidateAntiForgeryToken]
-        public ICollection<ApplicationUser> UsersOnTicket(int TicketId)
+        public void RemoveUserFromTicket(string userId, int ticketId)
         {
-            return db.Tickets.Find(TicketId).Users;
+            if (IsUserOnTicket(userId, ticketId))
+            {
+                Ticket tick = db.Tickets.Find(ticketId);
+                var delUser = db.Users.Find(userId);
+
+                tick.Users.Remove(delUser);
+                db.Entry(tick).State = EntityState.Modified;
+                db.SaveChanges();
+            }
         }
 
         [ValidateAntiForgeryToken]
-        public ICollection<ApplicationUser> UsersNotOnTicket(int TicketId)
+        public ICollection<ApplicationUser> UsersOnProject(int ticketId)
         {
-            return db.Users.Where(u => u.Tickets.All(p => p.Id != TicketId)).ToList();
+            return db.Tickets.Find(ticketId).Users;
+        }
 
+        [ValidateAntiForgeryToken]
+        public ICollection<ApplicationUser> UsersNotOnProject(int ticketId)
+        {
+            return db.Users.Where(u => u.Tickets.All(p => p.Id != ticketId)).ToList();
+        }
+
+        public ICollection<Ticket> ListUserProjects(string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            var tickets = user.Tickets.ToList();
+            return (tickets);
         }
     }
 }
-
-
  

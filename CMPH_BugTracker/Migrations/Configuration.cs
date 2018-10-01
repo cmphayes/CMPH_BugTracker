@@ -10,12 +10,14 @@ namespace CMPH_BugTracker.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<CMPH_BugTracker.Models.ApplicationDbContext>
     {
-        public Configuration()
+        public Configuration()        
         {
             AutomaticMigrationsEnabled = true;
         }
+
         protected override void Seed(CMPH_BugTracker.Models.ApplicationDbContext context)
         {
+            //  This method will be called after migrating to the latest version.
             //create roles
             var roleManager = new RoleManager<IdentityRole>(
                 new RoleStore<IdentityRole>(context));
@@ -110,6 +112,20 @@ namespace CMPH_BugTracker.Migrations
             var ProjectManagerId = userManager.FindByEmail("ProjectManager@Mailinator.com").Id;
             userManager.AddToRole(ProjectManagerId, "ProjectManager");
 
+            if (!context.Users.Any(u => u.Email == "CMPH@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "CMPH",
+                    Email = "CMPH@Mailinator.com",
+                    FirstName = "Conall",
+                    LastName = "Hayes",
+                    DisplayName = "CMPH"
+                }, "Abcd1234!");
+            }
+            var CMPHId = userManager.FindByEmail("CMPH@Mailinator.com").Id;
+            userManager.AddToRole(CMPHId, "Admin");
+
 
 
             //context.Projects.AddOrUpdate(p => p.Title,
@@ -121,6 +137,8 @@ namespace CMPH_BugTracker.Migrations
 
 
 
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data.
         }
     }
 }

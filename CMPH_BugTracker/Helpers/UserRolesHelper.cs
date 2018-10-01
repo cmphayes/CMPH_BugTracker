@@ -12,53 +12,53 @@ namespace CMPH_BugTracker.Helpers
     public class UserRolesHelper
     {
         private UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+        private ApplicationDbContext db = new ApplicationDbContext();
 
-        [ValidateAntiForgeryToken]
-        public bool IsUserInRole(string UserId, string RoleName)
+        public bool IsUserInRole(string userId, string roleName)
         {
-            return UserManager.IsInRole(UserId, RoleName);
+            return UserManager.IsInRole(userId, roleName);
         }
 
-        [ValidateAntiForgeryToken]
-        public bool AddUserToRole(string Users, string Roles)
+        public bool AddUserToRole(string userId, string roleName)
         {
-            var result = UserManager.AddToRole(Users, Roles);
+            var result = UserManager.AddToRole(userId, roleName);
             return result.Succeeded;
         }
 
-        [ValidateAntiForgeryToken]
-        public bool RemoveUserFromRole(string UserId, string RoleName)
+        public bool RemoveUserFromRole(string userId, string roleName)
         {
-            var result = UserManager.RemoveFromRole(UserId, RoleName);
+            var result = UserManager.RemoveFromRole(userId, roleName);
             return result.Succeeded;
         }
-
-
-        [ValidateAntiForgeryToken]
-        public ICollection<string> ListUserRoles(string UserId)
-        {
-            return UserManager.GetRoles(UserId);
-        }
-
-
-        [ValidateAntiForgeryToken]
-        public ICollection<ApplicationUser> UsersInRole(string RoleName)
+        
+        public ICollection<ApplicationUser> UsersInRole(string roleName)
         {
             var resultList = new List<ApplicationUser>();
             var List = UserManager.Users.ToList();
-            foreach (var user in List) { if (IsUserInRole(user.Id, RoleName)) resultList.Add(user); }
+            foreach (var User in List) { if (IsUserInRole(User.Id, roleName)) resultList.Add(User); }
 
             return resultList;
         }
 
-        [ValidateAntiForgeryToken]
-        public ICollection<ApplicationUser> UsersNotInRole(string RoleName)
+        public ICollection<ApplicationUser> UsersNotInRole(string roleName)
         {
             var resultList = new List<ApplicationUser>();
             var List = UserManager.Users.ToList();
-            foreach (var user in List) { if (!IsUserInRole(user.Id, RoleName)) resultList.Add(user); }
+            foreach (var User in List)
+            {
+                if (!IsUserInRole(User.Id, roleName))
+                    resultList.Add(User);
+            }
 
             return resultList;
         }
+
+        public ICollection<string> ListUserRoles(string userId)
+        {
+            return UserManager.GetRoles(userId);
+        }
+
     }
 }
+
+
