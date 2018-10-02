@@ -1,5 +1,6 @@
 ﻿using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,6 @@ namespace CMPH_BugTracker.Controllers
             //Load up select list data structure into a view bag property
             ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
             ViewBag.Roles = new SelectList(db.Roles.ToList(), "Name", "Name");
-            ViewBag.Tickets = new SelectList(db.Tickets.ToList(), "Id", "Name");
-            ViewBag.Projects = new SelectList(db.Projects.ToList(), "Id", "Name");
 
 
             return View();
@@ -48,6 +47,10 @@ namespace CMPH_BugTracker.Controllers
 
             roleHelper.AddUserToRole(users, roles);
 
+            ////Update cookie 
+            //SignInManager.SignIn(users false false)
+
+
             //Return
             return RedirectToAction("Index", "Home");
 
@@ -55,8 +58,8 @@ namespace CMPH_BugTracker.Controllers
 
         public ActionResult ProjectAssignment()
         {
-            ViewBag.Projects = new SelectList(db.Projects.ToList(), "Id", "Name");
-            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Name", "Name");
+            ViewBag.Projects = new SelectList(db.Projects.ToList(), "Name", "Name");
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "Email");
 
 
             return View();
@@ -67,7 +70,7 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult ProjectAssignment(int projects, List<string> users)
         {
             //Remove any and all current role assignment
-            var projectUsers = projectsHelper.UsersOnProject(projects);
+            var projectUsers = projectsHelper.ListUsersOnProject(projects);
             if (projectUsers.Count > 0)
             {
                 foreach (var user in projectUsers)
@@ -89,9 +92,8 @@ namespace CMPH_BugTracker.Controllers
 
         public ActionResult TicketAssignment()
         {
-            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "FirstName");
-            ViewBag.Tickets = new SelectList(db.Tickets.ToList(), "Id", "Name");
-
+            ViewBag.Tickets = new SelectList(db.Tickets.ToList(), "Name", "Name");
+            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
             return View();
         }
 
@@ -100,7 +102,7 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult TicketAssignment(int tickets, List<string> users)
         {
             //Remove any and all current role assignment
-            var ticketUsers = ticketsHelper.UsersOnProject(tickets);
+            var ticketUsers = ticketsHelper.ListUsersOnTicket(tickets);
             if (ticketUsers.Count > 0)
             {
                 foreach (var user in ticketUsers)

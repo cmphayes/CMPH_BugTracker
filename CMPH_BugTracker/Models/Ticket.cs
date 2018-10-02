@@ -15,8 +15,8 @@ namespace CMPH_BugTracker.Models
         public int TicketPriorityId { get; set; }
         public int TicketStatusId { get; set; }
         public int TicketTypeId { get; set; }
-        public string AssignedUserID { get; set; }
-        public string OwnerUserID { get; set; }
+        public int AssignedUserId { get; set; }
+        public int OwnerUserId { get; set; }
 
         //Properties
         public DateTimeOffset Created { get; set; }

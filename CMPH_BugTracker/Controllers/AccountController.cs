@@ -540,49 +540,61 @@ namespace CMPH_BugTracker.Controllers
 
         // GET: Profile/Details/5
 
-        public ActionResult ProfileDetails(int? id)
+        public ActionResult ProfileDetails()
         {
-            if (id == null)
+            var userId = User.Identity.GetUserId();
+
+            if (userId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return RedirectToAction("Profile");
-        }
-
-        // GET: Profile/Edit/5
-
-        public ActionResult EditProfile(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser user = db.Users.Find(id);
+            ApplicationUser user = db.Users.Find(userId);
             if (user == null)
             {
                 return HttpNotFound();
             }
             return View(user);
+            //return RedirectToAction("ProfileDetails");
+        }
+
+        // GET: Profile/Edit/5
+
+        public ActionResult EditProfile(string userId)
+        {
+            if(string.IsNullOrEmpty(userId))
+            {
+                userId = User.Identity.GetUserId();
+            }
+            return View(db.Users.Find(userId));
         }
 
         // POST: Projects/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "FirstName,LastName,Email,UserName,ProfileImage")] ApplicationUser user)
+        public ActionResult EditProfile(ApplicationUser user)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Profile");
-            }
-            return View(user);
+            user.UserName = user.Email;
+
+            db.Users.Attach(user);
+
+            db.Entry(user).Property(x => x.FirstName).IsModified = true;
+            db.Entry(user).Property(x => x.LastName).IsModified = true;
+            db.Entry(user).Property(x => x.DisplayName).IsModified = true;
+            db.Entry(user).Property(x => x.Email).IsModified = true;
+            db.Entry(user).Property(x => x.UserName).IsModified = true;
+            db.Entry(user).Property(x => x.ProfileImage).IsModified = true;
+
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ProfileView()
+        {
+
+            return View();
         }
         #endregion
     }

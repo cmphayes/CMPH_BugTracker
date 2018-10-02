@@ -1,9 +1,9 @@
-﻿@model IPagedList<CMPH_BugTracker.Models.TicketComment>
-@using PagedList.Mvc
-@using PagedList
+﻿@model IEnumerable<CMPH_BugTracker.Models.Ticket>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "MyTickets";
 }
+
 <style>
     table, th, td {
         border: 1px solid black;
@@ -11,9 +11,7 @@
 </style>
 
 
-<section id="main-content">
-    <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i>Create Ticket</h3>
+        <h3><i class="fa fa-angle-right"></i>Create Project</h3>
         <!-- BASIC FORM ELELEMNTS -->
         <div class="row mt">
             <div class="col-lg-12">
@@ -102,3 +100,5 @@
 @*@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
 @*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchStr = ViewBag.Search }));*@
 @*This lets the search carry over to a new page*@
+
+

@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using PagedList.Mvc;
 
@@ -15,17 +17,42 @@ namespace CMPH_BugTracker.Controllers
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
+        private TicketsHelper ticketHelper = new TicketsHelper();
+
 
         // GET: Tickets
-        public ActionResult Index(int? page, string searchStr)
+        public ActionResult Index()
         {
-            ViewBag.Search = searchStr; var TicketsList = IndexSearch(searchStr);
-
-            int pageSize = 5; // the number of posts you want to display per page             
-            int pageNumber = (page ?? 1); 
-
-            return View(TicketsList.ToPagedList(pageNumber, pageSize));
+            return View();
         }
+
+        //public ActionResult MyTickets()
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var myRole = roleHelper.ListUserRoles(userId);
+        //    var myTickets = new List<Ticket>();
+
+        //    switch (myRole.FirstOrDefault())
+        //    {
+        //        case "ProjectManager":
+        //            myTickets = db.Tickets.Where(t => t.AssignedUserId == userId.ToList<Ticket>());
+        //            break;
+        //        case "Developer":
+        //            myTickets = db.Tickets.Where(t => t.AssignedUserId = userId.ToList<Ticket>());
+        //            break;
+        //        case "Submitter":
+        //            myTickets = db.Tickets.Where(t => t.OwnerUserId = userId.ToList<Ticket>());
+        //            break;
+        //        case "Admin":
+        //            myTickets = db.Tickets.Where(t => t.AssignedUserId = userId.ToList<Ticket>());
+        //            break;
+        //    }
+        //    return View(projectHelper.ListUserProjects(userId));
+
+        //}
+
 
         [HttpPost]
         public IQueryable<Ticket> IndexSearch(string searchStr)

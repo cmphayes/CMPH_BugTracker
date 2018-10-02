@@ -13,9 +13,10 @@ namespace CMPH_BugTracker.Models
         //Properties
         public string Title { get; set; }
         public string Body { get; set; }
-        public string Owner { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Updated { get; set; }
+        public string AssignedUserId { get; set; }
+        public string OwnerUserId { get; set; }
 
         //Children
         public virtual ICollection<Ticket> Tickets { get; set; }

@@ -4,82 +4,102 @@
     ViewBag.Title = "Create";
 }
 
-<!-- **********************************************************************************************************************************************************
-        MAIN CONTENT
-        *********************************************************************************************************************************************************** -->
-<!--main content start-->
-<section id="main-content">
-    <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i>Create Ticket</h3>
-        <!-- BASIC FORM ELELEMNTS -->
-        <div class="row mt">
-            <div class="col-lg-12">
-                <div class="form-panel">
-                    <h4 class="mb"><i class="fa fa-angle-right"></i>Create Ticket</h4>
-                    <form class="form-horizontal style-form" method="get">
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Title</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Body</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">UpdateReason</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control round-form">
-                            </div>
-                        </div>
-                        @*<div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Input focus</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="focusedInput" type="text" value="This is focused...">
-                                </div>
-                            </div>*@
-                        @*<div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Disabled</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Placeholder</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="placeholder">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Password</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 col-sm-2 control-label">Static control</label>
-                                <div class="col-lg-10">
-                                    <p class="form-control-static">email@example.com</p>
-                                </div>
-                            </div>*@
+<h2>Create</h2>
 
-                    </form>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
-                        </div>
-                    </div>
+<div class="row"><br /></div>
+@using (Html.BeginForm("Create", "Blogs", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Blog</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Abstract, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Abstract, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Abstract, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MediaURL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <input name="image" type="file" class="form-control" id="fileUpload" />
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MediaURL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MediaURL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Published, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Published)
+                    @Html.ValidationMessageFor(model => model.Published, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <!-- col-lg-12-->
         </div>
-        <!-- /row -->
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back To Blogs", "PublishedBlogs")
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            tinymce.init({
+                selector: '#Body'
+            });
+        });
+    </script>
+
+}
+
+                    </form>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-default" />
+    </div>
+</div>
+                </div>
+            </div>
+<!-- col-lg-12-->
+        </div>
+<!-- /row -->
     </section>
-    <!-- /wrapper -->
+<!-- /wrapper -->
 </section>
 <!-- /MAIN CONTENT -->
 <!--main content end-->

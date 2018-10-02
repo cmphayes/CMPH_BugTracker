@@ -6,7 +6,7 @@ namespace CMPH_BugTracker.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "DisplayName")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -14,8 +14,8 @@ namespace CMPH_BugTracker.Models
         public string ProfileImage { get; set; }
         public string ProfileImagePath { get; set; }
         public string Role { get; set; }
-
-
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -94,11 +94,14 @@ namespace CMPH_BugTracker.Models
         public string ProfileImage { get; set; }
 
         [Required]
+        //What attribute do i put here?
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
+        //What attribute do i put here?
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -118,6 +121,7 @@ namespace CMPH_BugTracker.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

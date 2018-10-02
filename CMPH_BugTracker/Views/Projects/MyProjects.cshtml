@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<CMPH_BugTracker.Models.Project>
 
 @{
-    ViewBag.Title = "Index";
+                /**/
+
+                ViewBag.Title = "MyProjects";
 }
 
 <style>
@@ -11,15 +13,16 @@
 </style>
 
 
-<h3><i class="fa fa-angle-right"></i>All Projects</h3>
+<h3><i class="fa fa-angle-right"></i>Create Project</h3>
 <div class="row mt">
     <div class="col-lg-12">
         <div class="form-panel">
-            @if (User.IsInRole("Admin,ProjectManager"))
+            @if (User.IsInRole("Admin"))
             {
                 @Html.ActionLink("Create New", "Create")
             }
             <div class="row"><br /></div>
+
             <table class="table">
                 <thead>
                     <tr>
@@ -70,7 +73,7 @@
                             <td>
                                 @Html.ActionLink("Details", "Details", new { Id = project.Id })
 
-                                @if (User.IsInRole("Admin,ProjectManager"))
+                                @if (User.IsInRole("Admin"))
                                 {
                                     @Html.ActionLink("Edit", "Edit", new { Id = project.Id })
                                     @Html.ActionLink("Delete", "Delete", new { Id = project.Id })
@@ -79,6 +82,7 @@
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
     </div>

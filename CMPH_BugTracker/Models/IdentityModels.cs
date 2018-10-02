@@ -18,6 +18,8 @@ namespace CMPH_BugTracker.Models
         public string ProfileImage { get; set; }
         public string ProfileImagePath { get; set; }
         public string Role { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
 
 
         public virtual ICollection<Project> Projects { get; set; }

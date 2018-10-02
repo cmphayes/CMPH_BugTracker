@@ -50,18 +50,18 @@ namespace CMPH_BugTracker.Helpers
         }
 
         [ValidateAntiForgeryToken]
-        public ICollection<ApplicationUser> UsersOnProject(int ticketId)
+        public ICollection<ApplicationUser> ListUsersOnTicket(int ticketId)
         {
             return db.Tickets.Find(ticketId).Users;
         }
 
         [ValidateAntiForgeryToken]
-        public ICollection<ApplicationUser> UsersNotOnProject(int ticketId)
+        public ICollection<ApplicationUser> ListUsersNotOnTicket(int ticketId)
         {
             return db.Users.Where(u => u.Tickets.All(p => p.Id != ticketId)).ToList();
         }
 
-        public ICollection<Ticket> ListUserProjects(string userId)
+        public ICollection<Ticket> ListUserTickets(string userId)
         {
             ApplicationUser user = db.Users.Find(userId);
             var tickets = user.Tickets.ToList();

@@ -4,47 +4,99 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+        <h3><i class="fa fa-angle-right"></i>ProjectDetails</h3>
+        <!-- BASIC FORM ELELEMNTS -->
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <div>
+                        <h4>Project</h4>
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </dt>
 
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Title)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Body)
+                            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Body)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Created)
+                            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Created)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Updated)
+                            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Updated)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                        </dl>
+                    </div>
+                    <p>
+                        @if (User.IsInRole("Admin,ProjectManager"))
+                        {
+                            @Html.ActionLink("EditProject", "Edit", new { id = Model.Id })
+                            @Html.ActionLink("DeleteProject", "Delete", new { id = Model.Id })
+                        }
+                        @Html.ActionLink("Back to All Projects", "Index")
+                    </p>
+                </div>
+            </div>
+        </div>
+        <article>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        @Html.Raw(Model.Body)
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (var ticket in Model.Tickets)
+                    {
+                        <div class="panel panel-default container">
+                            <div class="panel-heading row">
+                                <div class="col-md-10">
+                                    <div class="panel-body row">@ticket.Title</div>
+                                    <div class="panel-body row">@ticket.Body</div>
+                                    <div class="panel-body row">@ticket.OwnerUser</div>
+                                    <div class="panel-body row">@ticket.Created</div>
+                                    <div class="panel-body row">@ticket.Updated</div>
+                                    <div class="panel-footer row">Posted: @ticket.Created.ToString("f")</div>
+                                    @if (User.IsInRole("Admin,ProjectManager,Developer"))
+                                    {
+                                        <div class="boxed-col-md-2">
+                                            @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, Model.Id }, null)
+                                            @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, Model.Id }, null)
+                                            @Html.ActionLink(" Details ", "Details", "Ticket", new { ticket.Id, Model.Id }, null)
+                                        </div>
+                                    }
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </article>
+        <hr>
+        <p>
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </section>
+</section>

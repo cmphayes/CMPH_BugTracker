@@ -10,7 +10,8 @@ namespace CMPH_BlogProject.Models
 
     public class EmailModel
     {
-        [Required, Display(Name = "Name")]
+        [Required]
+        [Display(Name = "FromName")]
         public string FromName { get; set; }
         [Required, Display(Name = "Email"), EmailAddress]
         public string FromEmail { get; set; }

@@ -11,17 +11,17 @@ namespace CMPH_BugTracker.Helpers
         private static ApplicationDbContext db = new ApplicationDbContext();
 
             public static string GetProfileImagePath(string userId)
-        {
-            var defaultPath = "/Uploads/default.jpg";
-            if (string.IsNullOrEmpty(userId))
-                return defaultPath;
+            {
+                var defaultPath = "/Uploads/default.jpg";
+                if (string.IsNullOrEmpty(userId))
+                    return defaultPath;
 
-            var profileImagePath = db.Users.Find(userId).ProfileImagePath;
-            if (string.IsNullOrEmpty(profileImagePath))
+                var profileImagePath = db.Users.Find(userId).ProfileImagePath;
+                if (string.IsNullOrEmpty(profileImagePath))
+                    return profileImagePath;
+
                 return profileImagePath;
-
-            return profileImagePath;
-        }
+            }
     }
 
 
