@@ -10,7 +10,7 @@ namespace CMPH_BugTracker.Models
         public int Id { get; set; }
         public int TicketId { get; set; }
         public DateTimeOffset Created { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public int OldValue { get; set; }
         public int NewValue { get; set; }

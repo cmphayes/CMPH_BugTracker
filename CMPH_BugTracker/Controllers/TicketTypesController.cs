@@ -10,6 +10,7 @@ using CMPH_BugTracker.Models;
 
 namespace CMPH_BugTracker.Controllers
 {
+    [Authorize]
     public class TicketTypesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -21,6 +22,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketTypes/Details/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,6 +38,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketTypes/Create
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Create()
         {
             return View();
@@ -59,6 +62,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketTypes/Edit/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -90,6 +94,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketTypes/Delete/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

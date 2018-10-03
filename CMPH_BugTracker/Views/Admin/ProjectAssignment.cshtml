@@ -1,42 +1,35 @@
-﻿
-@{
-                ViewBag.Title = "ProjectAssignment";
+﻿@{
+    ViewBag.Title = "ProjectAssignment";
 }
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-10">
-            <div class="row">
-                <h2>Project Assignment</h2>
-            </div>
-        </div>
-
+<div class="row mt">
+    <div class="col-lg-8">
+        <h4><i class="fa fa-angle-right"></i>Project Assignment</h4>
+        <div class="form"></div>
         <div class=" row">
+            <div class="col-md-6 text-center">
+                @Html.Label("SelectUsers")
+            </div>
             <div class="col-md-6">
                 @Html.Label("SelectProject")
             </div>
-            <div class="col-md-6">
-                @Html.Label("SelectUsers")
-            </div>
         </div>
 
-        @Html.BeginForm()
+        @using (Html.BeginForm("ProjectAssignment", "Admin", FormMethod.Post, new { enctype = "Multipart/form-data" }))
         {
-        @Html.AntiForgeryToken()
-        <div class=" row">
-            <div class="col-md-6">
-                @Html.DropDownList("Projects", null, htmlAttributes: new { @class = "form-control" })
+            @Html.AntiForgeryToken()
+            <div class=" row">
+                <div class="col-md-6">
+                    @Html.DropDownList("Users", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.DropDownList("Projects", null, htmlAttributes: new { @class = "form-control" })
+                </div>
             </div>
-            <div class="col-md-6">
-                @Html.DropDownList("Users", null, htmlAttributes: new { @class = "form-control" })
+            <div class=" row">
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
             </div>
-        </div>
-        <div class=" row">
-            <div class="col-md-12 text-center">
-                <button class="btn btn-primary" type="submit">Save<</button>
-            </div>
-        </div>        
+        }
     </div>
 </div>

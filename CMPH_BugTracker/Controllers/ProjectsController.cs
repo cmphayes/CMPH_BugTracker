@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
 using Microsoft.AspNet.Identity;
-using PagedList;
-using PagedList.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -21,46 +17,37 @@ namespace CMPH_BugTracker.Controllers
         private ProjectsHelper projectHelper = new ProjectsHelper();
         private TicketsHelper ticketHelper = new TicketsHelper();
 
+
+
         // GET: Projects
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Index()
         {
+                return View(db.Projects.ToList());
+          
             //ViewBag.Search = searchStr; var ProjectsList = IndexSearch(searchStr);
 
             //int pageSize = 5; // the number of posts you want to display per page             
             //int pageNumber = (page ?? 1); 
 
             //return View(ProjectsList.ToPagedList(pageNumber, pageSize));
-
-            return View();
         }
-
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult MyProjects()
         {
             var userId = User.Identity.GetUserId();
             return View(projectHelper.ListUserProjects(userId));
-
-            //var myRole = roleHelper.ListUserRoles(User.Identity.GetUserId());
-            //var myProjects = new List<Ticket>();
-
-            //switch (myRole.FirstOrDefault())
-            //{
-            //    case "ProjectManager":
-            //        myProjects = db.Tickets.Where(t => t.AssignedUserId == userId.ToList);
-            //        break;
-            //    case "Developer":
-            //        myProjects = db.Tickets.Where(t => t.AssignedUserId == userId.ToList);
-            //        break;
-            //    case "Submitter":
-            //        myProjects = db.Tickets.Where(t => t.OwnerUserId == userId.ToList);
-            //        break;
-            //    case "Admin":
-            //        myProjects = db.Tickets.Where(t => t.AssignedUserId == userId.ToList);
-            //        break;
-            //}
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
+        public ActionResult CreatedProjects()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(projectHelper.ListUserCreatedProjects(userId));
+        }
 
         // GET: Projects/Details/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -104,12 +91,13 @@ namespace CMPH_BugTracker.Controllers
                 }
 
                 //var project = new Project { Title = model.Title, Body = model.Body};
+                string userId = User.Identity.GetUserId(); 
+                project.AssignedUserId = userId;
                 project.Created = DateTimeOffset.Now;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
-
+            }        
             return View(project);
         }
 

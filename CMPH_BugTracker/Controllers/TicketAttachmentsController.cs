@@ -12,17 +12,19 @@ using PagedList.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
+    [Authorize]
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketAttachments
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Index(int? page, string searchStr)
         {
             ViewBag.Search = searchStr; var TicketAttachmentsList = IndexSearch(searchStr);
 
             int pageSize = 5; // the number of posts you want to display per page             
-            int pageNumber = (page ?? 1); 
+            int pageNumber = (page ?? 1);
 
             return View(TicketAttachmentsList.ToPagedList(pageNumber, pageSize));
         }
@@ -39,6 +41,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Details/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -54,6 +57,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Create
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Create()
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
@@ -79,6 +83,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Edit/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -112,6 +117,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Delete/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

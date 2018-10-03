@@ -12,11 +12,13 @@ using PagedList.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
+    [Authorize]
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketNotifications
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Index(int? page, string searchStr)
         {
             ViewBag.Search = searchStr; var TicketNotificationsList = IndexSearch(searchStr);
@@ -43,6 +45,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketNotifications/Details/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -58,6 +61,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketNotifications/Create
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Create()
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
@@ -83,6 +87,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketNotifications/Edit/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -116,6 +121,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketNotifications/Delete/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

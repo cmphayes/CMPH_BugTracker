@@ -1,14 +1,12 @@
 ﻿using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
-using Microsoft.AspNet.Identity.Owin;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
 
     {
@@ -19,6 +17,7 @@ namespace CMPH_BugTracker.Controllers
 
 
         // GET: Admin
+        [Authorize(Roles = "Admin,ProjectManager")]
         public ActionResult RoleAssignment()
         {
             //Load up select list data structure into a view bag property
@@ -30,6 +29,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,ProjectManager")]
         [ValidateAntiForgeryToken]
         public ActionResult RoleAssignment(string users, string roles)
         {
@@ -58,14 +58,13 @@ namespace CMPH_BugTracker.Controllers
 
         public ActionResult ProjectAssignment()
         {
-            ViewBag.Projects = new SelectList(db.Projects.ToList(), "Name", "Name");
+            ViewBag.Projects = new SelectList(db.Projects.ToList(), "Id", "Title");
             ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "Email");
-
-
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,ProjectManager")]
         [ValidateAntiForgeryToken]
         public ActionResult ProjectAssignment(int projects, List<string> users)
         {
@@ -90,6 +89,7 @@ namespace CMPH_BugTracker.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         public ActionResult TicketAssignment()
         {
             ViewBag.Tickets = new SelectList(db.Tickets.ToList(), "Name", "Name");
@@ -99,6 +99,7 @@ namespace CMPH_BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,ProjectManager")]
         public ActionResult TicketAssignment(int tickets, List<string> users)
         {
             //Remove any and all current role assignment

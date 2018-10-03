@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
+    
     public class HomeController : Controller
     {
         public ActionResult Index()

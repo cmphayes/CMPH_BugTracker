@@ -8,13 +8,14 @@ namespace CMPH_BugTracker.Models
     public class TicketComment
     {
         public int Id { get; set; }
-        public int TicketId { get; set; }
+        public string TicketId { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public string Abstract { get; set; }
         public string AuthorID { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Updated { get; set; }
+        public string OwnerUserId { get; set; }
 
 
         public virtual Ticket Ticket { get; set; }

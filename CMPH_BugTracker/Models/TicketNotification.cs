@@ -9,7 +9,7 @@ namespace CMPH_BugTracker.Models
     public class TicketNotification
     {
         public int Id { get; set; }
-        public int TicketId { get; set; }
+        public string TicketId { get; set; }
         public string SenderId { get; set; }
         public string RecipientId { get; set; }
         [Required]
@@ -20,6 +20,7 @@ namespace CMPH_BugTracker.Models
         public DateTimeOffset? Updated { get; set; }
         public virtual Ticket Ticket { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public string OwnerUserId { get; set; }
 
 
     }

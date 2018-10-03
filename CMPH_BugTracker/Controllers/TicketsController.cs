@@ -14,6 +14,7 @@ using PagedList.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -23,9 +24,11 @@ namespace CMPH_BugTracker.Controllers
 
 
         // GET: Tickets
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Index()
         {
-            return View();
+            var tickets = db.Tickets.Include(c => c.Title).Include(c => c.Body).Include(c => c.OwnerUserId).Include(c => c.Created).Include(c => c.AssignedUserId);
+            return View(tickets.ToList());
         }
 
         //public ActionResult MyTickets()
@@ -69,6 +72,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Details/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -84,6 +88,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Create
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Create()
         {
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title");
@@ -98,6 +103,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Create([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedUserID,OwnerUserID,Created,Updated,Title,Body")] Ticket ticket)
         {
             if (ModelState.IsValid)
@@ -115,6 +121,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -138,6 +145,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedUserID,OwnerUserID,Created,Updated,Title,Body")] Ticket ticket)
         {
             if (ModelState.IsValid)
@@ -154,6 +162,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Delete/5
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -171,6 +180,7 @@ namespace CMPH_BugTracker.Controllers
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult DeleteConfirmed(int id)
         {
             Ticket ticket = db.Tickets.Find(id);

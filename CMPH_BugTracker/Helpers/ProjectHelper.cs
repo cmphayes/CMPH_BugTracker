@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CMPH_BugTracker.Helpers
 {
+    [Authorize]
     public class ProjectsHelper
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -56,6 +57,11 @@ namespace CMPH_BugTracker.Helpers
             return (projects);
         }
 
+        public ICollection<Project> ListUserCreatedProjects(string userId)
+        {
+            return db.Projects.Where(p => p.OwnerUserId == userId).ToList();
+        }
+        
         public ICollection<ApplicationUser> ListUsersOnProject(int projectId)
         {
             return db.Projects.Find(projectId).Users;

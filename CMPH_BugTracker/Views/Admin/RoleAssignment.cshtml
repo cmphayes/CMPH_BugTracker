@@ -1,34 +1,20 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "RoleAssignment";
 }
-
-
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-2">
+<div class="row mt">
+    <div class="col-lg-8">
+        <h4><i class="fa fa-angle-right"></i>Role Assignment</h4>
+        <div class="form"></div>
+        <div class=" row">
+            <div class="col-md-6 text-center">
+                @Html.Label("SelectUser")
+            </div>
+            <div class="col-md-6 text-center">
+                @Html.Label("SelectRole")
+            </div>
         </div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-md-12 text-centered">
-                    <h2>Role Assignment</h2>
-                </div>
-            </div>
-
-            <div class=" row">
-                <div class="col-md-6 text-center">
-                    @Html.Label("SelectUser")
-                </div>
-                <div class="col-md-6 text-center">
-                    @Html.Label("SelectRole")
-                </div>
-            </div>
-
-
-            @Html.BeginForm()
-            {
-            @Html.AntiForgeryToken()
+        @using (Html.BeginForm("RoleAssignment", "Admin", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+        {
             <div class=" row">
                 <div class="col-md-6 text-center">
                     @Html.DropDownList("Users", null, htmlAttributes: new { @class = "form-control" })
@@ -41,9 +27,9 @@
                 <div class="col-md-12 text-center">
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
-            </div>            
+            </div>
+        }
         </div>
-    </div>
 </div>
 
 

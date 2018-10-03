@@ -3,14 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CMPH_BugTracker.Helpers
 {
+    [Authorize]
     public static class UserHelper
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
 
-            public static string GetProfileImagePath(string userId)
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public static string GetProfileImagePath(string userId)
             {
                 var defaultPath = "/Uploads/default.jpg";
                 if (string.IsNullOrEmpty(userId))

@@ -11,6 +11,8 @@ namespace CMPH_BugTracker.Models
         public int Id { get; set; }
         //ForiegnKey
         public int TicketId { get; set; }
+        public int OwnerUserId { get; set; }
+
         //Properties
         public string MediaURL { get; set; }
         public string Title { get; set; }

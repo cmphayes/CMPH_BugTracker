@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CMPH_BugTracker.Helpers
 {
+    [Authorize]
     public class TicketsHelper
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -53,6 +54,11 @@ namespace CMPH_BugTracker.Helpers
         public ICollection<ApplicationUser> ListUsersOnTicket(int ticketId)
         {
             return db.Tickets.Find(ticketId).Users;
+        }
+
+        public ICollection<Ticket> ListUserCreatedTickets(string userId)
+        {
+            return db.Tickets.Where(p => p.OwnerUserId == userId).ToList();
         }
 
         [ValidateAntiForgeryToken]

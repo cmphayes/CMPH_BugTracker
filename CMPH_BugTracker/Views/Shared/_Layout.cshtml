@@ -255,26 +255,25 @@
                         <p class="centered"><a href="~/Uploads/"><img src="@UserHelper.GetProfileImagePath(User.Identity.GetUserId())" class="img-circle" width="80"></a></p>
                         <h5 class="centered">@User.Identity.Name</h5>
                     }
-                    <li class="mt">
-                        <a class="active" href="index.html">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Dashboard</span>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-dashboard">
+                                <span>Dashboard</span>
+                            </i>
                         </a>
                     </li>
                     <li class="sub-menu">
                         <a href="javascript:;">
-                            <i class="fa fa-cogs"></i>
-                            <span>Account</span>
+                            <i class="fa fa-cogs">
+                                <span>Account</span>
+                            </i>
                         </a>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <ul class="sub">
-                                <li>
-                                    @Html.ActionLink("Log Out", "LogOff", "Account", null, new { @class = "nav-link js-scroll-trigger" })
-                                </li>
-                                <li>
-                                    <a class="nav-link js-scroll-trigger" href=@Url.Action("ProfileView", "Account")>Profile</a>
-                                </li>
+                                <li>@Html.ActionLink("Log Out", "LogOff", "Account", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li><a class="nav-link js-scroll-trigger" href=@Url.Action("ProfileView", "Account")>Profile</a></li>
+                                <li><a class="nav-link js-scroll-trigger" href=@Url.Action("EditProfile", "Account")>Edit Profile</a></li>
                             </ul>
                         }
                         else
@@ -297,14 +296,28 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <ul class="sub">
-                                <li> @Html.ActionLink("MyProjects", "MyProjects", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                <li>@Html.ActionLink("AllProjects", "Index", "Projects", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                 @if (User.IsInRole("Admin"))
                                 {
+                                    <li> @Html.ActionLink("MyProjects", "MyProjects", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllProjects", "Index", "Projects", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                     <li> @Html.ActionLink("Create", "Create", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
                                 }
                                 @if (User.IsInRole("ProjectManager"))
                                 {
+                                    <li> @Html.ActionLink("MyProjects", "MyProjects", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllProjects", "Index", "Projects", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li> @Html.ActionLink("Create", "Create", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                }
+                                @if (User.IsInRole("Developer"))
+                                {
+                                    <li> @Html.ActionLink("MyProjects", "MyProjects", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllProjects", "Index", "Projects", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li> @Html.ActionLink("Create", "Create", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                }
+                                @if (User.IsInRole("Submitter"))
+                                {
+                                    <li> @Html.ActionLink("MyProjects", "MyProjects", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllProjects", "Index", "Projects", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                     <li> @Html.ActionLink("Create", "Create", "Projects", null, new { @class = "nav-link js-scroll-trigger" }) </li>
                                 }
                             </ul>
@@ -326,9 +339,30 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <ul class="sub">
-                                <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                }
+                                @if (User.IsInRole("ProjectManager"))
+                                {
+                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                }
+                                @if (User.IsInRole("Developer"))
+                                {
+                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                }
+                                @if (User.IsInRole("Submitter"))
+                                {
+                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                }
                             </ul>
                         }
                         else
@@ -346,10 +380,30 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <ul class="sub">
-                                <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                }
+                                @if (User.IsInRole("ProjectManager"))
+                                {
+                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                }
+                                @if (User.IsInRole("Developer"))
+                                {
+                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                }
+                                @if (User.IsInRole("Submitter"))
+                                {
+                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                }
                             </ul>
                         }
                         else
@@ -379,12 +433,10 @@
                                 {
                                     <li>@Html.ActionLink("TicketAssignment", "TicketAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                     <li>@Html.ActionLink("ProjectAssignment", "ProjectAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("RoleAssignment", "RoleAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                 }
                                 @if (User.IsInRole("Developer"))
                                 {
                                     <li>@Html.ActionLink("TicketAssignment", "TicketAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("ProjectAssignment", "ProjectAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>}
                                 }
                             </ul>
                         }
@@ -397,7 +449,8 @@
                             </ul>
                         }
                     </li>
-                    <!-- sidebar menu end-->
+                </ul>
+                <!-- sidebar menu end-->
             </div>
             <!-- sidebar menu end-->
         </aside>
@@ -415,7 +468,10 @@
         <footer class="site-footer">
             <div class="text-center">
                 <p>
-                    &copy; Copyrights<strong> Dashio</strong>. All Rights Reserved
+                    Conall Hayes
+                    <br />
+                    BugTracker Project
+                    <br />
                 </p>
                 <div class="credits">
                     <!--
@@ -477,50 +533,7 @@
             return false;
         });
     </script>
-    <script type="application/javascript">
-                                $(document).ready(function() {
-                                  $("#date-popover").popover({
-                            html: true,
-                                    trigger: "manual"
-                                  });
-                                  $("#date-popover").hide();
-                                  $("#date-popover").click(function(e) {
-                                    $(this).hide();
-                            });
 
-                                  $("#my-calendar").zabuto_calendar({
-                            action: function() {
-                                    return myDateFunction(this.id, false);
-                                },
-                                    action_nav: function() {
-                                    return myNavFunction(this.id);
-                                },
-                                    ajax:
-                                {
-                                url: "show_data.php?action=1",
-                                      modal: true
-                                    },
-                                    legend: [{
-                                type: "text",
-                                        label: "Special event",
-                                        badge: "00"
-                                      },
-                                      {
-                                type: "block",
-                                        label: "Regular event",
-                                      }
-                                    ]
-                                  });
-        });
-
-                                function myNavFunction(id)
-        {
-                                  $("#date-popover").hide();
-                            var nav = $("#" + id).data("navigation");
-                            var to = $("#" + id).data("to");
-                            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
-        }
-    </script>
 
     <script>
         // format ALL tables by class selector
@@ -534,18 +547,59 @@
 
 
 
-@*@{
-        var userId = User.Identity.GetUserId();
-        var userManager = new UserManager<ApplicationUser>(
-        new UserStore<ApplicationUser>(new ApplicationDbContext()));
+@*<script type="application/javascript">
+                            $(document).ready(function() {
+                              $("#date-popover").popover({
+                        html: true,
+                                trigger: "manual"
+                              });
+                              $("#date-popover").hide();
+                              $("#date-popover").click(function(e) {
+                                $(this).hide();
+                        });
 
-    }*@
+                              $("#my-calendar").zabuto_calendar({
+                        action: function() {
+                                return myDateFunction(this.id, false);
+                            },
+                                action_nav: function() {
+                                return myNavFunction(this.id);
+                            },
+                                ajax:
+                            {
+                            url: "show_data.php?action=1",
+                                  modal: true
+                                },
+                                legend: [{
+                            type: "text",
+                                    label: "Special event",
+                                    badge: "00"
+                                  },
+                                  {
+                            type: "block",
+                                    label: "Regular event",
+                                  }
+                                ]
+                              });
+    });
+
+                            function myNavFunction(id)
+    {
+                              $("#date-popover").hide();
+                        var nav = $("#" + id).data("navigation");
+                        var to = $("#" + id).data("to");
+                        console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+    }
+</script>*@
+
+@*@{var userId = User.Identity.GetUserId();
+    var userManager = new UserManager<ApplicationUser>(
+    new UserStore<ApplicationUser>(new ApplicationDbContext()));}*@
 
 @*@if ((userManager.IsInRole(userId, "ProjectManager")) ||
-        (userManager.IsInRole(userId, "Submitter")) ||
-        (userManager.IsInRole(userId, "Admin")) ||
-        (userManager.IsInRole(userId, "Developer")))
-    {*@
+    (userManager.IsInRole(userId, "Submitter")) ||
+    (userManager.IsInRole(userId, "Admin")) ||
+    (userManager.IsInRole(userId, "Developer"))){*@
 
 
 
