@@ -116,23 +116,23 @@ namespace CMPH_BugTracker.Migrations
 }
 
 
-                 Context.TicketStatus.AddOrUpdate(ts => ts.Name
-                new TicketStatus {Name = "Status1"};
-                new TicketStatus {Name = "Status1"};
-                new TicketStatus {Name = "Status2"};
-                new TicketStatus {Name = "Status3"};            
-            );
+            //     Context.TicketStatus.AddOrUpdate(ts => ts.Name)
+            //    new TicketStatus {Name = "Status1"};
+            //    new TicketStatus {Name = "Status1"};
+            //    new TicketStatus {Name = "Status2"};
+            //    new TicketStatus {Name = "Status3"};            
+            //);
 
-                Context.TicketType.AddOrUpdate(tt => tt.Name
-                new TicketType {Name = "Bug"};
-                new TicketType {Name = "Bug"};
-                new TicketType {Name = "Bug"};
-                new TicketType {Name = "Bug"};                 
-            );
+            //    Context.TicketType.AddOrUpdate(tt => tt.Name)
+            //    new TicketType {Name = "Bug"};
+            //    new TicketType {Name = "Bug"};
+            //    new TicketType {Name = "Bug"};
+            //    new TicketType {Name = "Bug"};                 
+            //);
 
-                Context.TicketPriority.AddOrUpdate(tp => tp.Name
-                new TicketPriority {Name = "Priority1"};
-                new TicketPriority {Name = "Priority2"};
-                new TicketPriority {Name = "Priority3"};
-                new TicketPriority {Name = "Priority4"};            
-            );
+            //    Context.TicketPriority.AddOrUpdate(tp => tp.Name)
+            //    new TicketPriority {Name = "Priority1"};
+            //    new TicketPriority {Name = "Priority2"};
+            //    new TicketPriority {Name = "Priority3"};
+            //    new TicketPriority {Name = "Priority4"};            
+            //);

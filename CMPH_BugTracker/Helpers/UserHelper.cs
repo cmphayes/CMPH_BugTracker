@@ -1,4 +1,6 @@
 ﻿using CMPH_BugTracker.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +10,9 @@ using System.Web.Mvc;
 namespace CMPH_BugTracker.Helpers
 {
     [Authorize]
-    public static class UserHelper
+    public class UserHelper
     {
+        private UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         private static ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
@@ -25,7 +28,24 @@ namespace CMPH_BugTracker.Helpers
 
                 return profileImagePath;
             }
+
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public static string GetName(string userId)
+        {
+            var defaultName = "User";
+            var user = db.Users.Find(userId).DisplayName;
+            if (user == null)
+            {
+                return defaultName;
+            }
+            if (string.IsNullOrEmpty(user))
+            {
+                return user;
+            }
+            return user;
+        }
     }
+
 
 
 

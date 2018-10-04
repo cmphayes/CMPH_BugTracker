@@ -15,6 +15,7 @@ namespace CMPH_BugTracker.Helpers
     public class ProjectsHelper
     {
         ApplicationDbContext db = new ApplicationDbContext();
+
         [ValidateAntiForgeryToken]
         public bool IsUserOnProject(string userId, int projectId)
         {
@@ -72,12 +73,12 @@ namespace CMPH_BugTracker.Helpers
             return db.Users.Where(u => u.Projects.All(p => p.Id != projectId)).ToList();
         }
 
-        public ICollection<Project> ListUsersOnProject(string userId)
-        {
-            ApplicationUser user = db.Users.Find(userId);
-            var projects = user.Projects.ToList();
-            return (projects);
-        }
+        //public ICollection<Project> ListUsersOnProject(string userId)
+        //{
+        //    ApplicationUser user = db.Users.Find(userId);
+        //    var projects = user.Projects.ToList();
+        //    return (projects);
+        //}
 
 
 

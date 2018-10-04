@@ -88,20 +88,22 @@
                             <td>
                                 @Html.DisplayFor(modelItem => ticket.TicketType)
                             </td>
+                            <td>
+                                @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
+                                {
+                                    <div class="boxed-col-md-2">
+                                        @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, id = Model.Id }, null)
+                                        @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, id = Model.Id }, null)
+                                        @Html.ActionLink(" Details ", "Details", "Ticket", new { ticket.Id, id = Model.Id }, null)
+                                    </div>
+                                }
+                            </td>
                         </tr>
                     </table>
-                    @if (User.IsInRole("Admin,ProjectManager,Developer"))
-                    {
-                        <div class="boxed-col-md-2">
-                            @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, id = Model.Id }, null)
-                            @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, id = Model.Id }, null)
-                            @Html.ActionLink(" Details ", "Details", "Ticket", new { ticket.Id, id = Model.Id }, null)
-                            @*@Html.ActionLink(" History ", "History", "Ticket", new { ticket.Id, id = Model.Id }, null)*@
-                        </div>
-                    }
+                }
                     @if (User.IsInRole("Admin"))
                     {
-                        @using (Html.BeginForm("Create", "Ticket", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                        using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.Hidden("ProjectId", Model.Id)
@@ -118,7 +120,7 @@
                                     @Html.TextArea("TicketBody", new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                             </div>
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 @Html.Label("TicketStatus", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.DropDownList("TicketStatus", null, new { htmlAttributes = new { @class = "form-control" } })
@@ -135,7 +137,7 @@
                                 <div class="col-md-10">
                                     @Html.DropDownList("TicketType", null, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
                                     <input type="submit" value="Create" class="btn btn-default" />
@@ -147,15 +149,15 @@
         </div>
         <div>
             <p>
-                @Html.ActionLink("Back to All Projects", "Index")
+                @Html.ActionLink("All Projects", "Index")
             </p>
             <p>
-                @Html.ActionLink("Back to MyProjects", "MyProjects")
+                @Html.ActionLink("MyProjects", "MyProjects")
             </p>
             @if (User.IsInRole("Admin,ProjectManager"))
             {
                 <p>
-                    @Html.ActionLink("Back to Projects I Created", "CreatedProjects")
+                    @Html.ActionLink("Projects I Created", "CreatedProjects")
                 </p>
                 <p>
                     @Html.ActionLink("Assign Users to Project", "ProjectAssignment", "Admin")

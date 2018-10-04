@@ -253,7 +253,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <p class="centered"><a href="~/Uploads/"><img src="@UserHelper.GetProfileImagePath(User.Identity.GetUserId())" class="img-circle" width="80"></a></p>
-                        <h5 class="centered">@User.Identity.Name</h5>
+                        <h5 class="centered">@UserHelper.GetName(User.Identity.GetUserId())</h5>
                     }
                     @*<li class="sub-menu">
                         <a href="javascript:;">

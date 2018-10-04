@@ -18,31 +18,31 @@ namespace CMPH_BugTracker.Controllers
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private UserRolesHelper roleHelper = new UserRolesHelper();
         private ProjectsHelper projectHelper = new ProjectsHelper();
         private TicketsHelper ticketHelper = new TicketsHelper();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+
 
 
         // GET: Tickets
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Index()
         {
-            var tickets = db.Tickets.Include(c => c.Title).Include(c => c.Body).Include(c => c.OwnerUserId).Include(c => c.Created).Include(c => c.AssignedUserId);
-            return View(tickets.ToList());
+            return View(db.Tickets.ToList());
         }
 
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
-        public ActionResult MyProjects()
+        public ActionResult MyTickets()
         {
             var userId = User.Identity.GetUserId();
-            return View(projectHelper.ListUserProjects(userId));
+            return View(ticketHelper.ListUserTickets(userId));
         }
 
         [Authorize(Roles = "Admin,ProjectManager")]
-        public ActionResult CreatedProjects()
+        public ActionResult CreatedTickets()
         {
             var userId = User.Identity.GetUserId();
-            return View(projectHelper.ListUserCreatedProjects(userId));
+            return View(ticketHelper.ListUserCreatedTickets(userId));
         }
 
         //public ActionResult MyTickets()
@@ -138,18 +138,37 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        [Authorize(Roles = "Developer,Submitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
+            var userId = User.Identity.GetUserId();
+            var ticket = db.Tickets.Find(id);
+            //var myTicketData = db.Tickets.Find(id);
+            var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            switch(myRole)
+            {
+                case "Developer":
+                    if (ticket.AssignedUserId != userId)
+                        return RedirectToAction("Index", "Home");
+                    break;
+                case "Submitter":
+                    if (ticket.OwnerUserId != userId)
+                        return RedirectToAction("Index", "Home");
+                    break;
+                default:
+                    break;
+            }
+
             if (ticket == null)
             {
                 return HttpNotFound();
+
             }
+
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id", ticket.TicketStatusId);
@@ -171,6 +190,11 @@ namespace CMPH_BugTracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            if (User.IsInRole("ProjectManager"))
+            { 
+                ViewBag.AssignedUserId = new SelectList(db.Projects, "Id", "FirstName", ticket.AssignedUserId);
+            }
+            ticket.Updated = DateTimeOffset.Now;
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id", ticket.TicketStatusId);
