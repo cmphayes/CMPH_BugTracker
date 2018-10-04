@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CMPH_BugTracker.Models.Project>
 @{
-    ViewBag.Title = "MyProjects";
+    ViewBag.Title = "Index";
 }
 <style>
     table, th, td {
@@ -16,15 +16,11 @@
                 @Html.ActionLink("Create New", "Create")
             }
             <div class="row"><br /></div>
-
             <table class="table">
                 <thead>
                     <tr>
                         <th>
                             @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Updated)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
@@ -34,9 +30,6 @@
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().AssignedUserId)
                         </th>
                         <th>
                         </th>
@@ -50,9 +43,6 @@
                                 @Html.DisplayFor(modelItem => project.Created)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => project.Updated)
-                            </td>
-                            <td>
                                 @Html.Raw(project.Title)
                             </td>
                             <td>
@@ -60,9 +50,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => project.OwnerUserId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => project.AssignedUserId)
                             </td>
                             <td>
                                 @Html.ActionLink("Details", "Details", new { Id = project.Id })

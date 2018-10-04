@@ -255,13 +255,13 @@
                         <p class="centered"><a href="~/Uploads/"><img src="@UserHelper.GetProfileImagePath(User.Identity.GetUserId())" class="img-circle" width="80"></a></p>
                         <h5 class="centered">@User.Identity.Name</h5>
                     }
-                    <li class="sub-menu">
+                    @*<li class="sub-menu">
                         <a href="javascript:;">
                             <i class="fa fa-dashboard">
                                 <span>Dashboard</span>
                             </i>
                         </a>
-                    </li>
+                    </li>*@
                     <li class="sub-menu">
                         <a href="javascript:;">
                             <i class="fa fa-cogs">
@@ -338,32 +338,36 @@
                         </a>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <ul class="sub">
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                }
-                                @if (User.IsInRole("ProjectManager"))
-                                {
-                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                }
-                                @if (User.IsInRole("Developer"))
-                                {
-                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                }
-                                @if (User.IsInRole("Submitter"))
-                                {
-                                    <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                    <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
-                                }
-                            </ul>
+                        <ul class="sub">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li> @Html.ActionLink("TicketsICreated", "CreatedTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                            }
+                            @if (User.IsInRole("ProjectManager"))
+                            {
+                                <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li> @Html.ActionLink("TicketsICreated", "CreatedTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                            }
+                            @if (User.IsInRole("Developer"))
+                            {
+                                <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li> @Html.ActionLink("TicketsICreated", "CreatedTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                            }
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                <li> @Html.ActionLink("Create", "Create", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li>@Html.ActionLink("AllTickets", "Index", "Tickets", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li> @Html.ActionLink("MyTickets", "MyTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                                <li> @Html.ActionLink("TicketsICreated", "CreatedTickets", "Tickets", null, new { @class = "nav-link js-scroll-trigger" }) </li>
+                            }
+                        </ul>
                         }
                         else
                         {
@@ -379,32 +383,36 @@
                         </a>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <ul class="sub">
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                                @if (User.IsInRole("ProjectManager"))
-                                {
-                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                                @if (User.IsInRole("Developer"))
-                                {
-                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                                @if (User.IsInRole("Submitter"))
-                                {
-                                    <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                            </ul>
+                        <ul class="sub">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("TicketCommentsICreated", "CreatedTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                            @if (User.IsInRole("ProjectManager"))
+                            {
+                                <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("TicketCommentsICreated", "CreatedTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                            @if (User.IsInRole("Developer"))
+                            {
+                                <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("TicketCommentsICreated", "CreatedTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                <li>@Html.ActionLink("Create", "Create", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("AllTicketComments", "Index", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("MyTicketComments", "MyTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink("TicketCommentsICreated", "CreatedTicketComments", "TicketComments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                        </ul>
                         }
                         else
                         {
@@ -509,6 +517,7 @@
     <script src="~/lib/common-scripts.js"></script>
     <script type="text/javascript" src="~/lib/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="~/lib/gritter-conf.js"></script>
+
     <!--script for this page-->
     <script src="~/lib/sparkline-chart.js">
     </script>

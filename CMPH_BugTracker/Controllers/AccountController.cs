@@ -94,7 +94,7 @@ namespace CMPH_BugTracker.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ProfileView", "Account");
             }
         }
 

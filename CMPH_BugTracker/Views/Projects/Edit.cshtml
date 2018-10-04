@@ -31,17 +31,26 @@
                             <input type="submit" value="Save" class="btn btn-default" />
                         </div>
                     </div>
+                </form>
             </div>
-            
-
-            <div>
-                @Html.ActionLink("Back to List", "Index")
-            </div>
+            <hr>
+            <p>
+                @Html.ActionLink("Back to All Projects", "Index")
+            </p>
+            <p>
+                @Html.ActionLink("Back to MyProjects", "MyProjects")
+            </p>
+            @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
+            {
+                <p>
+                    @Html.ActionLink("Back to Projects I Created", "CreatedProjects")
+                </p>
+            }
         </div>
     }
 </div>
 
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

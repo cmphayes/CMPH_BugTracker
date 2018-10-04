@@ -21,10 +21,8 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult RoleAssignment()
         {
             //Load up select list data structure into a view bag property
-            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
+            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "DisplayName");
             ViewBag.Roles = new SelectList(db.Roles.ToList(), "Name", "Name");
-
-
             return View();
         }
 
@@ -59,7 +57,7 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult ProjectAssignment()
         {
             ViewBag.Projects = new SelectList(db.Projects.ToList(), "Id", "Title");
-            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "Email");
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");
             return View();
         }
 
@@ -72,7 +70,7 @@ namespace CMPH_BugTracker.Controllers
             var projectUsers = projectsHelper.ListUsersOnProject(projects);
             if (projectUsers.Count > 0)
             {
-                foreach (var user in projectUsers)
+                foreach (var user in projectUsers.ToList())
                 {
                     projectsHelper.RemoveUserFromProject(user.Id, projects);
                 }
@@ -92,8 +90,8 @@ namespace CMPH_BugTracker.Controllers
         [Authorize(Roles = "Admin,ProjectManager")]
         public ActionResult TicketAssignment()
         {
-            ViewBag.Tickets = new SelectList(db.Tickets.ToList(), "Name", "Name");
-            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
+            ViewBag.Tickets = new SelectList(db.Tickets.ToList(), "Id", "Title");
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");
             return View();
         }
 

@@ -1,86 +1,117 @@
 ﻿@model CMPH_BugTracker.Models.TicketComment
-
 @{
     ViewBag.Title = "Details";
 }
+<h3><i class="fa fa-angle-right"></i>Ticket Comment Details</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <div>
+                <h4>Ticket Comment</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
 
-<!-- **********************************************************************************************************************************************************
-        MAIN CONTENT
-        *********************************************************************************************************************************************************** -->
-<!--main content start-->
-<section id="main-content">
-    <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Grid: Stacked Horizontal</h3>
-        <div class="row show-grid mt">
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
-            <div class="col-md-1">.col-md-1</div>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Body)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Body)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Created)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Updated)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Updated)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.OwnerUserId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.OwnerUserId)
+                    </dd>
+                </dl>
+            </div>
+            <p>
+                @if (User.IsInRole("Admin,ProjectManager"))
+                {
+                    @Html.ActionLink("EditProject", "Edit", new { id = Model.Id })
+                    @Html.ActionLink("DeleteProject", "Delete", new { id = Model.Id })
+                }
+            </p>
         </div>
-        <div class="row show-grid">
-            <div class="col-md-8">.col-md-8</div>
-            <div class="col-md-4">.col-md-4</div>
+        <article>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        @Html.Raw(Model.Body)
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </article>
+        <hr>
+        <div>
+            <div>
+                @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
+                {
+                    using (Html.BeginForm("Create", "TicketsComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("ProjectId", Model.Id)
+                        @Html.HiddenFor(model => model.Id)
+                        <div class="form-group">
+                            @Html.Label("Ticket Comment Title", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextArea("ticketCommentTitle", new { @class = "form-control", placeholder = "Ticket Comment Title", rows = "4" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Ticket Comment Body", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextArea("ticketCommentBody", new { @class = "form-control", placeholder = "Ticket Comment Body", rows = "4" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create Ticket" class="btn btn-default" />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
         </div>
-        <div class="row show-grid">
-            <div class="col-md-4">.col-md-4</div>
-            <div class="col-md-4">.col-md-4</div>
-            <div class="col-md-4">.col-md-4</div>
-        </div>
-        <div class="row show-grid">
-            <div class="col-md-6">.col-md-6</div>
-            <div class="col-md-6">.col-md-6</div>
-        </div>
-        <h3><i class="fa fa-angle-right"></i> Example: Mobile and Desktop</h3>
-        <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-        <div class="row show-grid mt">
-            <div class="col-xs-12 col-md-8">.col-xs-12 .col-md-8</div>
-            <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-        </div>
-        <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-        <div class="row show-grid">
-            <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-            <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-            <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-        </div>
-        <!-- Columns are always 50% wide, on mobile and desktop -->
-        <div class="row show-grid">
-            <div class="col-xs-6">.col-xs-6</div>
-            <div class="col-xs-6">.col-xs-6</div>
-        </div>
-        <h3><i class="fa fa-angle-right"></i> Example: Mobile, Tablets & Desktop</h3>
-        <div class="row show-grid mt">
-            <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>
-            <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-        </div>
-        <div class="row show-grid">
-            <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
-            <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
-            <!-- Optional: clear the XS cols if their content doesn't match in height -->
-            <div class="clearfix visible-xs"></div>
-            <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
-        </div>
-        <h3><i class="fa fa-angle-right"></i> Example: Offsetting Columns</h3>
-        <div class="row show-grid mt">
-            <div class="col-md-4">.col-md-4</div>
-            <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
-        </div>
-        <div class="row show-grid">
-            <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
-            <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
-        </div>
-        <div class="row show-grid">
-            <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
-        </div>
-    </section>
-    <!-- /wrapper -->
-</section>
-<!-- /MAIN CONTENT -->
-<!--main content end-->
+        <hr>
+        <p>
+            @Html.ActionLink("Back to All Projects", "Index")
+        </p>
+        <p>
+            @Html.ActionLink("Back to MyProjects", "MyTickets")
+        </p>
+        @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
+        {
+            <p>
+                @Html.ActionLink("Back to Tickets I Created", "CreatedTickets")
+            </p>
+        }
+    </div>
+</div>

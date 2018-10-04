@@ -16,15 +16,20 @@
                         <dt>
                             @Html.DisplayNameFor(model => model.Title)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Title)
                         </dd>
 
                         <dt>
+                            @Html.DisplayNameFor(model => model.Body)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Body)
+                        </dd>
+
+                        <dt>
                             @Html.DisplayNameFor(model => model.Created)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Created)
                         </dd>
@@ -32,28 +37,46 @@
                         <dt>
                             @Html.DisplayNameFor(model => model.Updated)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Updated)
                         </dd>
 
+                        <dt>
+                            @Html.DisplayNameFor(model => model.OwnerUserId)
+                        </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.)
+                            @Html.DisplayFor(model => model.OwnerUserId)
                         </dd>
 
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AssignedUserId)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.AssignedUserId)
+                        </dd>
                     </dl>
-
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
-
                         <div class="form-actions no-color">
                             <input type="submit" value="Delete" class="btn btn-default" /> |
-                            @Html.ActionLink("Back to List", "Index")
                         </div>
                     }
                 </div>
             </div>
         </div>
+        <hr>
+        <p>
+            @Html.ActionLink("Back to All Projects", "Index")
+        </p>
+        <p>
+            @Html.ActionLink("Back to MyProjects", "MyProjects")
+        </p>
+        @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
+        {
+            <p>
+                @Html.ActionLink("Back to Projects I Created", "CreatedProjects")
+            </p>
+        }
     </div>
 </div>

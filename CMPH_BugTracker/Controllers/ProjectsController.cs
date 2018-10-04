@@ -24,14 +24,8 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult Index()
         {
                 return View(db.Projects.ToList());
-          
-            //ViewBag.Search = searchStr; var ProjectsList = IndexSearch(searchStr);
-
-            //int pageSize = 5; // the number of posts you want to display per page             
-            //int pageNumber = (page ?? 1); 
-
-            //return View(ProjectsList.ToPagedList(pageNumber, pageSize));
         }
+
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult MyProjects()
         {
@@ -48,13 +42,10 @@ namespace CMPH_BugTracker.Controllers
 
         // GET: Projects/Details/5
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Project project = db.Projects.Find(id);
+            var usersOnProject = projectHelper.ListUsersOnProject(id);
             if (project == null)
             {
                 return HttpNotFound();

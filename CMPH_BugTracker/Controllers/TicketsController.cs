@@ -31,6 +31,20 @@ namespace CMPH_BugTracker.Controllers
             return View(tickets.ToList());
         }
 
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult MyProjects()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(projectHelper.ListUserProjects(userId));
+        }
+
+        [Authorize(Roles = "Admin,ProjectManager")]
+        public ActionResult CreatedProjects()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(projectHelper.ListUserCreatedProjects(userId));
+        }
+
         //public ActionResult MyTickets()
         //{
         //    var userId = User.Identity.GetUserId();
@@ -57,19 +71,19 @@ namespace CMPH_BugTracker.Controllers
         //}
 
 
-        [HttpPost]
-        public IQueryable<Ticket> IndexSearch(string searchStr)
-        {
-            IQueryable<Ticket> result = null; if (searchStr != null) { result = db.Tickets.AsQueryable(); result = result.Where(p => p.Title.Contains(searchStr) 
-            || p.Body.Contains(searchStr) 
-            || p.TicketComments.Any(c => c.Body.Contains(searchStr)));
-            }
-            else
-            {
-                result = db.Tickets.AsQueryable();
-            }
-            return result.OrderByDescending(p => p.Created);
-        }
+        //[HttpPost]
+        //public IQueryable<Ticket> IndexSearch(string searchStr)
+        //{
+        //    IQueryable<Ticket> result = null; if (searchStr != null) { result = db.Tickets.AsQueryable(); result = result.Where(p => p.Title.Contains(searchStr) 
+        //    || p.Body.Contains(searchStr) 
+        //    || p.TicketComments.Any(c => c.Body.Contains(searchStr)));
+        //    }
+        //    else
+        //    {
+        //        result = db.Tickets.AsQueryable();
+        //    }
+        //    return result.OrderByDescending(p => p.Created);
+        //}
 
         // GET: Tickets/Details/5
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
@@ -89,9 +103,8 @@ namespace CMPH_BugTracker.Controllers
 
         // GET: Tickets/Create
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
-        public ActionResult Create()
+        public ActionResult Create(int Id)
         {
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Id");
@@ -104,13 +117,17 @@ namespace CMPH_BugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
-        public ActionResult Create([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedUserID,OwnerUserID,Created,Updated,Title,Body")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "ProjectId,Title,Body,TicketStatus,TicketPriority,TicketType")] Ticket ticket, string TicketTitle, string TicketBody, int Id)
         {
             if (ModelState.IsValid)
             {
+                ticket.Title = TicketTitle;
+                ticket.Body = TicketBody;
+                ticket.OwnerUserId = User.Identity.GetUserId();
+                ticket.Created = DateTimeOffset.Now;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Projects", new { Id });
             }
 
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);

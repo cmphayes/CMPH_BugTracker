@@ -1,6 +1,4 @@
-﻿@model IPagedList<CMPH_BugTracker.Models.Ticket>
-@using PagedList.Mvc
-@using PagedList
+﻿@model IEnumerable<CMPH_BugTracker.Models.Ticket>
 @{
     ViewBag.Title = "Index";
 }
@@ -9,93 +7,64 @@
         border: 1px solid black;
     }
 </style>
-
-        <h3><i class="fa fa-angle-right"></i>Create Ticket</h3>
-        <!-- BASIC FORM ELELEMNTS -->
-        <div class="row mt">
-            <div class="col-lg-12">
-                <div class="form-panel">
-                    @if (User.IsInRole("Admin"))
+<h3><i class="fa fa-angle-right"></i>All Tickets</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="form-panel">
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Create New", "Create")
+            }
+            <div class="row"><br /></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Body)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserId)
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model)
                     {
-                        @Html.ActionLink("Create New", "Create")
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.Created)
+                            </td>
+                            <td>
+                                @Html.Raw(ticket.Title)
+                            </td>
+                            <td>
+                                @Html.Raw(ticket.Body)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.OwnerUserId)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { Id = ticket.Id })
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    @Html.ActionLink("Edit", "Edit", new { Id = ticket.Id })
+                                    @Html.ActionLink("Delete", "Delete", new { Id = ticket.Id })
+                                }
+                            </td>
+                        </tr>
                     }
-                    @*@using (Html.BeginForm("Index", "Projects", FormMethod.Get, htmlAttributes: new { @class = "form" }))
-                        {
-                            <div class="controls controls-row search-row">
-                                <input id="searchStr" name="searchStr" class="input-block-level" type="text" placeholder="Search" />
-                                <button id="searchStr" name="searchStr" class="btn btn-info" type="submit"><i class="icon-search"></i>Search</button>
-                            </div>
-                        }*@
+                </tbody>
 
-                    <div class="row"><br /></div>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().Updated)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().Body)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserID)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().AssignedUserID)
-                                </th>
-                                <th>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var project in Model)
-                            {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => project.Created)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => project.Updated)
-                                </td>
-                                <td>
-                                    @Html.Raw(project.Title)
-                                </td>
-                                <td>
-                                    @Html.Raw(project.Body)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => project.OwnerUserID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => project.AssignedUserID)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Details", "Details", new { Id = project.Id })
-
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        @Html.ActionLink("Edit", "Edit", new { Id = project.Id })
-                                        @Html.ActionLink("Delete", "Delete", new { Id = project.Id })
-                                    }
-                                </td>
-                            </tr>
-                            }
-                        </tbody>
-
-                    </table>
-                </div>
-            </div>
+            </table>
         </div>
-    </section>
-</section>
-@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
-@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
-@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchStr = ViewBag.Search }));*@
-@*This lets the search carry over to a new page*@
+    </div>
+</div>

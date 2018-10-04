@@ -570,8 +570,9 @@
     <Content Include="Views\Projects\MyProjects.cshtml" />
     <Content Include="Views\Tickets\MyTickets.cshtml" />
     <Content Include="Views\TicketComments\MyTicketComments.cshtml" />
-    <Content Include="Views\Tickets\TicketsCreatedByUser.cshtml" />
+    <Content Include="Views\Tickets\CreatedTickets.cshtml" />
     <Content Include="Views\Projects\CreatedProjects.cshtml" />
+    <Content Include="Views\TicketComments\CreatedTicketComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
