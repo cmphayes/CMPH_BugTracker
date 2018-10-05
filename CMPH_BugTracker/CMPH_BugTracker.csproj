@@ -213,6 +213,7 @@
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\TicketStatusController.cs" />
     <Compile Include="Controllers\TicketTypesController.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -573,6 +574,12 @@
     <Content Include="Views\Tickets\CreatedTickets.cshtml" />
     <Content Include="Views\Projects\CreatedProjects.cshtml" />
     <Content Include="Views\TicketComments\CreatedTicketComments.cshtml" />
+    <Content Include="Views\Shared\MyProjectsPartial.cshtml" />
+    <Content Include="Views\Shared\MyTicketsPartial.cshtml" />
+    <Content Include="Views\Shared\MyTicketCommentsPartial.cshtml" />
+    <Content Include="Views\Shared\CreatedProjectsPartial.cshtml" />
+    <Content Include="Views\Shared\CreatedTicketCommentsPartial.cshtml" />
+    <Content Include="Views\Shared\CreatedTicketsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<CMPH_BugTracker.Models.Ticket>
-
 @{
-    ViewBag.Title = "CreatedTickets";
+    ViewBag.Title = "MyTickets";
 }
 <style>
     table, th, td {
         border: 1px solid black;
     }
 </style>
-<h3><i class="fa fa-angle-right"></i>Tickets I Created</h3>
+<h3><i class="fa fa-angle-right"></i>My Tickets</h3>
 <div class="row mt">
     <div class="col-lg-12">
         @foreach (var ticket in Model)
@@ -18,53 +17,62 @@
                 {
                     @Html.ActionLink("Create New", "Create")
                 }
+                <div class="row"><br /></div>
                 <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Title)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Body)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Created)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Updated)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.AssignedUserId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.OwnerUserId)
-                        </th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Body)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Created)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Updated)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.AssignedUserId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.OwnerUserId)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = ticket.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = ticket.Id })
-                        </td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>
+                                <p>Created</p>
+                            </th>
+                            <th>
+                                <p>Updated</p>
+                            </th>
+                            <th>
+                                <p>Title</p>
+                            </th>
+                            <th>
+                                <p>Body</p>
+                            </th>
+                            <th>
+                                <p>OwnerUserID</p>
+                            </th>
+                            <th>
+                                <p>AssignedUserID</p>
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.Updated)
+                            </td>
+                            <td>
+                                @Html.Raw(ticket.Title)
+                            </td>
+                            <td>
+                                @Html.Raw(ticket.Body)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.OwnerUserId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.AssignedUserId)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { Id = ticket.Id })
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    @Html.ActionLink("Edit", "Edit", new { Id = ticket.Id })
+                                    @Html.ActionLink("Delete", "Delete", new { Id = ticket.Id })
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
                 <table class="table">
                     <thead>
@@ -120,3 +128,6 @@
         }
     </div>
 </div>
+
+
+

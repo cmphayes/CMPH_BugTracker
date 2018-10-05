@@ -584,6 +584,9 @@ namespace CMPH_BugTracker.Controllers
             db.Entry(user).Property(x => x.Email).IsModified = true;
             db.Entry(user).Property(x => x.UserName).IsModified = true;
             db.Entry(user).Property(x => x.ProfileImage).IsModified = true;
+            db.Entry(user).Property(x => x.Password).IsModified = true;
+            db.Entry(user).Property(x => x.ConfirmPassword).IsModified = true;
+
 
 
             db.SaveChanges();
@@ -591,11 +594,14 @@ namespace CMPH_BugTracker.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult ProfileView()
         {
-
-            return View();
+            var Id = User.Identity.GetUserId();
+            var user = db.Users.Find(Id);
+            return View(user);
         }
+
         #endregion
     }
 }

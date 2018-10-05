@@ -4,11 +4,6 @@
 
     ViewBag.Title = "Log in";
 }
-<!-- **********************************************************************************************************************************************************
-        MAIN CONTENT
-        *********************************************************************************************************************************************************** -->
-<!--main content start-->
-<!-- /row -->
 <div class="row mt">
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
@@ -54,21 +49,21 @@
                         </div>
                     </div>
                 </form>
-                    <hr>
-                    <div class="login-social-link centered">
-                        <p>or you can sign in via your social network</p>
-                        <button class="btn btn-facebook" type="submit"><i class="fa fa-facebook"></i> Facebook</button>
-                        <button class="btn btn-twitter" type="submit"><i class="fa fa-twitter"></i> Twitter</button>
-                    </div>
-                    <div class="registration">
-                        <p>
-                            @Html.ActionLink("Register as a new user", "Register")
-                        </p>
-                        <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>
-                    </div>
-                    
+                <hr>
+                <div class="login-social-link centered">
+                    <p>or you can sign in via your social network</p>
+                    <button class="btn btn-facebook" type="submit"><i class="fa fa-facebook"></i> Facebook</button>
+                    <button class="btn btn-twitter" type="submit"><i class="fa fa-twitter"></i> Twitter</button>
+                </div>
+                <div class="registration">
+                    <p>
+                        @Html.ActionLink("Register as a new user", "Register")
+                    </p>
+                    <p>
+                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                    </p>
+                </div>
+
             </div>
             <!-- Modal -->
             <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
@@ -102,6 +97,6 @@
             </script>
         </div>
     }
-    </div>
-    
+</div>
+
 

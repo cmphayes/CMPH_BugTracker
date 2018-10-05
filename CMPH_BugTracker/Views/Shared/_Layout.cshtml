@@ -2,6 +2,7 @@
 @using Microsoft.AspNet.Identity.EntityFramework;
 @using CMPH_BugTracker.Helpers;
 @using CMPH_BugTracker.Models;
+@using CMPH_BugTracker.Extensions
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +54,7 @@
                 <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
             </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b><span></span></b></a>
+            @*<a href="index.html" class="logo"><b><span></span></b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -240,7 +241,7 @@
                     <!-- notification dropdown end -->
                 </ul>
                 <!--  notification end -->
-            </div>
+            </div>*@
         </header>
         <!--header end-->
         <!-- **********************************************************************************************************************************************************
@@ -254,6 +255,7 @@
                     {
                         <p class="centered"><a href="~/Uploads/"><img src="@UserHelper.GetProfileImagePath(User.Identity.GetUserId())" class="img-circle" width="80"></a></p>
                         <h5 class="centered">@UserHelper.GetName(User.Identity.GetUserId())</h5>
+                        <h5> @User.Identity.GetFullName()</h5>
                     }
                     @*<li class="sub-menu">
                         <a href="javascript:;">

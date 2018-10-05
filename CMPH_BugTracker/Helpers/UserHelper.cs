@@ -32,7 +32,7 @@ namespace CMPH_BugTracker.Helpers
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public static string GetName(string userId)
         {
-            var defaultName = "User";
+            var defaultName = "Guest";
             var user = db.Users.Find(userId).DisplayName;
             if (user == null)
             {
@@ -44,6 +44,7 @@ namespace CMPH_BugTracker.Helpers
             }
             return user;
         }
+
     }
 
 

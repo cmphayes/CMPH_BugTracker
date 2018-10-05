@@ -38,14 +38,9 @@ namespace CMPH_BugTracker.Migrations
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
 
-
             //create users
-
-
             var userManager = new UserManager<ApplicationUser>(
                 new UserStore<ApplicationUser>(context));
-
-
 
             //create user to assign to admin role
             if (!context.Users.Any(u => u.Email == "Developer@Mailinator.com"))
@@ -54,16 +49,13 @@ namespace CMPH_BugTracker.Migrations
                 {
                     UserName = "Developer@Mailinator.com",
                     Email = "Developer@Mailinator.com",
-                    FirstName = "Developer",
-                    LastName = "Developer",
+                    FirstName = "Dev",
+                    LastName = "eloper",
                     DisplayName = "Developer"
                 }, "Abcd1234!");
             }
             var DeveloperId = userManager.FindByEmail("Developer@Mailinator.com").Id;
             userManager.AddToRole(DeveloperId, "Developer");
-
-
-
 
             if (!context.Users.Any(u => u.Email == "Submitter@Mailinator.com"))
             {
@@ -71,30 +63,27 @@ namespace CMPH_BugTracker.Migrations
                 {
                     UserName = "Submitter@Mailinator.com",
                     Email = "Submitter@Mailinator.com",
-                    FirstName = "Submitter",
-                    LastName = "Submitter",
+                    FirstName = "Sub",
+                    LastName = "mitter",
                     DisplayName = "Submitter"
                 }, "Abcd1234!");
             }
             var SubmitterId = userManager.FindByEmail("Submitter@Mailinator.com").Id;
             userManager.AddToRole(SubmitterId, "Submitter");
 
-
-            if (!context.Users.Any(u => u.Email == "Admin@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "Submitter@Mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
                     UserName = "Admin@Mailinator.com",
                     Email = "Admin@Mailinator.com",
                     FirstName = "Admin",
-                    LastName = "Admin",
-                    DisplayName = "Admin"
+                    LastName = "istrator",
+                    DisplayName = "Administrator"
                 }, "Abcd1234!");
             }
             var AdminId = userManager.FindByEmail("Admin@Mailinator.com").Id;
             userManager.AddToRole(AdminId, "Admin");
-
-
 
             //create user to assign to mod role
             if (!context.Users.Any(u => u.Email == "ProjectManager@Mailinator.com"))
@@ -103,36 +92,51 @@ namespace CMPH_BugTracker.Migrations
                 {
                     UserName = "ProjectManager@Mailinator.com",
                     Email = "ProjectManager@Mailinator.com",
-                    FirstName = "ProjectManager",
-                    LastName = "ProjectManager",
+                    FirstName = "Project",
+                    LastName = "Manager",
                     DisplayName = "ProjectManager"
                 }, "Abcd1234!");
             }
             //assign users to roles
             var ProjectManagerId = userManager.FindByEmail("ProjectManager@Mailinator.com").Id;
             userManager.AddToRole(ProjectManagerId, "ProjectManager");
+
+            if (!context.Users.Any(u => u.Email == "CMPH@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "CMPH@Mailinator.com",
+                    Email = "CMPH@Mailinator.com",
+                    FirstName = "C",
+                    LastName = "H",
+                    DisplayName = "CMPH"
+                }, "Abcd1234!");
+            }
+            //assign users to roles
+            var CMPHId = userManager.FindByEmail("CMPH@Mailinator.com").Id;
+            userManager.AddToRole(CMPHId, "Admin");
         }
     }
 }
 
 
-            //     Context.TicketStatus.AddOrUpdate(ts => ts.Name)
-            //    new TicketStatus {Name = "Status1"};
-            //    new TicketStatus {Name = "Status1"};
-            //    new TicketStatus {Name = "Status2"};
-            //    new TicketStatus {Name = "Status3"};            
-            //);
+//     Context.TicketStatus.AddOrUpdate(ts => ts.Name)
+//    new TicketStatus {Name = "Status1"};
+//    new TicketStatus {Name = "Status1"};
+//    new TicketStatus {Name = "Status2"};
+//    new TicketStatus {Name = "Status3"};            
+//);
 
-            //    Context.TicketType.AddOrUpdate(tt => tt.Name)
-            //    new TicketType {Name = "Bug"};
-            //    new TicketType {Name = "Bug"};
-            //    new TicketType {Name = "Bug"};
-            //    new TicketType {Name = "Bug"};                 
-            //);
+//    Context.TicketType.AddOrUpdate(tt => tt.Name)
+//    new TicketType {Name = "Bug"};
+//    new TicketType {Name = "Bug"};
+//    new TicketType {Name = "Bug"};
+//    new TicketType {Name = "Bug"};                 
+//);
 
-            //    Context.TicketPriority.AddOrUpdate(tp => tp.Name)
-            //    new TicketPriority {Name = "Priority1"};
-            //    new TicketPriority {Name = "Priority2"};
-            //    new TicketPriority {Name = "Priority3"};
-            //    new TicketPriority {Name = "Priority4"};            
-            //);
+//    Context.TicketPriority.AddOrUpdate(tp => tp.Name)
+//    new TicketPriority {Name = "Priority1"};
+//    new TicketPriority {Name = "Priority2"};
+//    new TicketPriority {Name = "Priority3"};
+//    new TicketPriority {Name = "Priority4"};            
+//);
