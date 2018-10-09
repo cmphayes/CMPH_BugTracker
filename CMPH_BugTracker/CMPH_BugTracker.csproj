@@ -239,6 +239,7 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UploadValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="contactform\contactform.php" />

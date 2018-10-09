@@ -8,8 +8,8 @@ namespace CMPH_BugTracker.Models
     public class TicketType
     {
         public int Id { get; set; }
-        public int TicketId { get; set; }
-        public int Value { get; set; }
+        public string TicketId { get; set; }
+        public  string Value { get; set; }
 
         public virtual ICollection<Ticket> Tickets { get; set; }
 

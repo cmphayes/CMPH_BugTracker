@@ -23,7 +23,7 @@ namespace CMPH_BugTracker.Controllers
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Index()
         {
-                return View(db.Projects.ToList());
+            return View(db.Projects.ToList());
         }
 
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
@@ -44,6 +44,9 @@ namespace CMPH_BugTracker.Controllers
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Details(int id)
         {
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Value");
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Value");
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Value");
             Project project = db.Projects.Find(id);
             var usersOnProject = projectHelper.ListUsersOnProject(id);
             if (project == null)
@@ -83,7 +86,7 @@ namespace CMPH_BugTracker.Controllers
 
                 //var project = new Project { Title = model.Title, Body = model.Body};
                 string userId = User.Identity.GetUserId(); 
-                project.AssignedUserId = userId;
+                project.OwnerUserId = userId;
                 project.Created = DateTimeOffset.Now;
                 db.Projects.Add(project);
                 db.SaveChanges();

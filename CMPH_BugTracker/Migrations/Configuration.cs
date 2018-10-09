@@ -1,3 +1,4 @@
+
 namespace CMPH_BugTracker.Migrations
 {
     using CMPH_BugTracker.Models;
@@ -115,28 +116,34 @@ namespace CMPH_BugTracker.Migrations
             //assign users to roles
             var CMPHId = userManager.FindByEmail("CMPH@Mailinator.com").Id;
             userManager.AddToRole(CMPHId, "Admin");
+
+            context.TicketStatus.AddOrUpdate(ts => ts.Value,
+            new TicketStatus { Value = "status1" },
+            new TicketStatus { Value = "status2" },
+            new TicketStatus { Value = "status3" },
+            new TicketStatus { Value = "status4" }            
+            );
+
+            context.TicketTypes.AddOrUpdate(tt => tt.Value,
+            new TicketType { Value = "bug1" },
+            new TicketType { Value = "bug2" },
+            new TicketType { Value = "bug3" },
+            new TicketType { Value = "bug4" }                 
+            );
+
+            context.TicketPriorities.AddOrUpdate(tp => tp.Value,
+            new TicketPriority { Value = "priority1" },
+            new TicketPriority { Value = "priority2" },
+            new TicketPriority { Value = "priority3" },
+            new TicketPriority { Value = "priority4" }            
+            );
         }
     }
+
 }
 
 
-//     Context.TicketStatus.AddOrUpdate(ts => ts.Name)
-//    new TicketStatus {Name = "Status1"};
-//    new TicketStatus {Name = "Status1"};
-//    new TicketStatus {Name = "Status2"};
-//    new TicketStatus {Name = "Status3"};            
-//);
 
-//    Context.TicketType.AddOrUpdate(tt => tt.Name)
-//    new TicketType {Name = "Bug"};
-//    new TicketType {Name = "Bug"};
-//    new TicketType {Name = "Bug"};
-//    new TicketType {Name = "Bug"};                 
-//);
 
-//    Context.TicketPriority.AddOrUpdate(tp => tp.Name)
-//    new TicketPriority {Name = "Priority1"};
-//    new TicketPriority {Name = "Priority2"};
-//    new TicketPriority {Name = "Priority3"};
-//    new TicketPriority {Name = "Priority4"};            
-//);
+
+

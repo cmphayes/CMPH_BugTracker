@@ -9,8 +9,7 @@ using System.Web.Mvc;
 using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
 using Microsoft.AspNet.Identity;
-using PagedList;
-using PagedList.Mvc;
+using System.IO;
 
 namespace CMPH_BugTracker.Controllers
 {
@@ -38,7 +37,7 @@ namespace CMPH_BugTracker.Controllers
             return View(ticketHelper.ListUserTickets(userId));
         }
 
-        [Authorize(Roles = "Admin,ProjectManager")]
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult CreatedTickets()
         {
             var userId = User.Identity.GetUserId();
@@ -102,7 +101,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Create
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        [Authorize(Roles = "Admin,Submitter")]
         public ActionResult Create(int Id)
         {
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id");
@@ -116,8 +115,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
-        public ActionResult Create([Bind(Include = "ProjectId,Title,Body,TicketStatus,TicketPriority,TicketType")] Ticket ticket, string TicketTitle, string TicketBody, int Id)
+        public ActionResult Create([Bind(Include = "ProjectId")] Ticket ticket, string TicketTitle, string TicketBody, HttpPostedFileBase image, int Id)
         {
             if (ModelState.IsValid)
             {
@@ -127,7 +125,23 @@ namespace CMPH_BugTracker.Controllers
                 ticket.Created = DateTimeOffset.Now;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Projects", new { Id });
+                return RedirectToAction("Details", "Projects", new { id = Id });
+            }
+
+            if (UploadValidator.IsWebFriendlyImage(image))
+            {
+                var fileName = Path.GetFileName(image.FileName);
+                image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+
+
+                var myAttachment = new TicketAttachment
+                {
+                    MediaURL = "/Uploads/" + fileName,
+                    TicketId = ticket.Id
+                };
+
+                db.TicketAttachments.Add(myAttachment);
+                db.SaveChanges();
             }
 
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
@@ -138,7 +152,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize(Roles = "Developer,Submitter")]
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -181,11 +195,11 @@ namespace CMPH_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedUserID,OwnerUserID,Created,Updated,Title,Body")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.Updated = DateTimeOffset.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -203,7 +217,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Delete/5
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        [Authorize(Roles = "Admin,ProjectManager,Submitter")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -221,7 +235,6 @@ namespace CMPH_BugTracker.Controllers
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult DeleteConfirmed(int id)
         {
             Ticket ticket = db.Tickets.Find(id);

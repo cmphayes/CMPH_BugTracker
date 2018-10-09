@@ -1,4 +1,8 @@
 ﻿@model CMPH_BugTracker.Models.ApplicationUser
+@using CMPH_BugTracker.Extensions
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using CMPH_BugTracker.Helpers;
 @{
     ViewBag.Title = "ProfileView";
 }
@@ -8,24 +12,23 @@
         <div class="row content-panel">
             <div class="col-md-4 profile-text mt mb centered">
                 <div class="right-divider hidden-sm hidden-xs">
-                    <h4>Edit Profile</h4>
+                    <h4>@User.Identity.GetFullName()</h4>
                     <h6><a class="nav-link js-scroll-trigger" href=@Url.Action("EditProfile", "Account")></a></h6>
-                    <h4>Edit Profile</h4>
+                    <h4>@User.Identity.GetDisplayName()</h4>
                     <h6><a class="nav-link js-scroll-trigger" href=@Url.Action("EditProfile", "Account")></a></h6>
-                    <h4>Edit Profile</h4>
+                    <h4>@User.Identity.GetProfileImagePath()</h4>
                     <h6><a class="nav-link js-scroll-trigger" href=@Url.Action("EditProfile", "Account")></a></h6>
                 </div>
             </div>
             <div class="col-md-4 profile-text">
-                <h3>Sam Soffes</h3>
-                <h6>Main Administrator</h6>
-                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.</p>
+                <h3>@User.Identity.GetFullName()</h3>
+                <p</p>
                 <br>
                 <p><button class="btn btn-theme"><i class="fa fa-envelope"></i> Send Message</button></p>
             </div>
             <div class="col-md-4 centered">
                 <div class="profile-pic">
-                    <p><img src="img/ui-sam.jpg" class="img-circle"></p>
+                    <p><img src=">@User.Identity.GetProfileImagePath()" class="img-circle"></p>
                     <p>
                         <button class="btn btn-theme"><i class="fa fa-check"></i> Follow</button>
                         <button class="btn btn-theme02">Add</button>
@@ -74,32 +77,32 @@
 
     <div class="panel-body">
         <div class="tab-content">
-            @Html.RenderPartial("MyProjectsPartial")
+            @*@Html.RenderPartial("MyProjectsPartial")*@
         </div>
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            @Html.RenderPartial("MyTicketsPartial")
+            @*@Html.RenderPartial("MyTicketsPartial")*@
         </div>
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            @Html.RenderPartial("MyTicketCommentsPartial")
+            @*@Html.RenderPartial("MyTicketCommentsPartial")*@
         </div>
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            @Html.RenderPartial("CreatedProjectsPartial")
+            @*@Html.RenderPartial("CreatedProjectsPartial")*@
         </div>
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            @Html.RenderPartial("CreatedTicketsPartial")
+            @*@Html.RenderPartial("CreatedTicketsPartial")*@
         </div>
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            @Html.RenderPartial("CreatedTicketCommentsPartial")
+            @*@Html.RenderPartial("CreatedTicketCommentsPartial")*@
         </div>
     </div>
 
@@ -118,7 +121,7 @@
                 <h4>Location</h4>
                 <div class="col-md-8 col-md-offset-2 mt">
                     <p>
-                        Postal Address<br /> PO BOX 12988, Sutter Ave<br /> Brownsville, New York.
+                        Postal Address<br /> 3700 Starhill Ct. <br /> Greensboro, North Carolina.
                     </p>
                     <br>
                     <p>
@@ -128,11 +131,11 @@
                 <h4>Contacts</h4>
                 <div class="col-md-8 col-md-offset-2 mt">
                     <p>
-                        Phone: +33 4898-4303<br /> Cell: 48 4389-4393<br />
+                        Phone: +1-336-457-2646<br /> Cell: +1-555-555-5555<br />
                     </p>
                     <br>
                     <p>
-                        Email: hello@dashiotheme.com<br /> Skype: UseDashio<br /> Website: http://Alvarez.is
+                        Email: cmphayes@gmail.com<br /> Skype: cmphayes<br /> Website:
                     </p>
                 </div>
             </div>
@@ -147,7 +150,7 @@
                 <h4 class="mb">Personal Information</h4>
                 <form role="form" class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-lg-2 control-label"> Avatar</label>
+                        <label class="col-lg-2 control-label"> @User.Identity.GetFullName() </label>
                         <div class="col-lg-6">
                             <input type="file" id="exampleInputFile" class="file-pos">
                         </div>

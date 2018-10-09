@@ -89,7 +89,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketComments/Edit/5
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        [Authorize(Roles = "Admin,ProjectManager,")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -123,7 +123,7 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: TicketComments/Delete/5
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        [Authorize(Roles = "Admin,ProjectManager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

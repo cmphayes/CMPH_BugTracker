@@ -38,6 +38,14 @@
                 </dd>
 
                 <dt>
+                    @Html.DisplayNameFor(model => model.OwnerUserId)
+                </dt>
+                @*@foreach (var user in Model){}*@
+                <dd>
+                    @Html.DisplayFor(model => model.OwnerUserId)
+                </dd>
+
+                <dt>
                     @Html.DisplayNameFor(model => model.AssignedUserId)
                 </dt>
                 @*@foreach (var user in Model){}*@
@@ -59,8 +67,9 @@
             </dl>
         </div>
         <div class="form-panel">
+            <h4><i class="fa fa-angle-right"></i>Project Tickets</h4>
             <div class="row">
-                @foreach (var ticket in Model.Tickets)
+                @foreach (var ticket in Model.Tickets.OrderByDescending(c => c.Created))
                 {
                     <table class="table">
                         <tr>
@@ -95,56 +104,72 @@
                                         @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, id = Model.Id }, null)
                                         @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, id = Model.Id }, null)
                                         @Html.ActionLink(" Details ", "Details", "Ticket", new { ticket.Id, id = Model.Id }, null)
+                                        @Html.ActionLink(" Create ", "Details", "Ticket", new { ticket.Id, id = Model.Id }, null)
+
                                     </div>
                                 }
                             </td>
                         </tr>
                     </table>
+                    <hr />
                 }
-                    @if (User.IsInRole("Admin"))
+            </div>
+        </div>
+        <div class="form-panel">
+            <h4><i class="fa fa-angle-right"></i>Create Ticket</h4>
+            <div class="row">
+                @if (User.IsInRole("Admin"))
+                {
+                    using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
                     {
-                        using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("ProjectId", Model.Id)
-                            @Html.HiddenFor(model => model.Id)
-                            <div class="form-group">
-                                @Html.Label("TicketTitle", htmlAttributes: new { @class = "form-horizontal col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextArea("TicketTitle", new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("ProjectId", Model.Id)
+                        @Html.HiddenFor(model => model.Id)
+                        <div class="form-group">
+                            @Html.Label("TicketTitle", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextArea("TicketTitle", new { htmlAttributes = new { @class = "form-control" } })
                             </div>
-                            <div class="form-group">
-                                @Html.Label("TicketBody", htmlAttributes: new { @class = "form-horizontal col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextArea("TicketBody", new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("TicketBody", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextArea("TicketBody", new { htmlAttributes = new { @class = "form-control" } })
                             </div>
-                            @*<div class="form-group">
-                                @Html.Label("TicketStatus", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("TicketStatus", null, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("TicketStatusId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownList("TicketStatusId", null, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
-                            <div class="form-group">
-                                @Html.Label("TicketPriority", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("TicketPriority", null, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("TicketPriorityId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownList("TicketPriorityId", null, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
-                            <div class="form-group">
-                                @Html.Label("TicketType", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("TicketType", null, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>*@
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Create" class="btn btn-default" />
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownList("TicketTypeId", null, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
-                        }
+                        </div>
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => model.TicketAttachments, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <input name="image" type="file" class="form-control" id="fileUpload" />
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TicketAttachments, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TicketAttachments, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
                     }
+                }
             </div>
         </div>
         <div>

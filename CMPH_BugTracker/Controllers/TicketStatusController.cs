@@ -59,6 +59,8 @@ namespace CMPH_BugTracker.Controllers
                 return RedirectToAction("Index");
             }
 
+
+
             return View(ticketStatus);
         }
 
