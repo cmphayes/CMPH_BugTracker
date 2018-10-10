@@ -14,7 +14,7 @@ namespace CMPH_BugTracker.Helpers
     [Authorize]
     public class ProjectsHelper
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private static ApplicationDbContext db = new ApplicationDbContext();
 
         [ValidateAntiForgeryToken]
         public bool IsUserOnProject(string userId, int projectId)
@@ -81,7 +81,25 @@ namespace CMPH_BugTracker.Helpers
         //}
 
 
+        public static List<Ticket> TicketsOnProject(int id)
+        {
+            return db.Tickets.Where(t => t.ProjectId == id).ToList();
+        }
 
-
+        public static string GetProjectOwner(int projectId)
+        {
+            var none = "No Project Owner Listed";
+            var projectOwnerId = db.Tickets.Find(projectId).OwnerUserId;
+            var projectOwner = db.Users.Find(projectOwnerId).DisplayName;
+            if (projectOwner == null)
+            {
+                return none;
+            }
+            if (string.IsNullOrEmpty(projectOwner))
+            {
+                return none;
+            }
+            return projectOwner;
+        }
     }
 }

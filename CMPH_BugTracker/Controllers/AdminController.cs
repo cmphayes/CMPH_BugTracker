@@ -21,7 +21,7 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult RoleAssignment()
         {
             //Load up select list data structure into a view bag property
-            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "DisplayName");
+            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
             ViewBag.Roles = new SelectList(db.Roles.ToList(), "Name", "Name");
             return View();
         }
@@ -45,13 +45,13 @@ namespace CMPH_BugTracker.Controllers
             ////Update cookie 
             //SignInManager.SignIn(users false false)
             //Return
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ProfileView", "Account");
         }
 
         public ActionResult ProjectAssignment()
         {
             ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Title");
-            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "Email");
             return View();
         }
 
@@ -73,7 +73,7 @@ namespace CMPH_BugTracker.Controllers
             {
                 projectsHelper.AddUserToProject(userId, projects);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ProfileView", "Account");
 
         }
 
@@ -81,7 +81,7 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult TicketAssignment()
         {
             ViewBag.Tickets = new MultiSelectList(db.Tickets.ToList(), "Id", "Title");
-            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "DisplayName");
+            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
             return View();
         }
 
@@ -102,8 +102,8 @@ namespace CMPH_BugTracker.Controllers
             {
                 ticketsHelper.AddUserToTicket(userId, tickets);
             }
-            return RedirectToAction("Index", "Home");
-            
+            return RedirectToAction("ProfileView", "Account");
+
         }
     }
 }

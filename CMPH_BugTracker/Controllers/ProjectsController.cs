@@ -44,14 +44,40 @@ namespace CMPH_BugTracker.Controllers
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Details(int id)
         {
+
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Value");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Value");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Value");
-            Project project = db.Projects.Find(id);
+
+            //Let's see if an eager loading of the related Ticket data solves our issue...
+            //Project project = db.Projects.Find(id);
+
+            var project = db.Projects.Find(id);
+           
+
             var usersOnProject = projectHelper.ListUsersOnProject(id);
             if (project == null)
             {
                 return HttpNotFound();
+            }
+            var userId = User.Identity.GetUserId();
+            var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            switch (myRole)
+            {
+                case "ProjectManager":
+                    if (project.AssignedUserId != userId && project.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Developer":
+                    if (project.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Submitter":
+                    if (project.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                default:
+                    break;
             }
             return View(project);
         }
@@ -65,7 +91,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: Projects/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,ProjectManager")]
@@ -103,7 +129,26 @@ namespace CMPH_BugTracker.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+            var userId = User.Identity.GetUserId();
+            var project = db.Projects.Find(id);
+            var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            switch (myRole)
+            {
+                case "ProjectManager":
+                    if (project.AssignedUserId != userId && project.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Developer":
+                    if (project.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Submitter":
+                    if (project.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                default:
+                    break;
+            }
             if (project == null)
             {
                 return HttpNotFound();
@@ -113,7 +158,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: Projects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,UserId,Created,Updated")] Project project)
@@ -138,7 +183,18 @@ namespace CMPH_BugTracker.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+            var userId = User.Identity.GetUserId();
+            var project = db.Projects.Find(id);
+            var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            switch (myRole)
+            {
+                case "ProjectManager":
+                    if (project.AssignedUserId != userId || project.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                default:
+                    break;
+            }
             if (project == null)
             {
                 return HttpNotFound();

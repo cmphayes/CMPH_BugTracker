@@ -54,7 +54,7 @@
             <p>
                 @if (User.IsInRole("Admin,ProjectManager"))
                 {
-                    @Html.ActionLink("EditProject", "Edit", new { id = Model.Id })
+                    @Html.ActionLink("EditProject", "Edit", new { id = Model.Id }) |
                     @Html.ActionLink("DeleteProject", "Delete", new { id = Model.Id })
                 }
             </p>

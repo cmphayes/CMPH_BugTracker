@@ -104,18 +104,20 @@ namespace CMPH_BugTracker.Controllers
         [Authorize(Roles = "Admin,Submitter")]
         public ActionResult Create(int Id)
         {
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id");
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id");
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Id");
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Value");
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Value");
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Value");
             return View();
         }
 
         // POST: Tickets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProjectId")] Ticket ticket, string TicketTitle, string TicketBody, HttpPostedFileBase image, int Id)
+        public ActionResult Create([Bind(Include = "ProjectId, TicketPriorityId, TicketStatusId, TicketTypeId")] Ticket ticket, string TicketTitle, string TicketBody, HttpPostedFileBase image, int Id)
         {
             if (ModelState.IsValid)
             {
@@ -128,22 +130,8 @@ namespace CMPH_BugTracker.Controllers
                 return RedirectToAction("Details", "Projects", new { id = Id });
             }
 
-            if (UploadValidator.IsWebFriendlyImage(image))
-            {
-                var fileName = Path.GetFileName(image.FileName);
-                image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
-
-
-                var myAttachment = new TicketAttachment
-                {
-                    MediaURL = "/Uploads/" + fileName,
-                    TicketId = ticket.Id
-                };
-
-                db.TicketAttachments.Add(myAttachment);
-                db.SaveChanges();
-            }
-
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedUserId);
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id", ticket.TicketStatusId);
@@ -161,17 +149,20 @@ namespace CMPH_BugTracker.Controllers
             }
             var userId = User.Identity.GetUserId();
             var ticket = db.Tickets.Find(id);
-            //var myTicketData = db.Tickets.Find(id);
             var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
             switch(myRole)
             {
+                case "ProjectManager":
+                    if (ticket.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
                 case "Developer":
                     if (ticket.AssignedUserId != userId)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("ProfileView", "Account");
                     break;
                 case "Submitter":
                     if (ticket.OwnerUserId != userId)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("ProfileView", "Account");
                     break;
                 default:
                     break;
@@ -192,7 +183,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: Tickets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedUserID,OwnerUserID,Created,Updated,Title,Body")] Ticket ticket)
@@ -224,7 +215,26 @@ namespace CMPH_BugTracker.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
+            var userId = User.Identity.GetUserId();
+            var ticket = db.Tickets.Find(id);
+            var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            switch (myRole)
+            {
+                case "ProjectManager":
+                    if (ticket.AssignedUserId != userId && ticket.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Developer":
+                    if (ticket.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Submitter":
+                    if (ticket.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                default:
+                    break;
+            }
             if (ticket == null)
             {
                 return HttpNotFound();

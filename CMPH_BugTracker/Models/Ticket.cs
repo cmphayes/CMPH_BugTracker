@@ -11,10 +11,10 @@ namespace CMPH_BugTracker.Models
         public int Id { get; set; }
 
         //ForiegnKeys
-        public string ProjectId { get; set; }
-        public string TicketPriorityId { get; set; }
-        public string TicketStatusId { get; set; }
-        public string TicketTypeId { get; set; }
+        public int ProjectId { get; set; }
+        public int TicketPriorityId { get; set; }
+        public int TicketStatusId { get; set; }
+        public int TicketTypeId { get; set; }
         public string AssignedUserId { get; set; }
         public string OwnerUserId { get; set; }
 

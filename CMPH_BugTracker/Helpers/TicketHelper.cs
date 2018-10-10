@@ -14,7 +14,8 @@ namespace CMPH_BugTracker.Helpers
     [Authorize]
     public class TicketsHelper
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private static ApplicationDbContext db = new ApplicationDbContext();
+
         [ValidateAntiForgeryToken]
         public bool IsUserOnTicket(string userId, int ticketId)
         {
@@ -72,6 +73,72 @@ namespace CMPH_BugTracker.Helpers
             ApplicationUser user = db.Users.Find(userId);
             var tickets = user.Tickets.ToList();
             return (tickets);
+        }
+
+        public static List<TicketComment> TicketCommentsOnTicket(int id)
+        {
+            return db.TicketComments.Where(c => c.TicketId == id).ToList();
+        }
+
+        public static string GetTicketType(int ticketId)
+        {
+                var none = "No Type Listed";
+                var ticketType = db.Tickets.Find(ticketId).TicketType.Value;
+                if (ticketType == null)
+                {
+                    return none;
+                }
+                if (string.IsNullOrEmpty(ticketType))
+                {
+                    return none;
+                }
+                return ticketType;
+        }
+
+        public static string GetTicketStatus(int ticketId)
+        {
+            var none = "No Status Listed";
+            var ticketStatus = db.Tickets.Find(ticketId).TicketStatus.Value;
+            if (ticketStatus == null)
+            {
+                return none;
+            }
+            if (string.IsNullOrEmpty(ticketStatus))
+            {
+                return none;
+            }
+            return ticketStatus;
+        }
+
+        public static string GetTicketPriority(int ticketId)
+        {
+            var none = "No Priority Listed";
+            var ticketPriority = db.Tickets.Find(ticketId).TicketPriority.Value;
+            if (ticketPriority == null)
+            {
+                return none;
+            }
+            if (string.IsNullOrEmpty(ticketPriority))
+            {
+                return none;
+            }
+            return ticketPriority;
+        }
+
+        public static string GetTicketOwner(int ticketId)
+        {
+            var none = "No Ticket Owner Listed";
+            var ticketOwnerId = db.Tickets.Find(ticketId).OwnerUserId;
+            var ticketOwner = db.Users.Find(ticketOwnerId).DisplayName;
+            if (ticketOwner == null)
+            {
+                return none;
+            }
+            if (string.IsNullOrEmpty(ticketOwner))
+            {
+                return none;
+            }
+            return ticketOwner;
         }
     }
 }

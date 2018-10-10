@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using PagedList.Mvc;
 
@@ -16,6 +18,9 @@ namespace CMPH_BugTracker.Controllers
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
+        private TicketsHelper ticketHelper = new TicketsHelper();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
 
         // GET: TicketComments
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
@@ -54,7 +59,9 @@ namespace CMPH_BugTracker.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var userId = User.Identity.GetUserId();
             TicketComment ticketComment = db.TicketComments.Find(id);
+
             if (ticketComment == null)
             {
                 return HttpNotFound();
@@ -72,7 +79,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: TicketComments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,TicketId,Body,Abstract,AuthorID,Created,Updated")] TicketComment ticketComment)
@@ -107,7 +114,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: TicketComments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,TicketId,Body,Abstract,AuthorID,Created,Updated")] TicketComment ticketComment)

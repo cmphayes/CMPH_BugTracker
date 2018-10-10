@@ -1,18 +1,13 @@
-﻿using CMPH_BlogProject.Models;
+﻿using CMPH_BugTracker.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CMPH_BugTracker.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -29,13 +24,14 @@ namespace CMPH_BugTracker.Controllers
 
         public ActionResult Contact()
         {
-            EmailModel model = new EmailModel();
+            Email model = new Email();
             return View(model);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Contact(EmailModel model)
+        public async Task<ActionResult> Contact(Email model)
         {
             if (ModelState.IsValid)
             {
@@ -54,7 +50,7 @@ namespace CMPH_BugTracker.Controllers
                     var svc = new PersonalEmail();
                     await svc.SendAsync(email);
 
-                    return View(new EmailModel());
+                    return View(new Email());
                 }
                 catch (Exception ex)
                 {
@@ -64,6 +60,7 @@ namespace CMPH_BugTracker.Controllers
             }
             return View(model);
         }
+
 
     }
 }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMPH_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using PagedList.Mvc;
 
@@ -66,16 +68,34 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: TicketAttachments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,MediaURL,Title")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "Id,TicketId,MediaURL,Title")] TicketAttachment ticketAttachment, string TicketTitle, HttpPostedFileBase image, int Id)
         {
             if (ModelState.IsValid)
             {
+                //ticketAttachment.OwnerUserId = User.Identity.GetUserId();
+                //ticketAttachment.Created = DateTimeOffset.Now;
+                //db.TicketAttachments.Add(ticketAttachment);
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
+            }
+
+            if (UploadValidator.IsWebFriendlyImage(image))
+            {
+                var fileName = Path.GetFileName(image.FileName);
+                image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+
+                var myAttachment = new TicketAttachment
+                {
+                    MediaURL = "/Uploads/" + fileName,
+                    TicketId = ticketAttachment.TicketId
+                };
+                ticketAttachment.OwnerUserId = User.Identity.GetUserId();
+                ticketAttachment.Created = DateTimeOffset.Now;
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
@@ -101,7 +121,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: TicketAttachments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,TicketId,MediaURL,Title")] TicketAttachment ticketAttachment)

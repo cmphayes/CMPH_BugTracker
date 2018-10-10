@@ -8,14 +8,7 @@ namespace CMPH_BugTracker.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string DisplayName { get; set; }
-        public string ProfileImage { get; set; }
-        public string ProfileImagePath { get; set; }
-        public string Role { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+
     }
 
     public class ExternalLoginListViewModel

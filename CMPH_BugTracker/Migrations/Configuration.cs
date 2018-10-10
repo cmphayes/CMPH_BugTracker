@@ -72,7 +72,7 @@ namespace CMPH_BugTracker.Migrations
             var SubmitterId = userManager.FindByEmail("Submitter@Mailinator.com").Id;
             userManager.AddToRole(SubmitterId, "Submitter");
 
-            if (!context.Users.Any(u => u.Email == "Submitter@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "Admin@Mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
                 {

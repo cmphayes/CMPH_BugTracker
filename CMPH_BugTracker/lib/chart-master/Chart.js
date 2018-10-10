@@ -4,7 +4,7 @@
  *
  * Copyright 2013 Nick Downie
  * Released under the MIT license
- * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
+ * http://github.com/nnnick/Chart.js/blob/master/LICENSE.md
  */
 
 //Define the global Chart Variable as a class.

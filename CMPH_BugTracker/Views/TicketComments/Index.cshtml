@@ -52,11 +52,11 @@
                                 @Html.DisplayFor(modelItem => ticketComment.OwnerUserId)
                             </td>
                             <td>
-                                @Html.ActionLink("Details", "Details", new { Id = ticketComment.Id })
+                                @Html.ActionLink("Details", "Details", new { Id = ticketComment.Id }) |
 
                                 @if (User.IsInRole("Admin,ProjectManager,Developer,SUbmitter"))
                                 {
-                                    @Html.ActionLink("Edit", "Edit", new { Id = ticketComment.Id })
+                                    @Html.ActionLink("Edit", "Edit", new { Id = ticketComment.Id }) |
                                     @Html.ActionLink("Delete", "Delete", new { Id = ticketComment.Id })
                                 }
                             </td>

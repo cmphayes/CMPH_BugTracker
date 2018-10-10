@@ -47,7 +47,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: TicketStatus/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,TicketId,Value")] TicketStatus ticketStatus)
@@ -82,7 +82,7 @@ namespace CMPH_BugTracker.Controllers
 
         // POST: TicketStatus/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,TicketId,Value")] TicketStatus ticketStatus)

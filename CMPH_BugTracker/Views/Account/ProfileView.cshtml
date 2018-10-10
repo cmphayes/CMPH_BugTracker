@@ -13,16 +13,13 @@
             <div class="col-md-4 profile-text mt mb centered">
                 <div class="right-divider hidden-sm hidden-xs">
                     <h4>@User.Identity.GetFullName()</h4>
-                    <h6><a class="nav-link js-scroll-trigger" href=@Url.Action("EditProfile", "Account")></a></h6>
                     <h4>@User.Identity.GetDisplayName()</h4>
-                    <h6><a class="nav-link js-scroll-trigger" href=@Url.Action("EditProfile", "Account")></a></h6>
                     <h4>@User.Identity.GetProfileImagePath()</h4>
-                    <h6><a class="nav-link js-scroll-trigger" href=@Url.Action("EditProfile", "Account")></a></h6>
                 </div>
             </div>
             <div class="col-md-4 profile-text">
-                <h3>@User.Identity.GetFullName()</h3>
-                <p</p>
+                <h3></h3>
+                <p></p>
                 <br>
                 <p><button class="btn btn-theme"><i class="fa fa-envelope"></i> Send Message</button></p>
             </div>
@@ -73,161 +70,43 @@
             </div>
         </div>
     </div>
-
-
-    <div class="panel-body">
+</div>
+<hr/>
+<div class="row mt">
+    <div class="form-panel">
         <div class="tab-content">
-            @*@Html.RenderPartial("MyProjectsPartial")*@
+            @Html.Partial("MyProjectsPartial", Model.Projects)
         </div>
     </div>
-    <div class="panel-body">
+    <hr />
+    <div class="form-panel">
         <div class="tab-content">
-            @*@Html.RenderPartial("MyTicketsPartial")*@
+            @Html.Partial("MyTicketsPartial", Model.Tickets)
         </div>
     </div>
-    <div class="panel-body">
+    <hr />
+    <div class="form-panel">
         <div class="tab-content">
-            @*@Html.RenderPartial("MyTicketCommentsPartial")*@
+            @Html.Partial("MyTicketCommentsPartial", Model.TicketComments)
         </div>
     </div>
-    <div class="panel-body">
+    <hr />
+    <div class="form-panel">
         <div class="tab-content">
             @*@Html.RenderPartial("CreatedProjectsPartial")*@
         </div>
     </div>
-    <div class="panel-body">
+    <hr />
+    <div class="form-panel">
         <div class="tab-content">
             @*@Html.RenderPartial("CreatedTicketsPartial")*@
         </div>
     </div>
-    <div class="panel-body">
+    <hr />
+    <div class="form-panel">
         <div class="tab-content">
             @*@Html.RenderPartial("CreatedTicketCommentsPartial")*@
         </div>
     </div>
-
-
-
-
-
-
-    <div id="contact" class="tab-pane">
-        <div class="row">
-            <div class="col-md-6">
-                <div id="map"></div>
-            </div>
-            <!-- /col-md-6 -->
-            <div class="col-md-6 detailed">
-                <h4>Location</h4>
-                <div class="col-md-8 col-md-offset-2 mt">
-                    <p>
-                        Postal Address<br /> 3700 Starhill Ct. <br /> Greensboro, North Carolina.
-                    </p>
-                    <br>
-                    <p>
-                        Headquarters<br /> 844 Sutter Ave,<br /> 9003, New York.
-                    </p>
-                </div>
-                <h4>Contacts</h4>
-                <div class="col-md-8 col-md-offset-2 mt">
-                    <p>
-                        Phone: +1-336-457-2646<br /> Cell: +1-555-555-5555<br />
-                    </p>
-                    <br>
-                    <p>
-                        Email: cmphayes@gmail.com<br /> Skype: cmphayes<br /> Website:
-                    </p>
-                </div>
-            </div>
-            <!-- /col-md-6 -->
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /tab-pane -->
-    <div id="edit" class="tab-pane">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 detailed">
-                <h4 class="mb">Personal Information</h4>
-                <form role="form" class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"> @User.Identity.GetFullName() </label>
-                        <div class="col-lg-6">
-                            <input type="file" id="exampleInputFile" class="file-pos">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Company</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="c-name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Lives In</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="lives-in" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Country</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="country" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Description</label>
-                        <div class="col-lg-10">
-                            <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-8 col-lg-offset-2 detailed mt">
-                <h4 class="mb">Contact Information</h4>
-                <form role="form" class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Address 1</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="addr1" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Address 2</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="addr2" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Phone</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="phone" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Cell</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="cell" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Email</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="email" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Skype</label>
-                        <div class="col-lg-6">
-                            <input type="text" placeholder=" " id="skype" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-offset-2 col-lg-10">
-                            <button class="btn btn-theme" type="submit">Save</button>
-                            <button class="btn btn-theme04" type="button">Cancel</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <hr />
 </div>

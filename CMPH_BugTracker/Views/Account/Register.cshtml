@@ -2,11 +2,6 @@
 @{
     ViewBag.Title = "Register";
 }
-<!-- **********************************************************************************************************************************************************
-        MAIN CONTENT
-        *********************************************************************************************************************************************************** -->
-<!--main content start-->
-<!-- /row -->
 <div class="row mt">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data" }))
     {
@@ -60,7 +55,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Password, new { @class = "control-label col-lg-2" })
                         <div class="col-lg-10">
-                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -68,7 +63,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label col-lg-2" })
                         <div class="col-lg-10">
-                            @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                         </div>
                     </div>

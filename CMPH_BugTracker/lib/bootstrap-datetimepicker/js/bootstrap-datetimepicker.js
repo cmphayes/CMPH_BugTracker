@@ -1182,7 +1182,7 @@
 				jquery 1.7.1 + webkit + show inline datetimepicker in bootstrap popover.
 				Method show() does not set display css correctly and datetimepicker is not shown.
 				Changed to .css('display', 'block') solve the problem.
-				See https://github.com/vitalets/x-editable/issues/37
+				See http://github.com/vitalets/x-editable/issues/37
 
 				In jquery 1.7.2+ everything works fine.
 			*/
