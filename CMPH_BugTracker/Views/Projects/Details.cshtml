@@ -5,11 +5,9 @@
     ViewBag.Title = "Details";
 }
 <div class="row mt">
-    <div class="col-lg-8">
-        <h4><i class="fa fa-angle-right"></i>Project Details</h4>
+    <div class="col-lg-12">
         <div class="form-panel">
-            <h4>Project</h4>
-            <hr />
+            <h4><i class="fa fa-angle-right"></i>Project Details</h4>
             <dl class="dl-horizontal">
                 <dt>
                     @Html.DisplayNameFor(model => model.Title)
@@ -66,58 +64,95 @@
             </dl>
         </div>
         <div class="form-panel">
-            <h4><i class="fa fa-angle-right"></i>Project Tickets</h4>
+            <h4><i class="fa fa-angle-right"></i>Project Tickets @Model.Tickets.Count</h4>
             <div class="row">
-                <i>@Model.Tickets.Count</i>
-                @foreach (var ticket in ProjectsHelper.TicketsOnProject(Model.Id))
-                {
-                    <table class="table">
+                <table class="table">
+                    <thead>
                         <tr>
                             <td>
-                                @TicketsHelper.GetTicketOwner(ticket.Id)
+                                <p>owner</p>
                             </td>
                             <td>
-                                @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
+                                <p>Assigned Users</p>
                             </td>
                             <td>
-                                @ticket.Created
+                                <p>Created</p>
                             </td>
                             <td>
-                                @ticket.Updated
+                                <p>Updated</p>
                             </td>
                             <td>
-                                @ticket.Title
+                                <p>Title</p>
                             </td>
                             <td>
-                                @ticket.Body
+                                <p>Body</p>
                             </td>
                             <td>
-                                @ticket.ProjectId
+                                <p>Project Id</p>
                             </td>
                             <td>
-                                @TicketsHelper.GetTicketPriority(ticket.Id)
+                                <p>Priority</p>
                             </td>
                             <td>
-                                @TicketsHelper.GetTicketStatus(ticket.Id)
+                                <p>Status</p>
                             </td>
                             <td>
-                                @TicketsHelper.GetTicketType(ticket.Id)
+                                <p>Type</p>
                             </td>
                             <td>
-                                @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
-                                {
-                                    <div class="boxed-col-md-2">
-                                        @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, id = Model.Id }, null) |
-                                        @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, id = Model.Id }, null) |
-                                        @Html.ActionLink(" Details ", "Details", "Ticket", new { ticket.Id, id = Model.Id }, null)
-                                    </div>
-                                }
                             </td>
                         </tr>
-                    </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in ProjectsHelper.TicketsOnProject(Model.Id))
+                        {
+                            <tr>
+                                <td>
+                                    @TicketsHelper.GetTicketOwner(ticket.Id)
+                                </td>
+                                <td>
+                                    @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
+                                </td>
+                                <td>
+                                    @ticket.Created
+                                </td>
+                                <td>
+                                    @ticket.Updated
+                                </td>
+                                <td>
+                                    @ticket.Title
+                                </td>
+                                <td>
+                                    @ticket.Body
+                                </td>
+                                <td>
+                                    @ticket.ProjectId
+                                </td>
+                                <td>
+                                    @TicketsHelper.GetTicketPriority(ticket.Id)
+                                </td>
+                                <td>
+                                    @TicketsHelper.GetTicketStatus(ticket.Id)
+                                </td>
+                                <td>
+                                    @TicketsHelper.GetTicketType(ticket.Id)
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
+                                    {
+                                        <div class="boxed-col-md-2">
+                                            @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, id = Model.Id }, null) |
+                                            @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, id = Model.Id }, null) |
+                                            @Html.ActionLink(" Details ", "Details", "Ticket", new { ticket.Id, id = Model.Id }, null)
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
                     <hr />
-                }
-            </div>
+                </div>
         </div>
         <div class="form-panel">
             <h4><i class="fa fa-angle-right"></i>Create Ticket</h4>
@@ -130,15 +165,17 @@
                         @Html.Hidden("ProjectId", Model.Id)
                         @Html.HiddenFor(model => model.Id)
                         <div class="form-group">
-                            @Html.Label("TicketTitle", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                            @Html.Label("Title", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                            <p id="titleError" class="text-danger hidden"></p>
                             <div class="col-md-10">
-                                @Html.TextArea("TicketTitle", new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.TextArea("Title", new { htmlAttributes = new { @class = "form-control" } })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.Label("TicketBody", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                            @Html.Label("Body", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                            <p id="bodyError" class="text-danger hidden"></p>
                             <div class="col-md-10">
-                                @Html.TextArea("TicketBody", new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.TextArea("Body", new { htmlAttributes = new { @class = "form-control" } })
                             </div>
                         </div>
                         <div class="form-group">
@@ -161,7 +198,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Create" class="btn btn-round btn-success" />
                             </div>
                         </div>
                     }
@@ -187,3 +224,23 @@
         </div>
     </div>
 </div>
+
+
+@section scripts{
+    
+    <script>
+        var titleMsg = "ViewData['TitleError']"; 
+        if (titleMsg != "") {
+            $("#titleError").text(titleMsg);
+            $("#titleError").show();
+        }
+
+        var bodyMsg = "ViewData['BodyError']";
+        if (bodyMsg != "") {
+            $("#bodyError").text(bodyMsg);
+            $("#bodyError").show();
+        }
+
+    </script>    
+    
+}

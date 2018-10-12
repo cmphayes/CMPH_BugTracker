@@ -117,12 +117,12 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProjectId, TicketPriorityId, TicketStatusId, TicketTypeId")] Ticket ticket, string TicketTitle, string TicketBody, HttpPostedFileBase image, int Id)
+        public ActionResult Create([Bind(Include = "ProjectId, TicketPriorityId, TicketStatusId, TicketTypeId")] Ticket ticket, string Title, string Body, int Id)
         {
             if (ModelState.IsValid)
             {
-                ticket.Title = TicketTitle;
-                ticket.Body = TicketBody;
+                ticket.Title = Title;
+                ticket.Body = Body;
                 ticket.OwnerUserId = User.Identity.GetUserId();
                 ticket.Created = DateTimeOffset.Now;
                 db.Tickets.Add(ticket);
@@ -130,13 +130,24 @@ namespace CMPH_BugTracker.Controllers
                 return RedirectToAction("Details", "Projects", new { id = Id });
             }
 
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Id", ticket.TicketTypeId);
-            return View(ticket);
+            //ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedUserId);
+            //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
+            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
+            //ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
+            //ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id", ticket.TicketStatusId);
+            //ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Id", ticket.TicketTypeId);
+            //return View(ticket);
+
+            //Load up a ViewData with some error message(s)
+            if(string.IsNullOrEmpty(ticket.Title))
+            {
+                ViewData["TitleError"] = "The Title of a Ticket cannot be empty";
+            }
+            if(string.IsNullOrEmpty(ticket.Body))
+            {
+                ViewData["BodyError"] = "The Body of a Ticket cannot be empty";
+            }
+            return RedirectToAction("Details", "Projects", new { id = ticket.ProjectId });
         }
 
         // GET: Tickets/Edit/5
@@ -153,7 +164,7 @@ namespace CMPH_BugTracker.Controllers
             switch(myRole)
             {
                 case "ProjectManager":
-                    if (ticket.AssignedUserId != userId)
+                    if (ticket.AssignedUserId != userId && ticket.OwnerUserId != userId)
                         return RedirectToAction("ProfileView", "Account");
                     break;
                 case "Developer":

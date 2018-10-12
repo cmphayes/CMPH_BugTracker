@@ -64,15 +64,14 @@
                     @Html.DisplayNameFor(model => model.OwnerUserId)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.OwnerUserId)
+                    @TicketsHelper.GetTicketOwner(Model.Id)
                 </dd>
 
                 <dt>
                     @Html.DisplayNameFor(model => model.AssignedUserId)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.AssignedUserId)
-
+                    @*@TicketsHelper.ListUsersOnTicket(Model.Id)*@
                 </dd>
 
                 <dt>
@@ -98,41 +97,68 @@
         <div class="form-panel">
             <h4><i class="fa fa-angle-right"></i>Ticket Comments</h4>
             <div class="row">
-                @foreach (var ticketComment in Model.TicketComments.OrderByDescending(c => c.Created))
-                {
-                    <table class="table">
+                <div class=" centered">@Model.TicketComments.Count</div>
+                <table class="table">
+                    <thead>
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketComment.OwnerUserId)
+                                <p>Owner</p>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketComment.Created)
+                                <p>Created</p>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketComment.Title)
+                                <p>Updated</p>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketComment.Body)
+                                <p>Title</p>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketComment.TicketId)
+                                <p>Body</p>
                             </td>
                             <td>
-                                @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
-                                {
-                                    <div class="boxed-col-md-2">
-                                        @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticketComment.Id, id = Model.Id }, null) |
-                                        @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticketComment.Id, id = Model.Id }, null) |
-                                        @Html.ActionLink(" Details ", "Details", "Ticket", new { ticketComment.Id, id = Model.Id }, null) |
-                                        @Html.ActionLink(" Create ", "Details", "Ticket", new { ticketComment.Id, id = Model.Id }, null)
-
-                                    </div>
-                                }
+                                <p>Owner</p>
+                            </td>
+                            <td>
                             </td>
                         </tr>
-                    </table>
-                    <hr />
-                }
+                    </thead>
+                    <tbody>
+                        @foreach (var ticketComment in TicketsHelper.TicketCommentsOnTicket(Model.Id))
+                        {
+                            <tr>
+                                <td>
+                                    @TicketsHelper.GetTicketOwner(ticketComment.Id)
+                                </td>
+                                <td>
+                                    @ticketComment.Created
+                                </td>
+                                <td>
+                                    @ticketComment.Updated
+                                </td>
+                                <td>
+                                    @ticketComment.Title
+                                </td>
+                                <td>
+                                    @ticketComment.Body
+                                </td>
+                                <td>
+                                    @TicketCommentsHelper.GetTicketCommentOwner(ticketComment.Id)
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
+                                    {
+                                        <div class="boxed-col-md-2">
+                                            @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticketComment.Id, id = Model.Id }, null) |
+                                            @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticketComment.Id, id = Model.Id }, null) |
+                                            @Html.ActionLink(" Details ", "Details", "Ticket", new { ticketComment.Id, id = Model.Id }, null)
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                </table>
+
             </div>
         </div>
         <div class="form-panel">
@@ -159,7 +185,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Create" class="btn btn-round bt-success" />
                             </div>
                         </div>
                     }
@@ -174,10 +200,10 @@
                     <table class="table">
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketAttachment.OwnerUserId)
+                                @ticketAttachment.Title
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketAttachment.MediaURL)
+                                @ticketAttachment.MediaURL
                             </td>
                             <td>
                                 @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
@@ -186,8 +212,6 @@
                                         @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticketAttachment.Id, id = Model.Id }, null)
                                         @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticketAttachment.Id, id = Model.Id }, null)
                                         @Html.ActionLink(" Details ", "Details", "Ticket", new { ticketAttachment.Id, id = Model.Id }, null)
-                                        @Html.ActionLink(" Create ", "Details", "Ticket", new { ticketAttachment.Id, id = Model.Id }, null)
-
                                     </div>
                                 }
                             </td>
@@ -223,7 +247,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Create" class="btn btn-round bt-success" />
                             </div>
                         </div>
                     }

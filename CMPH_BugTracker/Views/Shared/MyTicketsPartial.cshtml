@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CMPH_BugTracker.Models.Ticket>
+﻿@using CMPH_BugTracker.Helpers
+@model IEnumerable<CMPH_BugTracker.Models.Ticket>
 @{
     ViewBag.Title = "MyTickets";
 }
@@ -26,6 +27,15 @@
                         @Html.DisplayNameFor(model => model.FirstOrDefault().Updated)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.TicketStatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TicketPriority)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TicketType)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserId)
                     </th>
                     <th>
@@ -36,34 +46,43 @@
                 </tr>
                 @foreach (var ticket in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Created)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Updated)
-                        </td>
-                        <td>
-                            @Html.Raw(ticket.Title)
-                        </td>
-                        <td>
-                            @Html.Raw(ticket.Body)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.OwnerUserId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.AssignedUserId)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { Id = ticket.Id })
-                            @if (User.IsInRole("Admin"))
-                            {
-                                @Html.ActionLink("Edit", "Edit", new { Id = ticket.Id })
-                                @Html.ActionLink("Delete", "Delete", new { Id = ticket.Id })
-                            }
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.Raw(ticket.Title)
+                    </td>
+                    <td>
+                        @Html.Raw(ticket.Body)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.Updated)
+                    </td>
+                    <td>
+                        @TicketsHelper.GetTicketStatus(ticket.Id)
+                    </td>
+                    <td>
+                        @TicketsHelper.GetTicketPriority(ticket.Id)
+                    </td>
+                    <td>
+                        @TicketsHelper.GetTicketType(ticket.Id)
+                    </td>
+                    <td>
+                        @TicketsHelper.GetTicketOwner(ticket.Id)
+                    </td>
+                    <td>
+                        @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Projects", new { Id = ticket.Id })
+                        @if (User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", "Projects", new { Id = ticket.Id }) @:|
+                            @Html.ActionLink("Delete", "Delete", "Projects", new { Id = ticket.Id })
+                        }
+                    </td>
+                </tr>
                 }
             </table>
         </div>

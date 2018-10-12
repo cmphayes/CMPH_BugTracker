@@ -89,7 +89,7 @@ namespace CMPH_BugTracker.Helpers
         public static string GetProjectOwner(int projectId)
         {
             var none = "No Project Owner Listed";
-            var projectOwnerId = db.Tickets.Find(projectId).OwnerUserId;
+            var projectOwnerId = db.Projects.Find(projectId).OwnerUserId;
             var projectOwner = db.Users.Find(projectOwnerId).DisplayName;
             if (projectOwner == null)
             {
