@@ -82,10 +82,14 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,Body,Abstract,AuthorID,Created,Updated")] TicketComment ticketComment)
+        public ActionResult Create([Bind(Include = "TicketId, Title, Body")] TicketComment ticketComment/*, string Title, string Body*/)
         {
             if (ModelState.IsValid)
             {
+                //ticketComment.Title = ticketComment.Title;
+                //ticketComment.Body = Body;
+                ticketComment.OwnerUserId = User.Identity.GetUserId();
+                ticketComment.Created = DateTimeOffset.Now;
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
                 return RedirectToAction("Index");

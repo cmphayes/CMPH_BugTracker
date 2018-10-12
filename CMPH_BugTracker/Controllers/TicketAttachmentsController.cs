@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using PagedList;
 using PagedList.Mvc;
 
+
 namespace CMPH_BugTracker.Controllers
 {
     [Authorize]
@@ -71,7 +72,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,MediaURL,Title")] TicketAttachment ticketAttachment, string TicketTitle, HttpPostedFileBase image, int Id)
+        public ActionResult Create([Bind(Include = "Id,TicketId,Title")] TicketAttachment ticketAttachment, HttpPostedFileBase image, int Id)
         {
             if (ModelState.IsValid)
             {
@@ -161,6 +162,31 @@ namespace CMPH_BugTracker.Controllers
             db.TicketAttachments.Remove(ticketAttachment);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Download(string ticketAttachment)
+        {
+            string path = Server.MapPath("~/Images/");
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+            FileInfo[] files = dirInfo.GetFiles("*.*");
+            List<string> 1st = new List<string>(files.Length);
+            foreach (var item in files)
+            {
+                1st.Add(item.Name);
+
+            }
+            return View(1st);
+        }
+
+        public ActionResult DownloadFile(string filename)
+        {
+            if (Path.GetExtension(filename) == ".png")
+            {
+                string fullPath = Path.Combine(Server.MapPath("~/Images/"), filename);
+                return File(fullPath, "Images/png");
+            }
+            else
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.Forbidden);
         }
 
         protected override void Dispose(bool disposing)

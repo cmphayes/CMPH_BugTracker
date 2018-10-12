@@ -143,7 +143,7 @@
                                         <div class="boxed-col-md-2">
                                             @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, id = Model.Id }, null) |
                                             @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, id = Model.Id }, null) |
-                                            @Html.ActionLink(" Details ", "Details", "Ticket", new { ticket.Id, id = Model.Id }, null)
+                                            @Html.ActionLink(" Details ", "Details", "Ticket", new { id = ticket.Id }, null)
                                         </div>
                                     }
                                 </td>
