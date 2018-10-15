@@ -48,6 +48,7 @@ namespace CMPH_BugTracker.Controllers
             return RedirectToAction("ProfileView", "Account");
         }
 
+        [Authorize(Roles = "Admin,ProjectManager")]
         public ActionResult ProjectAssignment()
         {
             ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Title");

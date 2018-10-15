@@ -164,19 +164,19 @@ namespace CMPH_BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Download(string ticketAttachment)
-        {
-            string path = Server.MapPath("~/Images/");
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
-            FileInfo[] files = dirInfo.GetFiles("*.*");
-            List<string> 1st = new List<string>(files.Length);
-            foreach (var item in files)
-            {
-                1st.Add(item.Name);
+        //public ActionResult Download(string ticketAttachment)
+        //{
+        //    string path = Server.MapPath("~/Images/");
+        //    DirectoryInfo dirInfo = new DirectoryInfo(path);
+        //    FileInfo[] files = dirInfo.GetFiles("*.*");
+        //    List<string> 1st = new List<string>(files.Length);
+        //    foreach (var item in files)
+        //    {
+        //        1st.Add(item.Name);
 
-            }
-            return View(1st);
-        }
+        //    }
+        //    return View(1st);
+        //}
 
         public ActionResult DownloadFile(string filename)
         {

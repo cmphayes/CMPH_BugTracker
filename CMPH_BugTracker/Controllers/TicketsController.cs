@@ -10,6 +10,8 @@ using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Threading.Tasks;
+using CMPH_BugTracker.Extensions;
 
 namespace CMPH_BugTracker.Controllers
 {
@@ -264,13 +266,32 @@ namespace CMPH_BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedUserId")] Ticket ticket)
+        //{
+        //    var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+            
+        //    if (ModelState.IsValid)
+        //    {
+        //        ticket.Updated = DateTimeOffset.Now;
+        //        db.Entry(ticket).State = EntityState.Modified;
+        //        db.SaveChanges();
+
+        //        if(string.IsNullOrEmpty(oldTicket.AssignedUserId) && !string.IsNullOrEmpty(ticket.AssignedUserId)
+        //        {
+        //            ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Value == "Assigned").Id;
+        //        }
+        //        ticket.RecordChanges(oldTicket);
+        //    }
+        //}
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

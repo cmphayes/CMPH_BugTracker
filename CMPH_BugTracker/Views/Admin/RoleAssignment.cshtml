@@ -15,6 +15,7 @@
         </div>
         @using (Html.BeginForm("RoleAssignment", "Admin", FormMethod.Post, new { enctype = "Multipart/form-data" }))
         {
+            @Html.AntiForgeryToken()
             <div class=" row">
                 <div class="col-md-6 text-center">
                     @Html.DropDownList("Users", null, "Select User", htmlAttributes: new { @class = "form-control" })
@@ -29,7 +30,7 @@
                 </div>
             </div>
         }
-        </div>
+    </div>
 </div>
 
 
