@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<CMPH_BugTracker.Models.TicketComment>
+@using CMPH_BugTracker.Helpers;
+
 @{
     ViewBag.Title = "Index";
 }
@@ -11,10 +13,6 @@
 <div class="row mt">
     <div class="col-lg-12">
         <div class="form-panel">
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ActionLink("Create New", "Create")
-            }
             <div class="row"><br /></div>
             <table class="table">
                 <thead>
@@ -49,12 +47,12 @@
                                 @Html.Raw(ticketComment.Body)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => ticketComment.OwnerUserId)
+                                @TicketCommentsHelper.GetTicketCommentOwner(ticketComment.Id)
                             </td>
                             <td>
                                 @Html.ActionLink("Details", "Details", new { Id = ticketComment.Id }) |
 
-                                @if (User.IsInRole("Admin,ProjectManager,Developer,SUbmitter"))
+                                @if (User.IsInRole("Admin"))
                                 {
                                     @Html.ActionLink("Edit", "Edit", new { Id = ticketComment.Id }) @:|
                                     @Html.ActionLink("Delete", "Delete", new { Id = ticketComment.Id })

@@ -74,7 +74,7 @@ namespace CMPH_BugTracker.Controllers
             {
                 projectsHelper.AddUserToProject(userId, projects);
             }
-            return RedirectToAction("ProfileView", "Account");
+            return RedirectToAction("Index", "Projects");
 
         }
 
@@ -103,7 +103,7 @@ namespace CMPH_BugTracker.Controllers
             {
                 ticketsHelper.AddUserToTicket(userId, tickets);
             }
-            return RedirectToAction("ProfileView", "Account");
+            return RedirectToAction("Index", "Tickets");
 
         }
     }

@@ -48,7 +48,7 @@
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.OwnerUserId)
+                        @TicketCommentsHelper.GetTicketCommentOwner(Model.Id)
                     </dd>
                 </dl>
             </div>
@@ -99,11 +99,5 @@
         <p>
             @Html.ActionLink("Back to MyProjects", "MyTickets")
         </p>
-        @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
-        {
-            <p>
-                @Html.ActionLink("Back to Tickets I Created", "CreatedTickets")
-            </p>
-        }
     </div>
 </div>

@@ -72,7 +72,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,Title")] TicketAttachment ticketAttachment, HttpPostedFileBase image, int Id)
+        public ActionResult Create([Bind(Include = "TicketId,Title")] TicketAttachment ticketAttachment, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -81,23 +81,22 @@ namespace CMPH_BugTracker.Controllers
                 //db.TicketAttachments.Add(ticketAttachment);
                 //db.SaveChanges();
                 //return RedirectToAction("Index");
-            }
 
-            if (UploadValidator.IsWebFriendlyImage(image))
-            {
-                var fileName = Path.GetFileName(image.FileName);
-                image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
 
-                var myAttachment = new TicketAttachment
+                if (UploadValidator.IsWebFriendlyImage(image))
                 {
-                    MediaURL = "/Uploads/" + fileName,
-                    TicketId = ticketAttachment.TicketId
-                };
+                    var fileName = Path.GetFileName(image.FileName);
+                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    ticketAttachment.MediaURL = "/Uploads/" + fileName;
+                }
+
                 ticketAttachment.OwnerUserId = User.Identity.GetUserId();
                 ticketAttachment.Created = DateTimeOffset.Now;
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
+                return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
             }
+           
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
             return View(ticketAttachment);

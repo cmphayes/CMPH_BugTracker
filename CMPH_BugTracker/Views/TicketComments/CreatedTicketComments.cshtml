@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<CMPH_BugTracker.Models.TicketComment>
+@using CMPH_BugTracker.Helpers;
 
 @{
     ViewBag.Title = "CreatedTicketComments";
@@ -29,6 +30,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Updated)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OwnerUserId)
+                    </th>
                     <th></th>
                 </tr>
 
@@ -46,6 +50,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Updated)
+                        </td>
+                        <td>
+                            @TicketCommentsHelper.GetTicketCommentOwner(item.Id)
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

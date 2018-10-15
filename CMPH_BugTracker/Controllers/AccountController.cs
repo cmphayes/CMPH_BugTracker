@@ -88,7 +88,7 @@ namespace CMPH_BugTracker.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("ProfileView", "Account");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -96,7 +96,8 @@ namespace CMPH_BugTracker.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return RedirectToAction("ProfileView", "Account");
+                    return RedirectToLocal(returnUrl);
+
             }
         }
 
@@ -540,18 +541,6 @@ namespace CMPH_BugTracker.Controllers
             }
         }
 
-
-
-
-
-
-        //
-        //Profile Controls
-        //
-
-
-
-
         // GET: Profile/Details/5
 
         public ActionResult ProfileDetails()
@@ -614,6 +603,25 @@ namespace CMPH_BugTracker.Controllers
             var Id = User.Identity.GetUserId();
             var user = db.Users.Find(Id);
             return View(user);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLogin(DemoLoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            return RedirectToAction("ProfileView", "Account");
+
+            
         }
 
         #endregion
