@@ -80,6 +80,11 @@ namespace CMPH_BugTracker.Helpers
             return db.TicketComments.Where(c => c.TicketId == id).ToList();
         }
 
+        public static List<TicketAttachment> TicketAttachmentsOnTicket(int id)
+        {
+            return db.TicketAttachments.Where(c => c.TicketId == id).ToList();
+        }
+
         public static string GetTicketType(int ticketId)
         {
                 var none = "No Type Listed";
@@ -139,6 +144,21 @@ namespace CMPH_BugTracker.Helpers
                 return none;
             }
             return ticketOwner;
+        }
+
+        public static string GetTicketEditor(string UserId)
+        {
+            var none = "No Ticket Editor Listed";
+            var ticketEditor = db.Users.Find(UserId).DisplayName;
+            if (ticketEditor == null)
+            {
+                return none;
+            }
+            if (string.IsNullOrEmpty(ticketEditor))
+            {
+                return none;
+            }
+            return ticketEditor;
         }
     }
 }

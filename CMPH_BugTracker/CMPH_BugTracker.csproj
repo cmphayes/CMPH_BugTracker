@@ -218,6 +218,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AttachmentTicketHelper.cs" />
     <Compile Include="Helpers\CommentTicketHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ProfileImageUploadValidator.cs" />
@@ -583,6 +584,7 @@
     <Content Include="Views\Shared\CreatedProjectsPartial.cshtml" />
     <Content Include="Views\Shared\CreatedTicketCommentsPartial.cshtml" />
     <Content Include="Views\Shared\CreatedTicketsPartial.cshtml" />
+    <Content Include="Views\Shared\TicketHistoryPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

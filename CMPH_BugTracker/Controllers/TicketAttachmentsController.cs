@@ -72,33 +72,25 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TicketId,Title")] TicketAttachment ticketAttachment, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "TicketId")] TicketAttachment ticketAttachment, string ticketAttachmentTitle, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
-                //ticketAttachment.OwnerUserId = User.Identity.GetUserId();
-                //ticketAttachment.Created = DateTimeOffset.Now;
-                //db.TicketAttachments.Add(ticketAttachment);
-                //db.SaveChanges();
-                //return RedirectToAction("Index");
-
-
-                if (UploadValidator.IsWebFriendlyImage(image))
-                {
-                    var fileName = Path.GetFileName(image.FileName);
-                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
-                    ticketAttachment.MediaURL = "/Uploads/" + fileName;
-                }
-
+                ticketAttachment.Title = ticketAttachmentTitle;
                 ticketAttachment.OwnerUserId = User.Identity.GetUserId();
                 ticketAttachment.Created = DateTimeOffset.Now;
+
+                var fileName = Path.GetFileName(file.FileName);
+                file.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                ticketAttachment.FilePath = "/Uploads/" + fileName;
+
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
             }
-           
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Title", ticketAttachment.OwnerUserId);
             return View(ticketAttachment);
         }
 

@@ -4,8 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CMPH_BugTracker.Extensions;
 using CMPH_BugTracker.Models;
 
 namespace CMPH_BugTracker.Controllers
@@ -61,6 +63,7 @@ namespace CMPH_BugTracker.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketHistory.UserId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketHistory.TicketId);
             return View(ticketHistory);
         }
@@ -87,7 +90,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TicketId,Created,UserId,OldValue,NewValue")] TicketHistory ticketHistory)
+        public ActionResult Edit([Bind(Include = "Id,TicketId,Property,OldValue,NewValue,Changed,UserId")] TicketHistory ticketHistory)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +99,7 @@ namespace CMPH_BugTracker.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketHistory.TicketId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketHistory.UserId);
             return View(ticketHistory);
         }
 

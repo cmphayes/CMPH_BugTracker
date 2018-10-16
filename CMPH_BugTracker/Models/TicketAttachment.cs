@@ -17,6 +17,8 @@ namespace CMPH_BugTracker.Models
         //Properties
         public string MediaURL { get; set; }
         public string Title { get; set; }
+        public string FilePath { get; set; }
+
         //Parent
         public virtual Ticket Ticket { get; set; }
         public virtual ApplicationUser User { get; set; }

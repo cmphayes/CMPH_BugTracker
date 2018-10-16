@@ -12,11 +12,12 @@ namespace CMPH_BugTracker.Models
         public DateTimeOffset Created { get; set; }
         public string UserId { get; set; }
 
-        public int OldValue { get; set; }
-        public int NewValue { get; set; }
+        public string OldValue { get; set; }
+        public string NewValue { get; set; }
 
         public virtual Ticket Ticket { get; set; }
         public virtual ApplicationUser User { get; set; }
-
+        public DateTime Changed { get; set; }
+        public string Property { get; set; }
     }
 }

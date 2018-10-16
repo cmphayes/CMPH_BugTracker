@@ -187,6 +187,17 @@ namespace CMPH_BugTracker.Controllers
 
             }
 
+            var projectDevelopers = new List<ApplicationUser>();
+            var projectUsers = projectHelper.ListUsersOnProject(ticket.ProjectId);
+            foreach(var user in projectUsers)
+            {
+                if (roleHelper.IsUserInRole(user.Id, "Developer"))
+                {
+                    projectDevelopers.Add(user);
+                }
+            }
+
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id", ticket.TicketStatusId);
@@ -199,24 +210,32 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedUserID,OwnerUserID,Created,Updated,Title,Body")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedUserId")] Ticket ticket)
         {
+            var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
             if (ModelState.IsValid)
             {
                 ticket.Updated = DateTimeOffset.Now;
+                db.Tickets.Add(ticket);
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (string.IsNullOrEmpty(oldTicket.AssignedUserId) && !string.IsNullOrEmpty(ticket.AssignedUserId))
+                {
+                    ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Value == "Assigned").Id;
+                }
+
+                ticket.RecordChanges(oldTicket);
+                return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             }
-            if (User.IsInRole("ProjectManager"))
-            { 
-                ViewBag.AssignedUserId = new SelectList(db.Projects, "Id", "FirstName", ticket.AssignedUserId);
-            }
-            ticket.Updated = DateTimeOffset.Now;
+
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Id", ticket.TicketTypeId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedUserId);
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
 
@@ -266,32 +285,14 @@ namespace CMPH_BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedUserId")] Ticket ticket)
-        //{
-        //    var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-            
-        //    if (ModelState.IsValid)
-        //    {
-        //        ticket.Updated = DateTimeOffset.Now;
-        //        db.Entry(ticket).State = EntityState.Modified;
-        //        db.SaveChanges();
 
-        //        if(string.IsNullOrEmpty(oldTicket.AssignedUserId) && !string.IsNullOrEmpty(ticket.AssignedUserId)
-        //        {
-        //            ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Value == "Assigned").Id;
-        //        }
-        //        ticket.RecordChanges(oldTicket);
-        //    }
-        //}
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
