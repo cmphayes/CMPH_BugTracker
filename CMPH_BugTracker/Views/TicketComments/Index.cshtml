@@ -50,12 +50,12 @@
                                 @TicketCommentsHelper.GetTicketCommentOwner(ticketComment.Id)
                             </td>
                             <td>
-                                @Html.ActionLink("Details", "Details", new { Id = ticketComment.Id }) |
+                                @Html.ActionLink("Details", "Details", new { Id = ticketComment.Id }, new { @class = "btn btn-theme" }) |
 
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    @Html.ActionLink("Edit", "Edit", new { Id = ticketComment.Id }) @:|
-                                    @Html.ActionLink("Delete", "Delete", new { Id = ticketComment.Id })
+                                    @Html.ActionLink("Edit", "Edit", new { Id = ticketComment.Id }, new { @class = "btn btn-theme" }) @:|
+                                    @Html.ActionLink("Delete", "Delete", new { Id = ticketComment.Id }, new { @class = "btn btn-theme" })
                                 }
                             </td>
                         </tr>

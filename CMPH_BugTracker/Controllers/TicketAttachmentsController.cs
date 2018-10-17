@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using PagedList;
@@ -19,6 +20,12 @@ namespace CMPH_BugTracker.Controllers
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
+        private TicketsHelper ticketHelper = new TicketsHelper();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private TicketCommentsHelper ticketCommentsHelper = new TicketCommentsHelper();
+        private TicketAttachmentsHelper ticketAttachmentsHelper = new TicketAttachmentsHelper();
+
 
         // GET: TicketAttachments
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
@@ -41,6 +48,20 @@ namespace CMPH_BugTracker.Controllers
             else { result = db.TicketAttachments.AsQueryable(); }
 
             return result.OrderByDescending(p => p.Created);
+        }
+
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult MyTicketAttachments()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(ticketAttachmentsHelper.ListUserTicketAttachments(userId));
+        }
+
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult CreatedTicketAttachments()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(ticketAttachmentsHelper.ListUserCreatedTicketAttachments(userId));
         }
 
         // GET: TicketAttachments/Details/5

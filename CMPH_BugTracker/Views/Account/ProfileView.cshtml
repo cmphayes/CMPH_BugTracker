@@ -13,19 +13,17 @@
             <div class="col-md-4 profile-text mt mb centered">
                 <div class="right-divider hidden-sm hidden-xs">
                     <h4>@User.Identity.GetFullName()</h4>
-                    <h4>@User.Identity.GetDisplayName()</h4>
-                    <h4>@User.Identity.GetProfileImagePath()</h4>
                 </div>
             </div>
             <div class="col-md-4 profile-text">
                 <h3></h3>
                 <p></p>
                 <br>
-                <p><button class="btn btn-theme"><i class="fa fa-envelope"></i> Send Message</button></p>
+                <p><button class="btn btn-theme"><i class="fa fa-envelope"></i>View Notifications</button></p>
             </div>
             <div class="col-md-4 centered">
                 <div class="profile-pic">
-                    <p><img src=">@User.Identity.GetProfileImagePath()" class="img-circle"></p>
+                    <p><img src="@UserHelper.GetProfileImagePath()" /> class="img-circle"></p>
                     <p>
                         <button class="btn btn-theme"><i class="fa fa-check"></i> Follow</button>
                         <button class="btn btn-theme02">Add</button>
@@ -35,36 +33,24 @@
         </div>
     </div>
 
-
-    <div class="col-lg-6 mt">
+    <div class="col-lg-12 mt">
         <div class="row content-panel">
             <div class="panel-heading">
                 <ul class="nav nav-tabs nav-justified">
                     <li>
-                        <a class="nav-link js-scroll-trigger" href=@Url.Action("CreatedProjets", "Projects")>Projects I Created</a>
+                        <a class="nav-link js-scroll-trigger btn btn-theme02" href=@Url.Action("MyProjects", "Projects")>My Assigned Projects</a>
                     </li>
                     <li>
-                        <a class="nav-link js-scroll-trigger" href=@Url.Action("CreatedTickets", "Tickets")>Tickets I Created</a>
+                        <a class="nav-link js-scroll-trigger btn btn-theme03" href=@Url.Action("MyTickets", "Tickets")>My Assigned Tickets</a>
                     </li>
                     <li>
-                        <a class="nav-link js-scroll-trigger" href=@Url.Action("CreatedTicketComments", "TicketComments")>Ticket Comments I Created</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6 mt">
-        <div class="row content-panel">
-            <div class="panel-heading">
-                <ul class="nav nav-tabs nav-justified">
-                    <li>
-                        <a class="nav-link js-scroll-trigger" href=@Url.Action("MyProjects", "Projects")>My Projects</a>
+                        <a class="nav-link js-scroll-trigger btn btn-theme02" href=@Url.Action("CreatedProjects", "Projects")>Projects I Created</a>
                     </li>
                     <li>
-                        <a class="nav-link js-scroll-trigger" href=@Url.Action("MyTickets", "Tickets")>My Tickets</a>
+                        <a class="nav-link js-scroll-trigger btn btn-theme03" href=@Url.Action("CreatedTickets", "Tickets")>Tickets I Created</a>
                     </li>
                     <li>
-                        <a class="nav-link js-scroll-trigger" href=@Url.Action("MyTicketComments", "TicketComments")>My Ticket Comments</a>
+                        <a class="nav-link js-scroll-trigger btn btn-theme02" href=@Url.Action("CreatedTicketComments", "TicketComments")>Ticket Comments I Created</a>
                     </li>
                 </ul>
             </div>
@@ -72,7 +58,7 @@
     </div>
 </div>
 <hr/>
-<div class="row mt">
+@*<div class="row mt">
     <div class="form-panel">
         <div class="tab-content">
             @Html.Partial("MyProjectsPartial", Model.Projects)
@@ -87,26 +73,20 @@
     <hr />
     <div class="form-panel">
         <div class="tab-content">
-            @Html.Partial("MyTicketCommentsPartial", Model.TicketComments)
+            @Html.Partial("CreatedProjectsPartial", Model.Projects)
         </div>
     </div>
     <hr />
     <div class="form-panel">
         <div class="tab-content">
-            @*@Html.RenderPartial("CreatedProjectsPartial")*@
+            @Html.Partial("CreatedTicketsPartial", Model.Tickets)
         </div>
     </div>
     <hr />
     <div class="form-panel">
         <div class="tab-content">
-            @*@Html.RenderPartial("CreatedTicketsPartial")*@
+            @Html.Partial("CreatedTicketCommentsPartial", Model.TicketComments)
         </div>
     </div>
     <hr />
-    <div class="form-panel">
-        <div class="tab-content">
-            @*@Html.RenderPartial("CreatedTicketCommentsPartial")*@
-        </div>
-    </div>
-    <hr />
-</div>
+</div>*@

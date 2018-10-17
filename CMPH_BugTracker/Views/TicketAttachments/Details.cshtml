@@ -55,8 +55,8 @@
             <p>
                 @if (User.IsInRole("Admin,ProjectManager"))
                 {
-                    @Html.ActionLink("EditProject", "Edit", new { id = Model.Id }) @:|
-                    @Html.ActionLink("DeleteProject", "Delete", new { id = Model.Id })
+                    @Html.ActionLink("EditProject", "Edit", new { id = Model.Id }, new { @class = "btn btn-theme" }) @:|
+                    @Html.ActionLink("DeleteProject", "Delete", new { id = Model.Id }, new { @class = "btn btn-theme" })
                 }
             </p>
         </div>
@@ -94,15 +94,15 @@
         </div>
         <hr>
         <p>
-            @Html.ActionLink("Back to All Projects", "Index")
+            @Html.ActionLink("Back to All Projects", "Index", new { @class = "btn btn-theme" })
         </p>
         <p>
-            @Html.ActionLink("Back to MyProjects", "MyTickets")
+            @Html.ActionLink("Back to MyProjects", "MyTickets", new { @class = "btn btn-theme" })
         </p>
         @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
         {
             <p>
-                @Html.ActionLink("Back to Tickets I Created", "CreatedTickets")
+                @Html.ActionLink("Back to Tickets I Created", "CreatedTickets", new { @class = "btn btn-theme" })
             </p>
         }
     </div>

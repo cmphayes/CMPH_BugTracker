@@ -75,11 +75,11 @@
                             @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
                         </td>
                         <td>
-                            @Html.ActionLink("Details", "Details", new { Id = ticket.Id }) | 
+                            @Html.ActionLink("Details", "Details", new { Id = ticket.Id }, new { @class = "btn btn-theme" }) | 
                             @if (User.IsInRole("Admin"))
                             {
-                                @Html.ActionLink("Edit", "Edit", new { Id = ticket.Id }) @:|
-                                @Html.ActionLink("Delete", "Delete",  new { Id = ticket.Id })
+                                @Html.ActionLink("Edit", "Edit", new { Id = ticket.Id }, new { @class = "btn btn-theme" }) @:|
+                                @Html.ActionLink("Delete", "Delete",  new { Id = ticket.Id }, new { @class = "btn btn-theme" })
                             }
                         </td>
                     </tr>

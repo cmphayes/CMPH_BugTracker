@@ -67,15 +67,15 @@
         </div>
         <hr>
         <p>
-            @Html.ActionLink("Back to All Projects", "Index")
+            @Html.ActionLink("Back to All Projects", "Index", new { @class = "btn btn-theme" })
         </p>
         <p>
-            @Html.ActionLink("Back to MyProjects", "MyProjects")
+            @Html.ActionLink("Back to MyProjects", "MyProjects", new { @class = "btn btn-theme" })
         </p>
         @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
         {
             <p>
-                @Html.ActionLink("Back to Projects I Created", "CreatedProjects")
+                @Html.ActionLink("Back to Projects I Created", "CreatedProjects", new { @class = "btn btn-theme" })
             </p>
         }
     </div>

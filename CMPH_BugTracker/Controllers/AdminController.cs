@@ -82,7 +82,7 @@ namespace CMPH_BugTracker.Controllers
         public ActionResult TicketAssignment()
         {
             ViewBag.Tickets = new MultiSelectList(db.Tickets.ToList(), "Id", "Title");
-            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "Email");
             return View();
         }
 

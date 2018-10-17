@@ -21,6 +21,8 @@ namespace CMPH_BugTracker.Controllers
         private ProjectsHelper projectHelper = new ProjectsHelper();
         private TicketsHelper ticketHelper = new TicketsHelper();
         private UserRolesHelper roleHelper = new UserRolesHelper();
+        private TicketCommentsHelper ticketCommentsHelper = new TicketCommentsHelper();
+
 
         // GET: TicketComments
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
@@ -49,6 +51,20 @@ namespace CMPH_BugTracker.Controllers
             }
 
             return result.OrderByDescending(p => p.Created);
+        }
+
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult MyTicketComments()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(ticketCommentsHelper.ListUserTicketComments(userId));
+        }
+
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult CreatedTicketComments()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(ticketCommentsHelper.ListUserCreatedTicketComments(userId));
         }
 
         // GET: TicketComments/Details/5

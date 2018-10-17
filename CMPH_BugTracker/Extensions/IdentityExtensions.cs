@@ -43,7 +43,7 @@ namespace CMPH_BugTracker.Extensions
         public static string GetProfileImagePath(this IIdentity identity)
         {
             var claim = ((ClaimsIdentity)identity).FindFirst("ProfileImagePath");
-            return (claim != null) ? claim.Value : string.Empty;
+            return (claim != null) ? claim.Value : "~/Uploads/DefaultProfilePic.jpg";
         }
     }
 }

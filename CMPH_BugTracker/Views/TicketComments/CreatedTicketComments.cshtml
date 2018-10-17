@@ -2,21 +2,18 @@
 @using CMPH_BugTracker.Helpers;
 
 @{
-    ViewBag.Title = "CreatedTicketComments";
+    ViewBag.Title = "MyCreatedTicketComments";
 }
 <style>
     table, th, td {
         border: 1px solid black;
     }
 </style>
-<h3><i class="fa fa-angle-right"></i>Ticket Comments I Created</h3>
+<h3><i class="fa fa-angle-right"></i>My Created Ticket Comments</h3>
 <div class="row mt">
     <div class="col-lg-12">
         <div class="form-panel">
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ActionLink("Create New", "Create")
-            }            <table class="table">
+            <table class="table">
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.Title)
@@ -55,13 +52,10 @@
                             @TicketCommentsHelper.GetTicketCommentOwner(item.Id)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-theme" })
                         </td>
                     </tr>
                 }
-
             </table>
         </div>
     </div>

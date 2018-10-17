@@ -5,10 +5,9 @@
 }
 <div class="row mt">
     <div class="col-lg-12">
-        <h4><i class="fa fa-angle-right"></i>Ticket Details</h4>
         <div class="col-lg-12">
             <div class="form-panel">
-                <h4>Ticket</h4>
+                <h4><i class="fa fa-angle-right"></i>Ticket Details</h4>
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
@@ -88,8 +87,8 @@
                     <dd>
                         @if (User.IsInRole("Admin"))
                         {
-                            @Html.ActionLink("EditTicket", "Edit", new { id = Model.Id }) @:|
-                            @Html.ActionLink("DeleteTicket", "Delete", new { id = Model.Id })
+                            @Html.ActionLink("EditTicket", "Edit", new { id = Model.Id }, new { @class = "btn btn-theme" }) @:|
+                            @Html.ActionLink("DeleteTicket", "Delete", new { id = Model.Id }, new { @class = "btn btn-theme" })
                         }
                     </dd>
                 </dl>
@@ -97,7 +96,7 @@
         </div>
         <div class="col-lg-6">
             <div class="form-panel">
-                <h4><i class="fa fa-angle-right"></i>Ticket Comments @Model.TicketComments.Count</h4>
+                <h4><i class="fa fa-angle-right"></i>Ticket Comments<span class="badge bg-success">@Model.TicketComments.Count</span></h4>
                 <div class="row-lg-6">
 
                     <table class="table">
@@ -135,7 +134,7 @@
                                         @ticketComment.Created
                                     </td>
                                     <td>
-                                        @Html.ActionLink(" Details ", "Details", "TicketComments", new { ticketComment.Id }, null)
+                                        @Html.ActionLink(" Details ", "Details", "TicketComments", new { ticketComment.Id }, new { @class = "btn btn-theme" })
                                     </td>
                                 </tr>
                             </tbody>
@@ -175,7 +174,7 @@
         </div>
         <div class="col-lg-6">
             <div class="form-panel">
-                <h4><i class="fa fa-angle-right"></i>Ticket Attachments @Model.TicketAttachments.Count</h4>
+                <h4><i class="fa fa-angle-right"></i>Ticket Attachments<span class="badge bg-primary">@Model.TicketAttachments.Count</span></h4>
                 <div class="row-lg-6">
                     <table class="table">
                         <thead>
@@ -208,7 +207,7 @@
                                         @ticketAttachment.Created
                                     </td>
                                     <td>
-                                        @Html.ActionLink(" Details ", "Details", "TicketAttachments", new { ticketAttachment.Id }, null)
+                                        @Html.ActionLink(" Details ", "Details", "TicketAttachments", new { ticketAttachment.Id }, new { @class = "btn btn-theme" })
                                     </td>
                                 </tr>
                             </tbody>

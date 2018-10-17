@@ -1,24 +1,20 @@
-﻿@model IEnumerable<CMPH_BugTracker.Models.Ticket>
+﻿@using CMPH_BugTracker.Helpers
+@model IEnumerable<CMPH_BugTracker.Models.Ticket>
 
 @{
-    ViewBag.Title = "CreatedTickets";
+    ViewBag.Title = "MyCreatedTickets";
 }
 <style>
     table, th, td {
         border: 1px solid black;
     }
 </style>
-<h3><i class="fa fa-angle-right"></i>Tickets I Created</h3>
+<h3><i class="fa fa-angle-right"></i>My Created Tickets</h3>
 <div class="row mt">
     <div class="col-lg-12">
-        @foreach (var ticket in Model)
-        {
-            <div class="form-panel">
-                @if (User.IsInRole("Admin"))
-                {
-                    @Html.ActionLink("Create New", "Create")
-                }
-                <table class="table">
+        <div class="form-panel">
+            <table class="table">
+                <thead>
                     <tr>
                         <th>
                             @Html.DisplayNameFor(model => model.Title)
@@ -32,92 +28,62 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Updated)
                         </th>
+                        <td>
+                            @Html.DisplayNameFor(model => model.TicketStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayNameFor(model => model.TicketType)
+                        </td>
+                        <td>
+                            @Html.DisplayNameFor(model => model.TicketPriority)
+                        </td>
+                        <td>
+                            @Html.DisplayNameFor(model => model.OwnerUser)
+                        </td>
                         <th>
                             @Html.DisplayNameFor(model => model.AssignedUserId)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.OwnerUserId)
-                        </th>
                         <th></th>
                     </tr>
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Body)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Created)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.Updated)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.AssignedUserId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => ticket.OwnerUserId)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = ticket.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = ticket.Id })
-                        </td>
-                    </tr>
-                </table>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <p>Title</p>
-                            </th>
-                            <th>
-                                <p>Body</p>
-                            </th>
-                            <th>
-                                <p>OwnerUserId</p>
-                            </th>
-                            <th>
-                                <p>Created</p>
-                            </th>
-                            <th>
-                            </th>
-                        </tr>
-                    </thead>
+                </thead>
+                @foreach (var ticket in Model)
+                {
                     <tbody>
-                        @foreach (var ticketComment in ticket.TicketComments.OrderByDescending(p => p.Created))
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ticketComment.Title)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ticketComment.Body)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ticketComment.OwnerUserId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => ticketComment.Created)
-                                </td>
-                                <td>
-                                    @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
-                                    {
-                                        <div class="boxed-col-md-2">
-                                            @Html.ActionLink("Edit ", "Edit", "Ticket", new { ticketComment.Id, id = ticket.Id }, null) |
-                                            @Html.ActionLink("Delete ", "Delete", "Ticket", new { ticketComment.Id, id = ticket.Id }, null) |
-                                            @Html.ActionLink("Details ", "Details", "Ticket", new { ticketComment.Id, id = ticket.Id }, null)
-                                        </div>
-                                    }
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.Body)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ticket.Updated)
+                            </td>
+                            <td>
+                                @TicketsHelper.GetTicketStatus(ticket.Id)
+                            </td>
+                            <td>
+                                @TicketsHelper.GetTicketType(ticket.Id)
+                            </td>
+                            <td>
+                                @TicketsHelper.GetTicketPriority(ticket.Id)
+                            </td>
+                            <td>
+                                @TicketsHelper.GetTicketOwner(ticket.Id)
+                            </td>
+                            <td>
+                                @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = ticket.Id }, new { @class = "btn btn-theme" })
+                            </td>
+                        </tr>
                     </tbody>
-                </table>
-                <hr />
-            </div>
-        }
+                }
+            </table>
+        </div>
     </div>
 </div>
-

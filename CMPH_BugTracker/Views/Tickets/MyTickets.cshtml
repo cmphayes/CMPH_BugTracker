@@ -1,14 +1,14 @@
 ﻿@using CMPH_BugTracker.Helpers
 @model IEnumerable<CMPH_BugTracker.Models.Ticket>
 @{
-    ViewBag.Title = "MyTickets";
+    ViewBag.Title = "MyAssignedTickets";
 }
 <style>
     table, th, td {
         border: 1px solid black;
     }
 </style>
-<h3><i class="fa fa-angle-right"></i>My Tickets</h3>
+<h3><i class="fa fa-angle-right"></i>My Assigned Tickets</h3>
 <div class="row mt">
     <div class="col-lg-12">
         <div class="form-panel">
@@ -83,12 +83,7 @@
                                 @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
                             </td>
                             <td>
-                                @Html.ActionLink("Details", "Details", "Projects", new { Id = ticket.Id }) | 
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    @Html.ActionLink("Edit", "Edit", "Projects", new { Id = ticket.Id }) @:|
-                                    @Html.ActionLink("Delete", "Delete", "Projects", new { Id = ticket.Id })
-                                }
+                                @Html.ActionLink("Details", "Details", "Projects", new { Id = ticket.Id }) 
                             </td>
                         </tr>
                     }

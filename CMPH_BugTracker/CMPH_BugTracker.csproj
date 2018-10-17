@@ -477,6 +477,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Uploads\DefaultProfilePic.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -585,10 +586,11 @@
     <Content Include="Views\Shared\CreatedTicketCommentsPartial.cshtml" />
     <Content Include="Views\Shared\CreatedTicketsPartial.cshtml" />
     <Content Include="Views\Shared\TicketHistoryPartial.cshtml" />
+    <Content Include="Views\Shared\TicketNotificationPartial.cshtml" />
+    <Content Include="Views\TicketAttachments\CreatedTicketAttachments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

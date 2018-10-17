@@ -8,6 +8,10 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+
+using CMPH_BugTracker.Helpers;
+
 
 namespace CMPH_BugTracker.Helpers
 {
@@ -62,7 +66,21 @@ namespace CMPH_BugTracker.Helpers
         {
             return db.Projects.Where(p => p.OwnerUserId == userId).ToList();
         }
-        
+
+        //partials
+
+        public ICollection<Project> ListUserProjectsPartial(string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            var projects = user.Projects.ToList();
+            return (projects);
+        }
+
+        public ICollection<Project> ListUserCreatedProjectsPartial(string userId)
+        {
+            return db.Projects.Where(p => p.OwnerUserId == userId).ToList();
+        }
+
         public ICollection<ApplicationUser> ListUsersOnProject(int projectId)
         {
             return db.Projects.Find(projectId).Users;

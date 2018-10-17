@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<CMPH_BugTracker.Models.TicketComment>
 @{
-    ViewBag.Title = "CreatedTicketComments";
+    ViewBag.Title = "MyAssignedTicketComments";
 }
 <style>
     table, th, td {
         border: 1px solid black;
     }
 </style>
-<h3><i class="fa fa-angle-right"></i>Ticket Comments</h3>
+<h3><i class="fa fa-angle-right"></i>MyAssignedTicketCommets</h3>
 <div class="row mt">
     <div class="col-lg-12">
         <div class="form-panel">
@@ -43,9 +43,9 @@
                             @Html.DisplayFor(modelItem => ticketComment.Updated)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = ticketComment.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = ticketComment.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = ticketComment.Id })
+                            @Html.ActionLink("Edit", "Edit", new { id = ticketComment.Id }, new { @class = "btn btn-theme" }) |
+                            @Html.ActionLink("Details", "Details", new { id = ticketComment.Id }, new { @class = "btn btn-theme" }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = ticketComment.Id }, new { @class = "btn btn-theme" })
                         </td>
                     </tr>
                 }

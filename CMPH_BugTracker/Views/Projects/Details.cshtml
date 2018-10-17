@@ -6,241 +6,227 @@
 }
 <div class="row mt">
     <div class="col-lg-12">
-        <div class="form-panel">
-            <h4><i class="fa fa-angle-right"></i>Project Details</h4>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
+        <h4><i class="fa fa-angle-right"></i>Project Details</h4>
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h4>Project</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Body)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Body)
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Body)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Body)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Created)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Created)
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Created)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Updated)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Updated)
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Updated)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Updated)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.OwnerUserId)
-                </dt>
-                <dd>
-                    @ProjectsHelper.GetProjectOwner(Model.Id)
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.OwnerUserId)
+                    </dt>
+                    <dd>
+                        @ProjectsHelper.GetProjectOwner(Model.Id)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.AssignedUserId)
-                </dt>
-                <dd>
-                    @*@ProjectsHelper.ListUsersOnProject(Model.Id)*@
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AssignedUserId)
+                    </dt>
+                    <dd>
+                        @*@ProjectsHelper.ListUsersOnProject(Model.Id)*@
+                    </dd>
 
-                <dt>
-                </dt>
+                    <dt>
+                    </dt>
 
-                <dd>
-                    @if (User.IsInRole("Admin,ProjectManager"))
-                    {
-                        @Html.ActionLink("EditProject", "Edit", new { id = Model.Id }) @:|
-                        @Html.ActionLink("DeleteProject", "Delete", new { id = Model.Id })
-                    }
-                </dd>
-            </dl>
-        </div>
-        <div class="form-panel">
-            <h4><i class="fa fa-angle-right"></i>Project Tickets @Model.Tickets.Count</h4>
-            <div class="row">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td>
-                                <p>owner</p>
-                            </td>
-                            <td>
-                                <p>Assigned Users</p>
-                            </td>
-                            <td>
-                                <p>Created</p>
-                            </td>
-                            <td>
-                                <p>Updated</p>
-                            </td>
-                            <td>
-                                <p>Title</p>
-                            </td>
-                            <td>
-                                <p>Body</p>
-                            </td>
-                            <td>
-                                <p>Project Id</p>
-                            </td>
-                            <td>
-                                <p>Priority</p>
-                            </td>
-                            <td>
-                                <p>Status</p>
-                            </td>
-                            <td>
-                                <p>Type</p>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var ticket in ProjectsHelper.TicketsOnProject(Model.Id))
+                    <dd>
+                        @if (User.IsInRole("Admin,ProjectManager"))
                         {
-                            <tr>
-                                <td>
-                                    @TicketsHelper.GetTicketOwner(ticket.Id)
-                                </td>
-                                <td>
-                                    @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
-                                </td>
-                                <td>
-                                    @ticket.Created
-                                </td>
-                                <td>
-                                    @ticket.Updated
-                                </td>
-                                <td>
-                                    @ticket.Title
-                                </td>
-                                <td>
-                                    @ticket.Body
-                                </td>
-                                <td>
-                                    @ticket.ProjectId
-                                </td>
-                                <td>
-                                    @TicketsHelper.GetTicketPriority(ticket.Id)
-                                </td>
-                                <td>
-                                    @TicketsHelper.GetTicketStatus(ticket.Id)
-                                </td>
-                                <td>
-                                    @TicketsHelper.GetTicketType(ticket.Id)
-                                </td>
-                                <td>
-                                    @if (User.IsInRole("Admin,ProjectManager,Developer,Submitter"))
-                                    {
-                                        <div class="boxed-col-md-2">
-                                            @Html.ActionLink(" Edit ", "Edit", "Ticket", new { ticket.Id, id = Model.Id }, null) |
-                                            @Html.ActionLink(" Delete ", "Delete", "Ticket", new { ticket.Id, id = Model.Id }, null) |
-                                            @Html.ActionLink(" Details ", "Details", "Ticket", new { id = ticket.Id }, null)
-                                        </div>
-                                    }
-                                </td>
-                            </tr>
+                            @Html.ActionLink("EditProject", "Edit", new { id = Model.Id }, new { @class = "btn btn-theme" }) @:|
+                            @Html.ActionLink("DeleteProject", "Delete", new { id = Model.Id }, new { @class = "btn btn-theme" })
                         }
-                    </tbody>
-                </table>
-                    <hr />
-                </div>
-        </div>
-        <div class="form-panel">
-            <h4><i class="fa fa-angle-right"></i>Create Ticket</h4>
-            <div class="row">
-                @if (User.IsInRole("Admin"))
-                {
-                    using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("ProjectId", Model.Id)
-                        @Html.HiddenFor(model => model.Id)
-                        <div class="form-group">
-                            @Html.Label("Title", htmlAttributes: new { @class = "form-horizontal col-md-2" })
-                            <p id="titleError" class="text-danger hidden"></p>
-                            <div class="col-md-10">
-                                @Html.TextArea("Title", new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.Label("Body", htmlAttributes: new { @class = "form-horizontal col-md-2" })
-                            <p id="bodyError" class="text-danger hidden"></p>
-                            <div class="col-md-10">
-                                @Html.TextArea("Body", new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.Label("TicketStatusId", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownList("TicketStatusId", null, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.Label("TicketPriorityId", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownList("TicketPriorityId", null, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.Label("TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownList("TicketTypeId", null, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-round btn-success" />
-                            </div>
-                        </div>
-                    }
-                }
+                    </dd>
+                </dl>
             </div>
         </div>
-        <div>
-            <p>
-                @Html.ActionLink("All Projects", "Index")
-            </p>
-            <p>
-                @Html.ActionLink("MyProjects", "MyProjects")
-            </p>
-            @if (User.IsInRole("Admin,ProjectManager"))
-            {
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h4><i class="fa fa-angle-right"></i>Tickets<span class="badge bg-warning">@Model.Tickets.Count</span></h4>
+                <div class="row-lg-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <p>Owner</p>
+                                </td>
+                                <td>
+                                    <p>Assigned Users</p>
+                                </td>
+                                <td>
+                                    <p>Created</p>
+                                </td>
+                                <td>
+                                    <p>Updated</p>
+                                </td>
+                                <td>
+                                    <p>Title</p>
+                                </td>
+                                <td>
+                                    <p>Body</p>
+                                </td>
+                                <td>
+                                    <p>Status</p>
+                                </td>
+                                <td>
+                                    <p>Type</p>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ticket in ProjectsHelper.TicketsOnProject(Model.Id))
+                            {
+                                <tr>
+                                    <td>
+                                        @TicketsHelper.GetTicketOwner(ticket.Id)
+                                    </td>
+                                    <td>
+                                        @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
+                                    </td>
+                                    <td>
+                                        @ticket.Created
+                                    </td>
+                                    <td>
+                                        @ticket.Updated
+                                    </td>
+                                    <td>
+                                        @ticket.Title
+                                    </td>
+                                    <td>
+                                        @ticket.Body
+                                    </td>
+                                    <td>
+                                        @TicketsHelper.GetTicketPriority(ticket.Id)
+                                    </td>
+                                    <td>
+                                        @TicketsHelper.GetTicketStatus(ticket.Id)
+                                    </td>
+                                    <td>
+                                        @TicketsHelper.GetTicketType(ticket.Id)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Details", "Ticket", new { id = ticket.Id }, new { @class ="btn btn-theme" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <h4><i class="fa fa-angle-right"></i>Create Ticket</h4>
+                <div class="row">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("ProjectId", Model.Id)
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="form-group">
+                                @Html.Label("Title", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                                <p id="titleError" class="text-danger hidden"></p>
+                                <div class="col-md-10">
+                                    @Html.TextArea("Title", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Body", htmlAttributes: new { @class = "form-horizontal col-md-2" })
+                                <p id="bodyError" class="text-danger hidden"></p>
+                                <div class="col-md-10">
+                                    @Html.TextArea("Body", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("TicketStatusId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownList("TicketStatusId", null, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("TicketPriorityId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownList("TicketPriorityId", null, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownList("TicketTypeId", null, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-round btn-success" />
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div>
                 <p>
-                    @Html.ActionLink("Projects I Created", "CreatedProjects")
+                    @Html.ActionLink("All Projects", "Index", new { @class = "btn btn-theme" })
                 </p>
                 <p>
-                    @Html.ActionLink("Assign Users to Project", "ProjectAssignment", "Admin")
+                    @Html.ActionLink("MyProjects", "MyProjects", new { @class = "btn btn-theme" })
                 </p>
-            }
+                @if (User.IsInRole("Admin,ProjectManager"))
+                {
+                    <p>
+                        @Html.ActionLink("Projects I Created", "CreatedProjects", new { @class = "btn btn-theme" })
+                    </p>
+                    <p>
+                        @Html.ActionLink("Assign Users to Project", "ProjectAssignment", "Admin", new { @class = "btn btn-theme" })
+                    </p>
+                }
+            </div>
         </div>
     </div>
 </div>
 
 
-@section scripts{
-    
-    <script>
-        var titleMsg = "ViewData['TitleError']"; 
-        if (titleMsg != "") {
-            $("#titleError").text(titleMsg);
-            $("#titleError").show();
-        }
+    @section scripts{
 
-        var bodyMsg = "ViewData['BodyError']";
-        if (bodyMsg != "") {
-            $("#bodyError").text(bodyMsg);
-            $("#bodyError").show();
-        }
+        <script>
+            var titleMsg = "ViewData['TitleError']";
+            if (titleMsg != "") {
+                $("#titleError").text(titleMsg);
+                $("#titleError").show();
+            }
 
-    </script>    
-    
-}
+            var bodyMsg = "ViewData['BodyError']";
+            if (bodyMsg != "") {
+                $("#bodyError").text(bodyMsg);
+                $("#bodyError").show();
+            }
+
+        </script>
+
+    }
