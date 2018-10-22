@@ -1,0 +1,44 @@
+﻿@model CMPH_BugTracker.Models.TicketNotification
+@{
+    ViewBag.Title = "ReadTicketNotifications";
+}
+
+<h2>ReadTicketNotifications</h2>
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+
+<h3><i class="fa fa-angle-right"></i>Ticket Notifications</h3>
+<!-- BASIC FORM ELELEMNTS -->
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <div class="row"><br /></div>
+            <table class="table">
+                @foreach (var ticketNotification in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => model.Read)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Subject)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.SenderId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Ticket)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

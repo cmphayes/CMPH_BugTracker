@@ -5,6 +5,9 @@
     ViewBag.Title = "Log in";
 }
 <div class="row mt">
+    <div>
+        @Html.ActionLink("Demo User Login", "Index", "Home", null, new { @class = "btn btn-theme" })
+    </div>
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         <div class="col-lg-8">
@@ -50,11 +53,6 @@
                     </div>
                 </form>
                 <hr>
-                <div class="login-social-link centered">
-                    <p>or you can sign in via your social network</p>
-                    <button class="btn btn-facebook" type="submit"><i class="fa fa-facebook"></i> Facebook</button>
-                    <button class="btn btn-twitter" type="submit"><i class="fa fa-twitter"></i> Twitter</button>
-                </div>
                 <div class="registration">
                     <p>
                         @Html.ActionLink("Register as a new user", "Register")
@@ -96,6 +94,7 @@
                 });
             </script>
         </div>
+
     }
 </div>
 

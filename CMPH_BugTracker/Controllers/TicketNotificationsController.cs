@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CMPH_BugTracker.Helpers;
 using CMPH_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using PagedList.Mvc;
 
@@ -16,32 +18,31 @@ namespace CMPH_BugTracker.Controllers
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
+        private TicketsHelper ticketHelper = new TicketsHelper();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private UserHelper userHelper = new UserHelper();
+
 
         // GET: TicketNotifications
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
-        public ActionResult Index(int? page, string searchStr)
+        public ActionResult Index()
         {
-            ViewBag.Search = searchStr; var TicketNotificationsList = IndexSearch(searchStr);
-
-            int pageSize = 5; // the number of posts you want to display per page             
-            int pageNumber = (page ?? 1); 
-
-            return View(TicketNotificationsList.ToPagedList(pageNumber, pageSize));
+            return View(db.TicketNotifications.ToList());
         }
 
-        [HttpPost]
-        public IQueryable<TicketNotification> IndexSearch(string searchStr)
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult UnreadTicketNotifications()
         {
-            IQueryable<TicketNotification> result = null; if (searchStr != null)
-            {
-                result = db.TicketNotifications.AsQueryable();
-                result = result.Where(p => p.Subject.Contains(searchStr)|| p.Body.Contains(searchStr));
-            }
-            else
-            {
-                result = db.TicketNotifications.AsQueryable(); }
+            var userId = User.Identity.GetUserId();
+            return View(userHelper.ListUserUnreadTicketNotifications(userId));
+        }
 
-            return result.OrderByDescending(p => p.Created);
+        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        public ActionResult ReadTicketNotifications()
+        {
+            var userId = User.Identity.GetUserId();
+            return View(userHelper.ListUserReadTicketNotifications(userId));
         }
 
         // GET: TicketNotifications/Details/5

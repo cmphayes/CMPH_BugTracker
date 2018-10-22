@@ -87,7 +87,7 @@
                     <dd>
                         @if (User.IsInRole("Admin"))
                         {
-                            @Html.ActionLink("EditTicket", "Edit", new { id = Model.Id }, new { @class = "btn btn-theme" }) @:|
+                            @Html.ActionLink("EditTicket", "Edit", new { id = Model.Id }, new { @class = "btn btn-theme" })
                             @Html.ActionLink("DeleteTicket", "Delete", new { id = Model.Id }, new { @class = "btn btn-theme" })
                         }
                     </dd>

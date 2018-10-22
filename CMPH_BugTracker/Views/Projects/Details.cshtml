@@ -1,6 +1,5 @@
 ﻿@using CMPH_BugTracker.Helpers
 @model CMPH_BugTracker.Models.Project
-
 @{
     ViewBag.Title = "Details";
 }
@@ -133,7 +132,7 @@
                                         @TicketsHelper.GetTicketType(ticket.Id)
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Details", "Details", "Ticket", new { id = ticket.Id }, new { @class ="btn btn-theme" })
+                                        @Html.ActionLink("Details", "Details", "Tickets", new { id = ticket.Id }, new { @class ="btn btn-theme" })
                                     </td>
                                 </tr>
                             }

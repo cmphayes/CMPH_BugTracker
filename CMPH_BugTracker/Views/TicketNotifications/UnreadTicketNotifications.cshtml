@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<CMPH_BugTracker.Models.TicketNotification>
 @{
-    ViewBag.Title = "TicketNotifications";
+    ViewBag.Title = "UnreadTickets";
 }
+
+<h2>UnreadTickets</h2>
+
 <style>
     table, th, td {
         border: 1px solid black;
     }
 </style>
-
 
 <h3><i class="fa fa-angle-right"></i>Ticket Notifications</h3>
 <!-- BASIC FORM ELELEMNTS -->
@@ -35,17 +37,12 @@
                     @foreach (var ticketNotification in Model)
                     {
                         <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            <td>
-                            </td>
+                            <td></td>
                         </tr>
                     }
                 </tbody>

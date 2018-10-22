@@ -1,5 +1,8 @@
 ﻿@using CMPH_BugTracker.Helpers
-@model IEnumerable<CMPH_BugTracker.Models.Ticket>
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using CMPH_BugTracker.Models;
+@using CMPH_BugTracker.Extensions@model IEnumerable<CMPH_BugTracker.Models.Ticket>
 @{
     ViewBag.Title = "MyAssignedTickets";
 }
@@ -48,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var ticket in Model)
+                    @foreach (var ticket in Model.Where(p => p.AssignedUserId == (User.Identity.GetUserId())))
                     {
                         <tr>
                             <td>

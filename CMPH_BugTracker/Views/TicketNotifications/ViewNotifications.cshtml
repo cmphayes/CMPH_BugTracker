@@ -1,0 +1,81 @@
+﻿@using CMPH_BugTracker.Helpers
+@model IEnumerable<CMPH_BugTracker.Models.TicketNotification>
+@{
+    ViewBag.Title = "ViewNotifications";
+}
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+<h3><i class="fa fa-angle-right"></i>View Notifications</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Subject)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Body)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Updated)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Ticket)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().SenderId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Read)
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                @foreach (var ticket in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.Raw(ticket.Subject)
+                    </td>
+                    <td>
+                        @Html.Raw(ticket.Body)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.Updated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.Ticket)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.OwnerUserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.SenderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ticket.Read)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { Id = ticket.Id }, new { @class = "btn btn-theme" }) 
+                    </td>
+                </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+

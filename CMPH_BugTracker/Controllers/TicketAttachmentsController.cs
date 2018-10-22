@@ -129,6 +129,26 @@ namespace CMPH_BugTracker.Controllers
                 return HttpNotFound();
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
+            var userId = User.Identity.GetUserId();
+            var ticket = db.Tickets.Find(id);
+            var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            switch (myRole)
+            {
+                case "ProjectManager":
+                    if (ticket.AssignedUserId != userId && ticket.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Developer":
+                    if (ticket.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Submitter":
+                    if (ticket.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                default:
+                    break;
+            }
             return View(ticketAttachment);
         }
 
@@ -162,6 +182,26 @@ namespace CMPH_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            var userId = User.Identity.GetUserId();
+            var ticket = db.Tickets.Find(id);
+            var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            switch (myRole)
+            {
+                case "ProjectManager":
+                    if (ticket.AssignedUserId != userId && ticket.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Developer":
+                    if (ticket.AssignedUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                case "Submitter":
+                    if (ticket.OwnerUserId != userId)
+                        return RedirectToAction("ProfileView", "Account");
+                    break;
+                default:
+                    break;
+            }
             return View(ticketAttachment);
         }
 
@@ -175,20 +215,6 @@ namespace CMPH_BugTracker.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        //public ActionResult Download(string ticketAttachment)
-        //{
-        //    string path = Server.MapPath("~/Images/");
-        //    DirectoryInfo dirInfo = new DirectoryInfo(path);
-        //    FileInfo[] files = dirInfo.GetFiles("*.*");
-        //    List<string> 1st = new List<string>(files.Length);
-        //    foreach (var item in files)
-        //    {
-        //        1st.Add(item.Name);
-
-        //    }
-        //    return View(1st);
-        //}
 
         public ActionResult DownloadFile(string filename)
         {

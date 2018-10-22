@@ -45,27 +45,29 @@ namespace CMPH_BugTracker.Helpers
             return user;
         }
 
+        [ValidateAntiForgeryToken]
+        public ICollection<TicketNotification> ListUserNotifications(string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            var ticketNotifications = user.TicketNotifications.ToList();
+            return (ticketNotifications);
+        }
+
+        [ValidateAntiForgeryToken]
+        public ICollection<TicketNotification> ListUserUnreadTicketNotifications(string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            var ticketNotifications = user.TicketNotifications.Where(t => t.Read == false).ToList();
+            return (ticketNotifications);
+        }
+
+        [ValidateAntiForgeryToken]
+        public ICollection<TicketNotification> ListUserReadTicketNotifications(string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            var ticketNotifications = user.TicketNotifications.Where(t => t.Read == true).ToList();
+            return (ticketNotifications);
+        }
+
     }
-
-
-
-
-    //public class GetImageHelper
-    //{
-    //    ApplicationDbContext db = new ApplicationDbContext();
-    //    [ValidateAntiForgeryToken]
-    //    public ActionResult GetImage(string userId)
-    //    {
-    //        if (userId == null)
-    //        {
-    //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-    //        }
-    //        ApplicationUser user = db.Users.FirstOrDefault(a => a.Id == userId);
-    //        if (user.ProfileImage == null)
-    //        {
-    //            return ();
-    //        }
-    //        return View(user.ProfileImage);
-    //    }
-    //}
 }

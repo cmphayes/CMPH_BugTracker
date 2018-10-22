@@ -1,4 +1,8 @@
 ﻿@using CMPH_BugTracker.Helpers
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using CMPH_BugTracker.Models;
+@using CMPH_BugTracker.Extensions
 @model IEnumerable<CMPH_BugTracker.Models.Project>
 
 @{
@@ -39,32 +43,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var project in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.Raw(project.Title)
-                            </td>
-                            <td>
-                                @Html.Raw(project.Body)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => project.Created)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => project.Updated)
-                            </td>
-                            <td>
-                                @ProjectsHelper.GetProjectOwner(project.Id)
-                            </td>
-                            <td>
+                    @foreach (var project in Model.Where(p => p.AssignedUserId == (User.Identity.GetUserId())))
+                            {
+                                <tr >
+                                    <td >
+                                        @Html.Raw(project.Title)
+                                    </td >
+                                    <td >
+                                        @Html.Raw(project.Body)
+                                    </td >
+                                    <td >
+                                        @Html.DisplayFor(modelItem => project.Created)
+                                    </td >
+                                    <td >
+                                        @Html.DisplayFor(modelItem => project.Updated)
+                                    </td >
+                                    <td >
+                                        @ProjectsHelper.GetProjectOwner(project.Id)
+                                    </td >
+                                    <td >
                                 @*@ProjectsHelper.ListUsersOnProject(project.Id)*@
-                            </td>
-                            <td>
-                                @Html.ActionLink("Details", "Details", new { Id = project.Id }, new { @class = "btn btn-theme" })
-                            </td>
-                        </tr>
-                    }
+                    </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { Id = project.Id }, new { @class = "btn btn-theme" })
+                </td>
+                </tr>
+                }
                 </tbody>
             </table>
         </div>

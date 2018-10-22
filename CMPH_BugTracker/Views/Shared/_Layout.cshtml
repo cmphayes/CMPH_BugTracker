@@ -35,6 +35,9 @@
 
     <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
+    <link rel="icon" href="~/img/FaviconImage.png" />
+
+
     <!-- =======================================================
       Template Name: Dashio
       Template URL: http://templatemag.com/dashio-bootstrap-admin-template/
@@ -421,28 +424,28 @@
                         </a>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <ul class="sub">
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("Ticket Attachments I Created", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                                @if (User.IsInRole("ProjectManager"))
-                                {
-                                    <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("Ticket Attachments I Created", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                                @if (User.IsInRole("Developer"))
-                                {
-                                    <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("Ticket Attachments I Created", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                                @if (User.IsInRole("Submitter"))
-                                {
-                                    <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                    <li>@Html.ActionLink("Ticket Attachments I Created", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                            </ul>
+                        <ul class="sub">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink(" Created Ticket Attachments", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                            @if (User.IsInRole("ProjectManager"))
+                            {
+                                <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink(" Created Ticket Attachments", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                            @if (User.IsInRole("Developer"))
+                            {
+                                <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink(" Created Ticket Attachments", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                <li>@Html.ActionLink("All Ticket Attachments", "Index", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                                <li>@Html.ActionLink(" Created Ticket Attachments", "CreatedTicketAttachments", "TicketAttachments", null, new { @class = "nav-link js-scroll-trigger" })</li>
+                            }
+                        </ul>
                         }
                         else
                         {
@@ -463,18 +466,12 @@
                             <ul class="sub">
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    <li>@Html.ActionLink("Ticket Assignment", "TicketAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                     <li>@Html.ActionLink("Project Assignment", "ProjectAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                     <li>@Html.ActionLink("Role Assignment", "RoleAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                 }
                                 @if (User.IsInRole("ProjectManager"))
                                 {
-                                    <li>@Html.ActionLink("Ticket Assignment", "TicketAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                     <li>@Html.ActionLink("Project Assignment", "ProjectAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
-                                }
-                                @if (User.IsInRole("Developer"))
-                                {
-                                    <li>@Html.ActionLink("Ticket Assignment", "TicketAssignment", "Admin", null, new { @class = "nav-link js-scroll-trigger" })</li>
                                 }
                             </ul>
                         }
@@ -542,7 +539,7 @@
     <script src="~/lib/advanced-datatable/js/jquery.dataTables.min.js"></script>
     <script src="~/lib/sparkline-chart.js"></script>
     <script src="~/lib/zabuto_calendar.js"></script>
-    <script type="text/javascript">
+    @*<script type="text/javascript">
         $(document).ready(function () {
             var unique_id = $.gritter.add({
                 title: 'Welcome to Dashio!',
@@ -555,7 +552,7 @@
 
             return false;
         });
-    </script>
+    </script>*@
 
 
     <script>

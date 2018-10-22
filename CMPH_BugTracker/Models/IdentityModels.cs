@@ -28,6 +28,8 @@ namespace CMPH_BugTracker.Models
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
+        public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
+
 
         public ApplicationUser()
         {
@@ -36,6 +38,8 @@ namespace CMPH_BugTracker.Models
             TicketAttachments = new HashSet<TicketAttachment>();
             TicketComments = new HashSet<TicketComment>();
             TicketHistories = new HashSet<TicketHistory>();
+            TicketNotifications = new HashSet<TicketNotification>();
+
 
 
 

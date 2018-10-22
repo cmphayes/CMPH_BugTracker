@@ -14,25 +14,97 @@ using CMPH_BugTracker.Models;
 using System.Net.Mail;
 using System.Web.Configuration;
 using System.Net;
+using CMPH_BugTracker;
 
 namespace CMPH_BugTracker
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var GmailUsername = WebConfigurationManager.AppSettings["username"];
+            var GmailPassword = WebConfigurationManager.AppSettings["password"];
+            var host = WebConfigurationManager.AppSettings["host"];
+            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+
+            using (var smtp = new SmtpClient()
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
+            })
+
+            using (var email = new MailMessage(WebConfigurationManager.AppSettings["emailfrom"], message.Destination)
+            {
+                Subject = message.Subject,
+                IsBodyHtml = true,
+                Body = message.Body
+            })
+
+            {
+                try
+                {
+                    await smtp.SendMailAsync(email);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    await Task.FromResult(0);
+
+                }
+            };
         }
     }
+    //public Task SendAsync(IdentityMessage message)
+    //{
+    //    // Plug in your SMS service here to send a text message.
+    //    return Task.FromResult(0);
+    //}
 
     public class SmsService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
-            return Task.FromResult(0);
+            var GmailUsername = WebConfigurationManager.AppSettings["username"];
+            var GmailPassword = WebConfigurationManager.AppSettings["password"];
+            var host = WebConfigurationManager.AppSettings["host"];
+            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+
+            using (var smtp = new SmtpClient()
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
+            })
+
+            using (var email = new MailMessage(WebConfigurationManager.AppSettings["emailfrom"], message.Destination)
+            {
+                Subject = message.Subject,
+                IsBodyHtml = true,
+                Body = message.Body
+            })
+            {
+                try
+                {
+                    await smtp.SendMailAsync(email);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
         }
+        //public Task SendAsync(IdentityMessage message)
+        //{
+        //    // Plug in your SMS service here to send a text message.
+        //    return Task.FromResult(0);
+        //}
     }
 
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
@@ -43,7 +115,7 @@ namespace CMPH_BugTracker
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -84,11 +156,13 @@ namespace CMPH_BugTracker
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
+
+
     }
 
     // Configure the application sign-in manager which is used in this application.
@@ -114,8 +188,8 @@ namespace CMPH_BugTracker
     {
         public async Task SendAsync(MailMessage message)
         {
-            var GmailUsername = WebConfigurationManager.AppSettings["username"];
-            var GmailPassword = WebConfigurationManager.AppSettings["password"];
+            var YahooUsername = WebConfigurationManager.AppSettings["username"];
+            var YahooPassword = WebConfigurationManager.AppSettings["password"];
             var host = WebConfigurationManager.AppSettings["host"];
             int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
 
@@ -127,7 +201,7 @@ namespace CMPH_BugTracker
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
+                Credentials = new NetworkCredential(YahooUsername, YahooPassword)
             })
             {
                 try
@@ -142,8 +216,8 @@ namespace CMPH_BugTracker
                 }
             };
         }
-    }
 
+    }
 }
 
 

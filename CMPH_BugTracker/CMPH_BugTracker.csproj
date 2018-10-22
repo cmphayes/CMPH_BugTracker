@@ -215,6 +215,7 @@
     <Compile Include="Controllers\TicketTypesController.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Extensions\TicketExtensions.cs" />
+    <Compile Include="Extensions\TicketNotificationExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -588,6 +589,10 @@
     <Content Include="Views\Shared\TicketHistoryPartial.cshtml" />
     <Content Include="Views\Shared\TicketNotificationPartial.cshtml" />
     <Content Include="Views\TicketAttachments\CreatedTicketAttachments.cshtml" />
+    <Content Include="Views\TicketNotifications\ViewNotifications.cshtml" />
+    <Content Include="Views\TicketNotifications\UnreadTicketNotifications.cshtml" />
+    <Content Include="Views\TicketNotifications\ReadTicketNotifications.cshtml" />
+    <Content Include="Views\Shared\EditProfilePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

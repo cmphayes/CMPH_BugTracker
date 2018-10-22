@@ -3,6 +3,9 @@ using CMPH_BugTracker.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using CMPH_BugTracker.Controllers;
+using CMPH_BugTracker.Extensions;
+using System.Threading.Tasks;
 
 namespace CMPH_BugTracker.Controllers
 {
@@ -45,6 +48,7 @@ namespace CMPH_BugTracker.Controllers
             ////Update cookie 
             //SignInManager.SignIn(users false false)
             //Return
+
             return RedirectToAction("ProfileView", "Account");
         }
 
@@ -75,7 +79,6 @@ namespace CMPH_BugTracker.Controllers
                 projectsHelper.AddUserToProject(userId, projects);
             }
             return RedirectToAction("Index", "Projects");
-
         }
 
         [Authorize(Roles = "Admin,ProjectManager")]
@@ -86,25 +89,27 @@ namespace CMPH_BugTracker.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,ProjectManager")]
-        public ActionResult TicketAssignment(int tickets, List<string> users)
-        {
-            var ticketUsers = ticketsHelper.ListUsersOnTicket(tickets);
-            if (ticketUsers.Count > 0)
-            {
-                foreach (var user in ticketUsers)
-                {
-                    ticketsHelper.RemoveUserFromTicket(user.Id, tickets);
-                }
-            }
-            foreach (var userId in users)
-            {
-                ticketsHelper.AddUserToTicket(userId, tickets);
-            }
-            return RedirectToAction("Index", "Tickets");
-
-        }
+    //    [HttpPost]
+    //    [ValidateAntiForgeryToken]
+    //    [Authorize(Roles = "Admin,ProjectManager")]
+    //    public async Task <ActionResult> TicketAssignment(List<int> tickets, string users, Ticket oldTicket)
+    //    {
+    //        //var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+    //        foreach (var ticket in tickets)
+    //        {
+    //            var ticketUsers = ticketsHelper.ListUsersOnTicket(ticket);
+    //            if (ticketUsers.Count > 0)
+    //            {
+    //                foreach (var user in ticketUsers)
+    //                {
+    //                    ticketsHelper.RemoveUserFromTicket(user.Id, ticket);
+    //                }
+    //            }
+    //            ticketsHelper.AddUserToTicket(users, ticket);
+    //        }
+    //        ticket.RecordChanges(oldTicket);
+    //        await ticket.TriggerNotifications(oldTicket);
+    //        return RedirectToAction("ProfileView", "Account");
+    //    }
     }
 }
