@@ -16,22 +16,19 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+                            <a>Title</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Body)
+                            <a>Body</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
+                            <a>Created</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Updated)
+                            <a>Updated</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().AssignedUserId)
+                            <a>Owner User</a>
                         </th>
                         <th>
                         </th>
@@ -55,9 +52,6 @@
                             </td>
                             <td>
                                 @ProjectsHelper.GetProjectOwner(project.Id)
-                            </td>
-                            <td>
-                                @*@ProjectsHelper.ListUsersOnProject(project.Id)*@
                             </td>
                             <td>
                                 @Html.ActionLink("Details", "Details", new { Id = project.Id }, new { @class = "btn btn-theme" })

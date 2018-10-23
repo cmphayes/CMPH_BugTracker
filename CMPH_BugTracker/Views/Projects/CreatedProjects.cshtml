@@ -17,24 +17,23 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Title)
+                            <a>Title</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Body)
+                            <a>Body</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Created)
+                            <a>Created</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Updated)
+                            <a>Updated</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.AssignedUserId)
+                            <a>Owner User</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.OwnerUserId)
+
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
 
@@ -53,9 +52,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => project.Updated)
-                            </td>
-                            <td>
-                                @*@ProjectsHelper.ListUsersOnProject(project.Id)*@
                             </td>
                             <td>
                                 @ProjectsHelper.GetProjectOwner(project.Id)

@@ -133,25 +133,43 @@ namespace CMPH_BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         public ActionResult Edit(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var ticket = db.Tickets.Find(id);
             var userId = User.Identity.GetUserId();
             var myRole = roleHelper.ListUserRoles(userId).ToList().FirstOrDefault();
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Value", ticket.TicketPriorityId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Value", ticket.TicketStatusId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Value", ticket.TicketTypeId);
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "Email");
+
             switch (myRole)
             {
                 case "Developer":
-                    if (ticket.AssignedUserId != userId)
-                        return RedirectToAction("ProfileView", "Account");
-                    break;
+                    if (ticket.AssignedUserId == userId)
+                        return View(ticket);
+                        break;
                 case "Submitter":
-                    if (ticket.OwnerUserId != userId)
-                        return RedirectToAction("ProfileView", "Account");
+                    if (ticket.OwnerUserId == userId)
+                        return View(ticket);
                     break;
                 case "Project Manager":
-                    if (!projectHelper.IsUserOnProject(userId, ticket.ProjectId))
-                        return RedirectToAction("ProfileView", "Account");
+                    foreach (var project in projectHelper.ListUserProjects(userId))
+                    {
+                        if (ticket.ProjectId == project.Id)
+                            return View(ticket);
+                    }
+                    break;
+                case "Admin":
+                    if (ticket.OwnerUserId == userId || ticket.AssignedUserId == userId)
+                    {
+                        return View(ticket);
+                    }
                     break;
                 default:
                     break;
@@ -161,49 +179,84 @@ namespace CMPH_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            return RedirectToAction("Index");
 
-            var projectDevelopers = new List<ApplicationUser>();
-            var projectUsers = projectHelper.ListUsersOnProject(ticket.ProjectId);
-            foreach (var user in projectUsers)
-            {
-                if (roleHelper.IsUserInRole(user.Id, "Admin,Developer"))
-                {
-                    projectDevelopers.Add(user);
-                }
-            }
-            ViewBag.Tickets = new MultiSelectList(db.Tickets.ToList(), "Id", "Title");
-            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "Email");
-            ViewBag.AssignedUserId = new SelectList(projectDevelopers, "Id", "Email", ticket.AssignedUserId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Value", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Value", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Value", ticket.TicketTypeId);
-            return View(ticket);
+            //{
+            //    case "Developer":
+            //        if (ticket.AssignedUserId != userId)
+            //            return RedirectToAction("ProfileView", "Account");
+            //        break;
+            //    case "Submitter":
+            //        if (ticket.OwnerUserId != userId)
+            //            return RedirectToAction("ProfileView", "Account");
+            //        break;
+            //    case "Project Manager":
+            //        if (!projectHelper.IsUserOnProject(userId, ticket.ProjectId))
+            //            return RedirectToAction("ProfileView", "Account");
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+            //if (ticket == null)
+            //{
+            //    return HttpNotFound();
+            //}
+
+            //var projectDevelopers = new List<ApplicationUser>();
+            //var projectUsers = projectHelper.ListUsersOnProject(ticket.ProjectId);
+            //foreach (var user in projectUsers)
+            //{
+            //    if (roleHelper.IsUserInRole(user.Id, "Admin,Developer"))
+            //    {
+            //        projectDevelopers.Add(user);
+            //    }
+            //}
+            //ViewBag.Tickets = new MultiSelectList(db.Tickets.ToList(), "Id", "Title");
+            //ViewBag.AssignedUserId = new SelectList(projectDevelopers, "Id", "Email", ticket.AssignedUserId);
+            //return View(ticket);
         }
+    
 
         // POST: Tickets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <ActionResult> Edit([Bind(Include = "Id,Title,Body,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedUserId")] Ticket ticket)
+        public async Task <ActionResult> Edit([Bind(Include = "Id,Title,Body,Description,Created,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedUserId")] Ticket ticket, IdentityMessage message, List<string> users)
         {
             var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
             if (ModelState.IsValid)
             {
+                var ticketUsers = ticketHelper.ListUsersOnTicket(ticket.Id);
+                if (ticketUsers.Count > 0)
+                {
+                    foreach (var user in ticketUsers.ToList())
+                    {
+                        ticketHelper.RemoveUserFromTicket(user.Id, ticket.Id);
+                    }
+                }
+                foreach (var userId in users)
+                {
+                    ticketHelper.AddUserToTicket(userId, ticket.Id);
+                }
                 ticket.Updated = DateTimeOffset.Now;
-                db.Tickets.Add(ticket);
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
-
-                if (string.IsNullOrEmpty(oldTicket.AssignedUserId) && !string.IsNullOrEmpty(ticket.AssignedUserId))
-                {
-                    ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Value == "Assigned").Id;
-                }
-
                 ticket.RecordChanges(oldTicket);
-                await ticket.TriggerNotifications(oldTicket);
-                return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
+                await TicketNotificationExtensions.TriggerNotifications(ticket, oldTicket);
+                return RedirectToAction("Index");
+                //db.Tickets.Add(ticket);
+                //db.Entry(ticket).State = EntityState.Modified;
+                //db.SaveChanges();
+                //if (string.IsNullOrEmpty(oldTicket.AssignedUserId) && !string.IsNullOrEmpty(ticket.AssignedUserId))
+                //{
+                //    ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Value == "Assigned").Id;
+                //}
+                //ticket.RecordChanges(oldTicket);
+                //await ticket.TriggerNotifications(oldTicket);
+                //return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             }
 
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");

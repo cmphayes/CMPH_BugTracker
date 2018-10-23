@@ -38,11 +38,8 @@
                                 @Html.DisplayNameFor(model => model.TicketPriority)
                             </td>
                             <td>
-                                @Html.DisplayNameFor(model => model.OwnerUser)
+                                <a>UserOwner</a>
                             </td>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AssignedUserId)
-                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -73,9 +70,6 @@
                                 </td>
                                 <td>
                                     @TicketsHelper.GetTicketOwner(ticket.Id)
-                                </td>
-                                <td>
-                                    @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
                                 </td>
                                 <td>
                                     @Html.ActionLink("Details", "Details", new { id = ticket.Id }, new { @class = "btn btn-theme" })

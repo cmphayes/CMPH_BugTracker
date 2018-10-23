@@ -42,10 +42,7 @@
                             @Html.DisplayNameFor(model => model.TicketType)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().AssignedUserId)
+                            <a>UserOwner</a>
                         </th>
                         <th>
                         </th>
@@ -78,9 +75,6 @@
                             </td>
                             <td>
                                 @TicketsHelper.GetTicketOwner(ticket.Id)
-                            </td>
-                            <td>
-                                @*@TicketsHelper.ListUsersOnTicket(ticket.Id)*@
                             </td>
                             <td>
                                 @Html.ActionLink("Details", "Details", "Projects", new { Id = ticket.Id }) 

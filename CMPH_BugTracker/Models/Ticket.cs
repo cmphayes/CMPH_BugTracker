@@ -11,18 +11,6 @@ namespace CMPH_BugTracker.Models
         //PrimaryKey
         public int Id { get; set; }
 
-        //ForiegnKeys
-        public int ProjectId { get; set; }
-        public int TicketPriorityId { get; set; }
-        public int TicketStatusId { get; set; }
-        public int TicketTypeId { get; set; }
-
-        [Display(Name = "Assigned to:")]
-        public string AssignedUserId { get; set; }
-
-        [Display(Name = "Owned by:")]
-        public string OwnerUserId { get; set; }
-
         //Properties
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Updated { get; set; }
@@ -30,6 +18,13 @@ namespace CMPH_BugTracker.Models
         public string Title { get; set; }
         public string Body { get; set; }
 
+        //ForiegnKeys
+        public int ProjectId { get; set; }
+        public int TicketPriorityId { get; set; }
+        public int TicketStatusId { get; set; }
+        public int TicketTypeId { get; set; }
+        public string AssignedUserId { get; set; }
+        public string OwnerUserId { get; set; }
 
         //Childern
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }

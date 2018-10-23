@@ -51,6 +51,41 @@ namespace CMPH_BugTracker.Helpers
             }
             return TicketAttachmentOwner;
         }
+
+        //[Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
+        //Im going to change this to a switch statement
+        public static string GetUploadIcon(int ticketAttachmentId)
+        {
+            var defaultIcon = "/img/if_url_65946.png";
+            var ticketAttachmentPath = db.TicketAttachments.Find(ticketAttachmentId).FilePath;
+
+            string fileExt = System.IO.Path.GetExtension(ticketAttachmentPath);
+
+            if (fileExt == ".jpeg")
+            {
+                return "/img/if_jpeg_65908.png";
+            }
+            else if (fileExt == ".pdf")
+            {
+                return "/img/if_pdf_65920.png";
+            }
+            else if (fileExt == ".doc")
+            {
+                return "/img/if_docx_win_65892.png";
+            }
+            else if (fileExt == ".png")
+            {
+                return "/img/if_png_65922.png";
+            }
+            else if (fileExt == ".rar")
+            {
+                return "/img/if_rar_65936.png";
+            }
+            else
+            {
+                return defaultIcon;
+            }
+        }
     }
 }
  

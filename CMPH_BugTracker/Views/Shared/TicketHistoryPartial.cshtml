@@ -8,18 +8,40 @@
             @foreach (var ticketHistory in Model.TicketHistories)
             {
                 <table class="table">
-                    <tr>
-                        <td>
-                            @ticketHistory.Changed
-                        </td>
-                        <td>
-                            @TicketsHelper.GetTicketEditor(ticketHistory.UserId)
-                        </td>
-                        <td>
-                            @ticketHistory.Property
-                        </td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <td>
+                                <a>Time Changed</a>
+                            </td>
+                            <td>
+                                <a>Editor</a>
+                            </td>
+                            <td>
+                                <a>Old Value</a>
+                            </td>
+                            <td>
+                                <a>New Value</a>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @ticketHistory.Changed
+                            </td>
+                            <td>
+                                @TicketsHelper.GetTicketEditor(ticketHistory.UserId)
+                            </td>
+                            <td>
+                                @ticketHistory.OldValue
+                            </td>
+                            <td>
+                                @ticketHistory.NewValue
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
+                <hr />
             }
         </div>
     </div>

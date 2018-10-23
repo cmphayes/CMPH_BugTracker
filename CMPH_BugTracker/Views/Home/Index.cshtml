@@ -17,52 +17,47 @@
         <div class="row">
             <div class="col-md-3 mb">
                 <div class="col-lg-8">
-                    <h4><i class="fa fa-angle-right"></i>Admin Accessibility</h4>
-                    <p>Assign Roles, Projects, Tickets to each user</p>
-                    <p>Create Projects, Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p>Edit Projects, Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p>Delete Projects, Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
+                    <h4><i class="fa fa-id-card-o">Admin Accessibility</i></h4>
+                    <hr />
+                    <p><i class="fa fa-gear">Assign Roles, Projects, Tickets to each user</i></p>
+                    <p><i class="fa fa-gear">Create Projects, Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Edit Projects, Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Delete Projects, Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <hr />
                 </div>
             </div>
             <div class="col-md-3 mb">
                 <div class="col-lg-8">
-                    <h4><i class="fa fa-angle-right"></i>Project Manager Accessibility</h4>
-                    <p>Assign Projects, Tickets to each user</p>
-                    <p>Create Projects, Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p>Edit Projects, Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p>Delete Projects, Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
+                    <h4><i class="fa fa-id-card-o">Project Manager Accessibility</i></h4>
+                    <hr />
+                    <p><i class="fa fa-gear">Assign Projects, Tickets to each user</i></p>
+                    <p><i class="fa fa-gear">Create Projects, Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Edit Projects, Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Delete Projects, Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <hr />
+
                 </div>
             </div>
             <div class="col-md-3 mb">
                 <div class="col-lg-8">
-                    <h4><i class="fa fa-angle-right"></i>Developer Accessibility</h4>
-                    <p>Create Ticket Comments, and Ticket Attachments</p>
-                    <p>Edit Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p>Delete Ticket Comments and Ticket Attachments</p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
+                    <h4><i class="fa fa-id-card-o">Developer Accessibility</i></h4>
+                    <hr />
+                    <p><i class="fa fa-gear">Create Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Edit Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Delete Ticket Comments and Ticket Attachments</i></p>
+                    <hr />
+
                 </div>
             </div>
             <div class="col-md-3 mb">
                 <div class="col-lg-8">
-                    <h4 class=" fa-bold"><i class="fa fa-angle-right"></i>Submitter Accessibility</h4>
-                    <p>Create Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p>Edit Tickets, Ticket Comments, and Ticket Attachments</p>
-                    <p>Delete Ticket Comments and Ticket Attachments</p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    <p></p>
+                    <h4><i class="fa fa-id-card-o">Submitter Accessibility</i></h4>
+                    <hr />
+                    <p><i class="fa fa-gear">Create Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Edit Tickets, Ticket Comments, and Ticket Attachments</i></p>
+                    <p><i class="fa fa-gear">Delete Ticket Comments and Ticket Attachments</i></p>
+                    <hr />
+
                 </div>
             </div>
         </div>
@@ -74,8 +69,7 @@
                         <h4><i class="fa fa-angle-right"></i>Login As Demo Administrator</h4>
                         <div class="form">
                             @Html.AntiForgeryToken()
-                            @Html.Hidden("Password", WebConfigurationManager.AppSettings["UserPassword"])
-                            @Html.Hidden("Email", WebConfigurationManager.AppSettings["AdminEmail"])
+                            @Html.Hidden("Role", "Admin", WebConfigurationManager.AppSettings["UserPassword"])
                         </div>
                     </div>
                     <div class="form-group">
@@ -92,8 +86,7 @@
                         <h4><i class="fa fa-angle-right"></i>Login As Demo Project Manager</h4>
                         <div class="form">
                             @Html.AntiForgeryToken()
-                            @Html.Hidden("Password", WebConfigurationManager.AppSettings["UserPassword"])
-                            @Html.Hidden("Email", WebConfigurationManager.AppSettings["ProjectManagerEmail"])
+                            @Html.Hidden("Role", "ProjectManager", WebConfigurationManager.AppSettings["UserPassword"])
                         </div>
                     </div>
                     <div class="form-group">
@@ -110,8 +103,7 @@
                         <h4><i class="fa fa-angle-right"></i>Login As Demo Developer</h4>
                         <div class="form">
                             @Html.AntiForgeryToken()
-                            @Html.Hidden("Password", WebConfigurationManager.AppSettings["UserPassword"])
-                            @Html.Hidden("Email", WebConfigurationManager.AppSettings["DeveloperEmail"])
+                            @Html.Hidden("Role", "Developer", WebConfigurationManager.AppSettings["UserPassword"])
                         </div>
                     </div>
                     <div class="form-group">
@@ -128,8 +120,7 @@
                         <h4><i class="fa fa-angle-right"></i>Login As Demo Submitter</h4>
                         <div class="form">
                             @Html.AntiForgeryToken()
-                            @Html.Hidden("Password", WebConfigurationManager.AppSettings["UserPassword"])
-                            @Html.Hidden("Email", WebConfigurationManager.AppSettings["SubmitterEmail"])
+                            @Html.Hidden("Role", "Submitter", WebConfigurationManager.AppSettings["UserPassword"])
                         </div>
                     </div>
                     <div class="form-group">

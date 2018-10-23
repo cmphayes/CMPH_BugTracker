@@ -17,24 +17,24 @@ namespace CMPH_BugTracker.Extensions
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
 
-        public static async Task TriggerNotifications(this Ticket ticket, Ticket oldTicket)
+        public static async Task TriggerNotifications(this Ticket tick, Ticket oldTicket)
         {
             //Let's begin with notifications for Ticket Assignment/UnAssignment
-            var newAssignment = (ticket.AssignedUserId != null && oldTicket.AssignedUserId == null);
-            var unAssignment = (ticket.AssignedUserId == null && oldTicket.AssignedUserId != null);
-            var reAssignment = ((ticket.AssignedUserId != null && oldTicket.AssignedUserId != null) &&
-                               (ticket.AssignedUserId != oldTicket.AssignedUserId));
+            var newAssignment = (tick.AssignedUserId != null && oldTicket.AssignedUserId == null);
+            var unAssignment = (tick.AssignedUserId == null && oldTicket.AssignedUserId != null);
+            var reAssignment = ((tick.AssignedUserId != null && oldTicket.AssignedUserId != null) &&
+                               (tick.AssignedUserId != oldTicket.AssignedUserId));
 
             //Compose the body of the email
             var body = new StringBuilder();
             body.AppendFormat("<p>Email From: <bold>{0}</bold>({1})</p>", "Administrator", WebConfigurationManager.AppSettings["emailfrom"]);
             body.AppendLine("<br/><p><u><b>Message:</b></u></p>");
-            body.AppendFormat("<p><b>Project Name:</b> {0}</p>", db.Projects.FirstOrDefault(p => p.Id == ticket.ProjectId).Title);
-            body.AppendFormat("<p><b>Ticket Title:</b> {0} | Id: {1}</p>", ticket.Title, ticket.Id);
-            body.AppendFormat("<p><b>Ticket Created:</b> {0}</p>", ticket.Created);
-            body.AppendFormat("<p><b>Ticket Type:</b> {0}</p>", db.TicketTypes.Find(ticket.TicketTypeId).Value);
-            body.AppendFormat("<p><b>Ticket Status:</b> {0}</p>", db.TicketStatus.Find(ticket.TicketStatusId).Value);
-            body.AppendFormat("<p><b>Ticket Priority:</b> {0}</p>", db.TicketPriorities.Find(ticket.TicketPriorityId).Value);
+            body.AppendFormat("<p><b>Project Name:</b> {0}</p>", db.Projects.FirstOrDefault(p => p.Id == tick.ProjectId).Title);
+            body.AppendFormat("<p><b>Ticket Title:</b> {0} | Id: {1}</p>", tick.Title, tick.Id);
+            body.AppendFormat("<p><b>Ticket Created:</b> {0}</p>", tick.Created);
+            body.AppendFormat("<p><b>Ticket Type:</b> {0}</p>", db.TicketTypes.Find(tick.TicketTypeId).Value);
+            body.AppendFormat("<p><b>Ticket Status:</b> {0}</p>", db.TicketStatus.Find(tick.TicketStatusId).Value);
+            body.AppendFormat("<p><b>Ticket Priority:</b> {0}</p>", db.TicketPriorities.Find(tick.TicketPriorityId).Value);
 
             //Generate email
             IdentityMessage email = null;
@@ -45,7 +45,7 @@ namespace CMPH_BugTracker.Extensions
                 {
                     Subject = "Notification: A Ticket has been assigned to you...",
                     Body = body.ToString(),
-                    Destination = db.Users.Find(ticket.AssignedUserId).Email
+                    Destination = db.Users.Find(tick.AssignedUserId).Email
                 };
 
                 var svc = new EmailService();
@@ -71,7 +71,7 @@ namespace CMPH_BugTracker.Extensions
                 {
                     Subject = "Notification: A Ticket has been assigned to you...",
                     Body = body.ToString(),
-                    Destination = db.Users.Find(ticket.AssignedUserId).Email
+                    Destination = db.Users.Find(tick.AssignedUserId).Email
                 };
 
                 var svc = new EmailService();
@@ -96,8 +96,8 @@ namespace CMPH_BugTracker.Extensions
                 notification = new TicketNotification
                 {
                     Body = "Notification: A Ticket has been assigned to you...<br />" + body.ToString(),
-                    RecipientId = ticket.AssignedUserId,
-                    TicketId = ticket.Id
+                    RecipientId = tick.AssignedUserId,
+                    TicketId = tick.Id
                 };
                 db.TicketNotifications.Add(notification);
             }
@@ -107,7 +107,7 @@ namespace CMPH_BugTracker.Extensions
                 {
                     Body = "Notification: You have been taken off of a Ticket...<br />" + body.ToString(),
                     RecipientId = oldTicket.AssignedUserId,
-                    TicketId = ticket.Id
+                    TicketId = tick.Id
                 };
                 db.TicketNotifications.Add(notification);
             }
@@ -116,8 +116,8 @@ namespace CMPH_BugTracker.Extensions
                 notification = new TicketNotification
                 {
                     Body = "Notification: A Ticket has been assigned to you...<br />" + body.ToString(),
-                    RecipientId = ticket.AssignedUserId,
-                    TicketId = ticket.Id
+                    RecipientId = tick.AssignedUserId,
+                    TicketId = tick.Id
                 };
                 db.TicketNotifications.Add(notification);
 
@@ -125,7 +125,7 @@ namespace CMPH_BugTracker.Extensions
                 {
                     Body = "Notification: You have been taken off of a Ticket...<br />" + body.ToString(),
                     RecipientId = oldTicket.AssignedUserId,
-                    TicketId = ticket.Id
+                    TicketId = tick.Id
                 };
                 db.TicketNotifications.Add(notification);
             }

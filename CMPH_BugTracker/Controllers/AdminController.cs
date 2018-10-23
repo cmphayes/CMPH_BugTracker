@@ -89,27 +89,28 @@ namespace CMPH_BugTracker.Controllers
             return View();
         }
 
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    [Authorize(Roles = "Admin,ProjectManager")]
-    //    public async Task <ActionResult> TicketAssignment(List<int> tickets, string users, Ticket oldTicket)
-    //    {
-    //        //var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-    //        foreach (var ticket in tickets)
-    //        {
-    //            var ticketUsers = ticketsHelper.ListUsersOnTicket(ticket);
-    //            if (ticketUsers.Count > 0)
-    //            {
-    //                foreach (var user in ticketUsers)
-    //                {
-    //                    ticketsHelper.RemoveUserFromTicket(user.Id, ticket);
-    //                }
-    //            }
-    //            ticketsHelper.AddUserToTicket(users, ticket);
-    //        }
-    //        ticket.RecordChanges(oldTicket);
-    //        await ticket.TriggerNotifications(oldTicket);
-    //        return RedirectToAction("ProfileView", "Account");
-    //    }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin,ProjectManager")]
+        //public async Task<ActionResult> TicketAssignment(int ticket, string users, Ticket oldTicket)
+        //{
+        //    //var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+        //        var ticketUsers = ticketsHelper.ListUsersOnTicket(ticket);
+        //        if (ticketUsers.Count > 0)
+        //        {
+        //            foreach (var user in ticketUsers)
+        //            {
+        //                ticketsHelper.RemoveUserFromTicket(user.Id, ticket);
+        //            }
+        //        }
+        //        ticketsHelper.AddUserToTicket(users, ticket);
+
+        //        TicketExtensions.RecordChanges(string ticket, oldTicket);
+        //        await TicketNotificationExtensions.TriggerNotifications(ticket, oldTicket);
+
+
+        //    return RedirectToAction("ProfileView", "Account");
+        //}
     }
 }

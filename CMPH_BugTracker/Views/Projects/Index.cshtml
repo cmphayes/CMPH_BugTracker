@@ -20,16 +20,19 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
+                            <a>Title</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+                            <a>Body</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Body)
+                            <a>Created</a>
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().OwnerUserId)
+                            <a>Updated</a>
+                        </th>
+                        <th>
+                            <a>Owner User</a>
                         </th>
                         <th>
                         </th>
@@ -38,23 +41,26 @@
                 <tbody>
                     @foreach (var project in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => project.Created)
-                            </td>
-                            <td>
-                                @Html.Raw(project.Title)
-                            </td>
-                            <td>
-                                @Html.Raw(project.Body)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => project.OwnerUserId)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Details", "Details", new { Id = project.Id }, new { @class = "btn btn-theme" })
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.Raw(project.Title)
+                        </td>
+                        <td>
+                            @Html.Raw(project.Body)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => project.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => project.Updated)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => project.OwnerUserId)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { Id = project.Id }, new { @class = "btn btn-theme" })
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

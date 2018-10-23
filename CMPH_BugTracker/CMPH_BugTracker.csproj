@@ -272,6 +272,14 @@
     <Content Include="img\gritter-long.png" />
     <Content Include="img\gritter.png" />
     <Content Include="img\ie-spacer.gif" />
+    <Content Include="img\if_docx_mac_65890.png" />
+    <Content Include="img\if_docx_win_65892.png" />
+    <Content Include="img\if_jpeg_65908.png" />
+    <Content Include="img\if_pdf_65920.png" />
+    <Content Include="img\if_png_65922.png" />
+    <Content Include="img\if_rar_65936.png" />
+    <Content Include="img\if_url_65946.png" />
+    <Content Include="img\if_zip_65960.png" />
     <Content Include="img\sort_asc.png" />
     <Content Include="img\sort_asc_disabled.png" />
     <Content Include="img\sort_both.png" />
@@ -593,6 +601,7 @@
     <Content Include="Views\TicketNotifications\UnreadTicketNotifications.cshtml" />
     <Content Include="Views\TicketNotifications\ReadTicketNotifications.cshtml" />
     <Content Include="Views\Shared\EditProfilePartial.cshtml" />
+    <Content Include="Uploads\Project Deliverables - Week 6 - BugTracker.docx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

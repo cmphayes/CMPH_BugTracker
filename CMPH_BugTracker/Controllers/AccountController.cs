@@ -15,6 +15,7 @@ using System.Net;
 using System.Data.Entity;
 using System.Configuration;
 using System.Net.Mail;
+using System.Web.Configuration;
 
 namespace CMPH_BugTracker.Controllers
 {
@@ -609,16 +610,33 @@ namespace CMPH_BugTracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DemoLogin(DemoLoginViewModel model)
+        public async Task<ActionResult> DemoLogin(string Role)
         {
-            if (!ModelState.IsValid)
+            var demoPassword = WebConfigurationManager.AppSettings["DemoUserPassword"];
+            var demoUserEmail = "";
+
+            switch(Role)
             {
-                return View(model);
+                case "Admin":
+                    demoUserEmail = WebConfigurationManager.AppSettings["AdminEmail"];
+                    break;
+                case "Developer":
+                    demoUserEmail = WebConfigurationManager.AppSettings["DevelopeEmail"];
+                    break;
+                case "Submitter":
+                    demoUserEmail = WebConfigurationManager.AppSettings["SubmitterEmail"];
+                    break;
+                case "ProjectManager":
+                    demoUserEmail = WebConfigurationManager.AppSettings["ProjectManagerEmail"];
+                    break;
+                default:
+                    break;
+
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(demoUserEmail, demoPassword, false, shouldLockout: false);
             return RedirectToAction("ProfileView", "Account");
 
             

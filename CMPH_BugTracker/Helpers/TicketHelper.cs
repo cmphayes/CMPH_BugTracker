@@ -77,12 +77,12 @@ namespace CMPH_BugTracker.Helpers
 
         public static List<TicketComment> TicketCommentsOnTicket(int id)
         {
-            return db.TicketComments.Where(c => c.TicketId == id).ToList();
+            return db.TicketComments.Where(c => c.TicketId == id).OrderByDescending(p => p.Created).ToList();
         }
 
         public static List<TicketAttachment> TicketAttachmentsOnTicket(int id)
         {
-            return db.TicketAttachments.Where(c => c.TicketId == id).ToList();
+            return db.TicketAttachments.Where(c => c.TicketId == id).OrderByDescending(p => p.Created).ToList();
         }
 
         public static string GetTicketType(int ticketId)

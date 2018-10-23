@@ -65,6 +65,8 @@ namespace CMPH_BugTracker.Controllers
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public ActionResult Create()
         {
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FullName");
+            ViewBag.SenderId = new SelectList(db.Tickets, "Id", "FullName");
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
             return View();
         }
@@ -82,7 +84,8 @@ namespace CMPH_BugTracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
+            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketNotification.TicketId);
             return View(ticketNotification);
         }
@@ -100,6 +103,8 @@ namespace CMPH_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
+            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketNotification.TicketId);
             return View(ticketNotification);
         }
@@ -117,6 +122,8 @@ namespace CMPH_BugTracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
+            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketNotification.TicketId);
             return View(ticketNotification);
         }
