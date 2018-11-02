@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using CMPH_BugTracker.Models;
 using System.IO;
 using CMPH_BugTracker.Helpers;
+using CMPH_BugTracker;
 using System.Net;
 using System.Data.Entity;
 using System.Configuration;
@@ -190,6 +191,51 @@ namespace CMPH_BugTracker.Controllers
             return View(model);
         }
 
+        //
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult RegisterFromInvite()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/RegisterFromInvite
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> RegisterFromInvite([Bind(Include = "Id,FirstName,LastName,UserName,Email,Password,ConfirmPassword,ProfileImage,HouseholdName")]RegisterViewModel model, HttpPostedFileBase image)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.UserName, Email = model.Email, ProfileImage = model.ProfileImage };
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (ProfileImageUploadValidator.IsWebFriendlyImage(image))
+                {
+                    var fileName = Path.GetFileName(image.FileName);
+                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    user.ProfileImage = "/Uploads/" + fileName;
+                }
+
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("ProfileView", "Account");
+                }
+                AddErrors(result);
+
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

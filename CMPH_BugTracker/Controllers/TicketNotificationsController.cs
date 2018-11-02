@@ -58,6 +58,8 @@ namespace CMPH_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            ticketNotification.Read = true;
+            db.SaveChanges();
             return View(ticketNotification);
         }
 
@@ -76,7 +78,7 @@ namespace CMPH_BugTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,SenderId,RecipientId,Subject,Body,Created")] TicketNotification ticketNotification)
+        public ActionResult Create([Bind(Include = "Id,Subject,Body,TicketId,SenderId,RecipientId,Created")] TicketNotification ticketNotification)
         {
             if (ModelState.IsValid)
             {

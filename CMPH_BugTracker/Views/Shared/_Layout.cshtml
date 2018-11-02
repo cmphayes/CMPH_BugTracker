@@ -60,25 +60,15 @@
                 <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
             </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b><span><i class="fa fa-bug">Bug Tracker</i></span></b></a>
-            <!--logo end-->
+            <a href="index.html" class="logo"><b><span><i class="fa fa-bug">Conall's Bug Tracker</i></span></b></a>
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="nav top-menu">
-                        <!-- notification dropdown start-->
-                        <li id="header_notification_bar" class="dropdown">
-                            <a data-toggle="dropdown" class="nav-link js-scroll-trigger" href="~/Views/TicketNotifications/UnreadTicketNotifications.cshtml">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="badge bg-warning"></span>
-                            </a>
-                        </li>
-                        <!-- notification dropdown end -->
-                    </ul>
-                }
-                <!--  notification end -->
             </div>
+            <div></div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="index.html" class="logo"><b><span><i class="fa fa-user-circle-o">@User.Identity.GetFullName()</i></span></b></a>
+            }
         </header>
         <!--header end-->
         <!-- **********************************************************************************************************************************************************
@@ -90,7 +80,7 @@
                 <ul class="sidebar-menu" id="nav-accordion">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <p class="centered"><a href="~/Uploads/"><img src="@UserHelper.GetProfileImagePath(User.Identity.GetUserId())" class="img-circle" width="80"></a></p>
+                        <p class="centered"><a href="~/Uploads/"><img src="@UserHelper.GetProfileImagePath()" class="img-circle"></a></p>
                         @*<h5 class="centered">@UserHelper.GetName(User.Identity.GetUserId())</h5>*@
                         <h5 class="centered"> @User.Identity.GetFullName()</h5>
                     }
@@ -242,7 +232,6 @@
                                 </li>
                             </ul>
                         }
-                    </li>
                     </li>
                     <li class="sub-menu">
                         <a href="javascript:;">

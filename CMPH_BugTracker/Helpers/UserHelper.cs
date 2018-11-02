@@ -15,19 +15,22 @@ namespace CMPH_BugTracker.Helpers
         private UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         private static ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
-        public static string GetProfileImagePath(string userId)
-            {
-                var defaultPath = "/Uploads/default.jpg";
-                if (string.IsNullOrEmpty(userId))
-                    return defaultPath;
-
+        [Authorize]
+        public static string GetProfileImagePath()
+        {
+                var userId = HttpContext.Current.User.Identity.GetUserId();
                 var profileImagePath = db.Users.Find(userId).ProfileImagePath;
-                if (string.IsNullOrEmpty(profileImagePath))
-                    return profileImagePath;
 
-                return profileImagePath;
+                var defaultPath = "~/Uploads/DefaultProfilePic.jpg";
+            //if (string.IsNullOrEmpty(userId))
+            //    return defaultPath;
+
+            if (string.IsNullOrEmpty(profileImagePath))
+            {
+                return defaultPath;
             }
+                return profileImagePath;
+        }
 
         [Authorize(Roles = "Admin,ProjectManager,Developer,Submitter")]
         public static string GetName(string userId)

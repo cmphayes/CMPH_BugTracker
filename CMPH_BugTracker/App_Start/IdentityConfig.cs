@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using CMPH_BugTracker.Models;
-using System.Net.Mail;
-using System.Web.Configuration;
-using System.Net;
-using CMPH_BugTracker;
+using CMPH_BugTracker.Helpers;
 
 namespace CMPH_BugTracker
 {
@@ -43,7 +43,6 @@ namespace CMPH_BugTracker
                 IsBodyHtml = true,
                 Body = message.Body
             })
-
             {
                 try
                 {
@@ -53,58 +52,19 @@ namespace CMPH_BugTracker
                 {
                     Console.WriteLine(e.Message);
                     await Task.FromResult(0);
-
-                }
-            };
-        }
-    }
-    //public Task SendAsync(IdentityMessage message)
-    //{
-    //    // Plug in your SMS service here to send a text message.
-    //    return Task.FromResult(0);
-    //}
-
-    public class SmsService : IIdentityMessageService
-    {
-        public async Task SendAsync(IdentityMessage message)
-        {
-            var GmailUsername = WebConfigurationManager.AppSettings["username"];
-            var GmailPassword = WebConfigurationManager.AppSettings["password"];
-            var host = WebConfigurationManager.AppSettings["host"];
-            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
-
-            using (var smtp = new SmtpClient()
-            {
-                Host = host,
-                Port = port,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
-            })
-
-            using (var email = new MailMessage(WebConfigurationManager.AppSettings["emailfrom"], message.Destination)
-            {
-                Subject = message.Subject,
-                IsBodyHtml = true,
-                Body = message.Body
-            })
-            {
-                try
-                {
-                    await smtp.SendMailAsync(email);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
                 }
             }
         }
-        //public Task SendAsync(IdentityMessage message)
-        //{
-        //    // Plug in your SMS service here to send a text message.
-        //    return Task.FromResult(0);
-        //}
+
+    }
+
+    public class SmsService : IIdentityMessageService
+    {
+        public Task SendAsync(IdentityMessage message)
+        {
+            // Plug in your SMS service here to send a text message.
+            return Task.FromResult(0);
+        }
     }
 
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
@@ -161,8 +121,6 @@ namespace CMPH_BugTracker
             }
             return manager;
         }
-
-
     }
 
     // Configure the application sign-in manager which is used in this application.
@@ -188,36 +146,33 @@ namespace CMPH_BugTracker
     {
         public async Task SendAsync(MailMessage message)
         {
-            var YahooUsername = WebConfigurationManager.AppSettings["username"];
-            var YahooPassword = WebConfigurationManager.AppSettings["password"];
+            var GmailUsername = WebConfigurationManager.AppSettings["username"];
+            var GmailPassword = WebConfigurationManager.AppSettings["password"];
             var host = WebConfigurationManager.AppSettings["host"];
-            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+            var port = WebConfigurationManager.AppSettings["port"];
 
 
             using (var smtp = new SmtpClient()
             {
                 Host = host,
-                Port = port,
+                Port = Convert.ToInt32(port),
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(YahooUsername, YahooPassword)
+                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
             })
             {
                 try
                 {
                     await smtp.SendMailAsync(message);
                 }
-                catch (Exception e)
+                catch (Exception error)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine(error.Message);
                     await Task.FromResult(0);
 
                 }
-            };
+            }
         }
-
     }
 }
-
-

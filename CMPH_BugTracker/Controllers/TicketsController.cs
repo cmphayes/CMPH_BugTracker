@@ -150,10 +150,12 @@ namespace CMPH_BugTracker.Controllers
 
             switch (myRole)
             {
+                case "Admin":
+                    return View(ticket);
                 case "Developer":
                     if (ticket.AssignedUserId == userId)
                         return View(ticket);
-                        break;
+                    break;
                 case "Submitter":
                     if (ticket.OwnerUserId == userId)
                         return View(ticket);
@@ -163,12 +165,6 @@ namespace CMPH_BugTracker.Controllers
                     {
                         if (ticket.ProjectId == project.Id)
                             return View(ticket);
-                    }
-                    break;
-                case "Admin":
-                    if (ticket.OwnerUserId == userId || ticket.AssignedUserId == userId)
-                    {
-                        return View(ticket);
                     }
                     break;
                 default:
@@ -244,8 +240,8 @@ namespace CMPH_BugTracker.Controllers
                 ticket.Updated = DateTimeOffset.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
-                ticket.RecordChanges(oldTicket);
                 await TicketNotificationExtensions.TriggerNotifications(ticket, oldTicket);
+                ticket.RecordChanges(oldTicket);
                 return RedirectToAction("Index");
                 //db.Tickets.Add(ticket);
                 //db.Entry(ticket).State = EntityState.Modified;
@@ -261,7 +257,8 @@ namespace CMPH_BugTracker.Controllers
 
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedUserId);
+            ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedUserId);
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);

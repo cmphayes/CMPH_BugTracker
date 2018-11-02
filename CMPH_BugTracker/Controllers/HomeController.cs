@@ -15,29 +15,29 @@ namespace CMPH_BugTracker.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
+        //    return View();
+        //}
 
         public ActionResult Contact()
         {
-            Email model = new Email();
+            EmailModel model = new EmailModel();
             return View(model);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Contact(Email model)
+        public async Task<ActionResult> Contact(EmailModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var from = "MyBlog<cmphayes@gmail.com>";
+                    var from = "Financial<cmphayes@gmail.com>";
                     var email = new MailMessage(from,
                                 ConfigurationManager.AppSettings["emailto"])
                     {
@@ -50,7 +50,7 @@ namespace CMPH_BugTracker.Controllers
                     var svc = new PersonalEmail();
                     await svc.SendAsync(email);
 
-                    return View(new Email());
+                    return View(new EmailModel());
                 }
                 catch (Exception ex)
                 {

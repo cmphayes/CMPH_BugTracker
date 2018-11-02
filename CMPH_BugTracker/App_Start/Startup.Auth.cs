@@ -47,8 +47,8 @@ namespace CMPH_BugTracker
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+                //clientId: "",
+                //clientSecret: "");
 
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
@@ -58,11 +58,11 @@ namespace CMPH_BugTracker
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "530413156545-s23rgmku8e1jd0o2tn9ial1ni58is4ne.apps.googleusercontent.com",
+                ClientSecret = "fxQPrQN7RKZoK4DiWuLl7K-u"
+            });
         }
     }
 }
